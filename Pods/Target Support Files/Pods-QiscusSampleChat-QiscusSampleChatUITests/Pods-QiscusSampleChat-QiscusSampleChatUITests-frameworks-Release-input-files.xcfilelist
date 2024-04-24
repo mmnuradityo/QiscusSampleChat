@@ -1,0 +1,6 @@
+${PODS_ROOT}/Target Support Files/Pods-QiscusSampleChat-QiscusSampleChatUITests/Pods-QiscusSampleChat-QiscusSampleChatUITests-frameworks.sh
+${BUILT_PRODUCTS_DIR}/CocoaMQTT/CocoaMQTT.framework
+${BUILT_PRODUCTS_DIR}/MqttCocoaAsyncSocket/MqttCocoaAsyncSocket.framework
+${BUILT_PRODUCTS_DIR}/QiscusCore/QiscusCore.framework
+${BUILT_PRODUCTS_DIR}/QiscusRealtime/QiscusRealtime.framework
+${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework

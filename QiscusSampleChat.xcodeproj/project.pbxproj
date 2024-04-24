@@ -1,0 +1,1030 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		219DE27C3B8B11405FA7A2DA /* Pods_QiscusSampleChatTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41ABEC40578FE22F2221D0D5 /* Pods_QiscusSampleChatTests.framework */; };
+		8423A0F42BD540320082544D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A0F32BD540320082544D /* AppDelegate.swift */; };
+		8423A0F82BD540320082544D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A0F72BD540320082544D /* LoginViewController.swift */; };
+		8423A0FD2BD540330082544D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8423A0FC2BD540330082544D /* Assets.xcassets */; };
+		8423A1002BD540330082544D /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 8423A0FF2BD540330082544D /* Base */; };
+		8423A1152BD540330082544D /* LoginViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A1142BD540330082544D /* LoginViewControllerUITests.swift */; };
+		8423A1172BD540330082544D /* QiscusSampleChatUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A1162BD540330082544D /* QiscusSampleChatUITestsLaunchTests.swift */; };
+		8423A1272BD546380082544D /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A1262BD546380082544D /* BaseViewController.swift */; };
+		8423A12C2BD5F28D0082544D /* Dimens+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A12B2BD5F28D0082544D /* Dimens+Utils.swift */; };
+		8423A12E2BD5FE3E0082544D /* Views+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A12D2BD5FE3E0082544D /* Views+Utils.swift */; };
+		8423A1302BD5FF130082544D /* Colors+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A12F2BD5FF130082544D /* Colors+Utils.swift */; };
+		8423A1322BD60B490082544D /* Images+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A1312BD60B490082544D /* Images+Utils.swift */; };
+		8423A1342BD658690082544D /* Alert+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A1332BD658690082544D /* Alert+Utils.swift */; };
+		8423A1362BD6653E0082544D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A1352BD6653E0082544D /* Constants.swift */; };
+		8423A1382BD667C30082544D /* LoginPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A1372BD667C30082544D /* LoginPresenterTests.swift */; };
+		8423A1422BD71D1D0082544D /* QiscusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A1412BD71D1D0082544D /* QiscusManager.swift */; };
+		8423A14A2BD721950082544D /* MockQiscusCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A1492BD721950082544D /* MockQiscusCore.swift */; };
+		8423A1562BD724D10082544D /* RepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A1552BD724D10082544D /* RepositoryTests.swift */; };
+		8423A1582BD726010082544D /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A1572BD726010082544D /* Repository.swift */; };
+		8423A15C2BD726B90082544D /* UserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A15B2BD726B90082544D /* UserRequest.swift */; };
+		8423A1602BD74F480082544D /* QiscusManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A15F2BD74F480082544D /* QiscusManagerTests.swift */; };
+		8423A1622BD756AB0082544D /* MockQiscusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A1612BD756AB0082544D /* MockQiscusManager.swift */; };
+		8423A1642BD77CC50082544D /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A1632BD77CC50082544D /* DataStore.swift */; };
+		8423A1672BD77D8A0082544D /* UserLocalDateBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A1662BD77D8A0082544D /* UserLocalDateBase.swift */; };
+		8423A1692BD7948C0082544D /* UserActive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A1682BD7948C0082544D /* UserActive.swift */; };
+		8423A16B2BD799500082544D /* UserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A16A2BD799500082544D /* UserError.swift */; };
+		8423A16F2BD79B1D0082544D /* MockUserLocalDateBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A16E2BD79B1D0082544D /* MockUserLocalDateBase.swift */; };
+		8423A1752BD7C5950082544D /* Json+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A1742BD7C5950082544D /* Json+Utils.swift */; };
+		8423A1782BD7C9A90082544D /* UserLocalDataBaseTeste.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A1772BD7C9A90082544D /* UserLocalDataBaseTeste.swift */; };
+		8423A17A2BD7CA250082544D /* MockUserPersistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A1792BD7CA250082544D /* MockUserPersistance.swift */; };
+		8423A17F2BD7E46F0082544D /* MockJson+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A17E2BD7E46F0082544D /* MockJson+Utils.swift */; };
+		8423A1812BD7EC3F0082544D /* LoginPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A1802BD7EC3F0082544D /* LoginPresenter.swift */; };
+		8423A1832BD7EEB20082544D /* AppComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A1822BD7EEB20082544D /* AppComponent.swift */; };
+		848BE51F2BD89B4100E07B82 /* AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848BE51E2BD89B4100E07B82 /* AppTests.swift */; };
+		848BE5212BD8A56C00E07B82 /* MockRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848BE5202BD8A56C00E07B82 /* MockRepository.swift */; };
+		84E528012BD8B9370051C8C7 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E528002BD8B9370051C8C7 /* ChatViewController.swift */; };
+		C47A2821C06DD65A632AC654 /* Pods_QiscusSampleChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D984FF6A894352AA058B10C /* Pods_QiscusSampleChat.framework */; };
+		FDC89A137E5129F0660B3632 /* Pods_QiscusSampleChat_QiscusSampleChatUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09F5C32FE41F2B96AC79A4DD /* Pods_QiscusSampleChat_QiscusSampleChatUITests.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8423A1072BD540330082544D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8423A0E82BD540320082544D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8423A0EF2BD540320082544D;
+			remoteInfo = QisusSampleChat;
+		};
+		8423A1112BD540330082544D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8423A0E82BD540320082544D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8423A0EF2BD540320082544D;
+			remoteInfo = QisusSampleChat;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		09F5C32FE41F2B96AC79A4DD /* Pods_QiscusSampleChat_QiscusSampleChatUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QiscusSampleChat_QiscusSampleChatUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0D10521608208B45C6A7B295 /* Pods-QisusSampleChat-QisusSampleChatUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QisusSampleChat-QisusSampleChatUITests.debug.xcconfig"; path = "Target Support Files/Pods-QisusSampleChat-QisusSampleChatUITests/Pods-QisusSampleChat-QisusSampleChatUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		159377D9700906CDA13D5020 /* Pods-QiscusSampleChat-QiscusSampleChatUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QiscusSampleChat-QiscusSampleChatUITests.debug.xcconfig"; path = "Target Support Files/Pods-QiscusSampleChat-QiscusSampleChatUITests/Pods-QiscusSampleChat-QiscusSampleChatUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		38F5956621D69D2BF7495E4A /* Pods-QisusSampleChatTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QisusSampleChatTests.debug.xcconfig"; path = "Target Support Files/Pods-QisusSampleChatTests/Pods-QisusSampleChatTests.debug.xcconfig"; sourceTree = "<group>"; };
+		41ABEC40578FE22F2221D0D5 /* Pods_QiscusSampleChatTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QiscusSampleChatTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4D984FF6A894352AA058B10C /* Pods_QiscusSampleChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QiscusSampleChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6129F383CEC82357D892C25B /* Pods-QiscusSampleChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QiscusSampleChat.debug.xcconfig"; path = "Target Support Files/Pods-QiscusSampleChat/Pods-QiscusSampleChat.debug.xcconfig"; sourceTree = "<group>"; };
+		7D2FE18F1C3C9FEA6CCFDB4B /* Pods-QiscusSampleChatTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QiscusSampleChatTests.release.xcconfig"; path = "Target Support Files/Pods-QiscusSampleChatTests/Pods-QiscusSampleChatTests.release.xcconfig"; sourceTree = "<group>"; };
+		8423A0F02BD540320082544D /* QiscusSampleChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QiscusSampleChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8423A0F32BD540320082544D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		8423A0F72BD540320082544D /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		8423A0FC2BD540330082544D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8423A0FF2BD540330082544D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8423A1012BD540330082544D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8423A1062BD540330082544D /* QiscusSampleChatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QiscusSampleChatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8423A1102BD540330082544D /* QiscusSampleChatUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QiscusSampleChatUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8423A1142BD540330082544D /* LoginViewControllerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewControllerUITests.swift; sourceTree = "<group>"; };
+		8423A1162BD540330082544D /* QiscusSampleChatUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QiscusSampleChatUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		8423A1262BD546380082544D /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		8423A12B2BD5F28D0082544D /* Dimens+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dimens+Utils.swift"; sourceTree = "<group>"; };
+		8423A12D2BD5FE3E0082544D /* Views+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Views+Utils.swift"; sourceTree = "<group>"; };
+		8423A12F2BD5FF130082544D /* Colors+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Colors+Utils.swift"; sourceTree = "<group>"; };
+		8423A1312BD60B490082544D /* Images+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Images+Utils.swift"; sourceTree = "<group>"; };
+		8423A1332BD658690082544D /* Alert+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Alert+Utils.swift"; sourceTree = "<group>"; };
+		8423A1352BD6653E0082544D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		8423A1372BD667C30082544D /* LoginPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPresenterTests.swift; sourceTree = "<group>"; };
+		8423A1412BD71D1D0082544D /* QiscusManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QiscusManager.swift; sourceTree = "<group>"; };
+		8423A1452BD71FFC0082544D /* QiscusCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = QiscusCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8423A1492BD721950082544D /* MockQiscusCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockQiscusCore.swift; sourceTree = "<group>"; };
+		8423A14B2BD723DF0082544D /* QiscusCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = QiscusCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8423A14F2BD723EA0082544D /* QiscusCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = QiscusCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8423A1552BD724D10082544D /* RepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryTests.swift; sourceTree = "<group>"; };
+		8423A1572BD726010082544D /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
+		8423A15B2BD726B90082544D /* UserRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRequest.swift; sourceTree = "<group>"; };
+		8423A15F2BD74F480082544D /* QiscusManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QiscusManagerTests.swift; sourceTree = "<group>"; };
+		8423A1612BD756AB0082544D /* MockQiscusManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockQiscusManager.swift; sourceTree = "<group>"; };
+		8423A1632BD77CC50082544D /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
+		8423A1662BD77D8A0082544D /* UserLocalDateBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocalDateBase.swift; sourceTree = "<group>"; };
+		8423A1682BD7948C0082544D /* UserActive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserActive.swift; sourceTree = "<group>"; };
+		8423A16A2BD799500082544D /* UserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserError.swift; sourceTree = "<group>"; };
+		8423A16E2BD79B1D0082544D /* MockUserLocalDateBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserLocalDateBase.swift; sourceTree = "<group>"; };
+		8423A1742BD7C5950082544D /* Json+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Json+Utils.swift"; sourceTree = "<group>"; };
+		8423A1772BD7C9A90082544D /* UserLocalDataBaseTeste.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocalDataBaseTeste.swift; sourceTree = "<group>"; };
+		8423A1792BD7CA250082544D /* MockUserPersistance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserPersistance.swift; sourceTree = "<group>"; };
+		8423A17E2BD7E46F0082544D /* MockJson+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MockJson+Utils.swift"; sourceTree = "<group>"; };
+		8423A1802BD7EC3F0082544D /* LoginPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPresenter.swift; sourceTree = "<group>"; };
+		8423A1822BD7EEB20082544D /* AppComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppComponent.swift; sourceTree = "<group>"; };
+		848BE51E2BD89B4100E07B82 /* AppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTests.swift; sourceTree = "<group>"; };
+		848BE5202BD8A56C00E07B82 /* MockRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRepository.swift; sourceTree = "<group>"; };
+		84E528002BD8B9370051C8C7 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		A9F41D6C27C6247BEEE1B882 /* Pods-QisusSampleChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QisusSampleChat.release.xcconfig"; path = "Target Support Files/Pods-QisusSampleChat/Pods-QisusSampleChat.release.xcconfig"; sourceTree = "<group>"; };
+		BDBD1C4BC06BD8DC639421EE /* Pods-QisusSampleChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QisusSampleChat.debug.xcconfig"; path = "Target Support Files/Pods-QisusSampleChat/Pods-QisusSampleChat.debug.xcconfig"; sourceTree = "<group>"; };
+		C0BF945B6B4C1CED95214C82 /* Pods-QiscusSampleChatTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QiscusSampleChatTests.debug.xcconfig"; path = "Target Support Files/Pods-QiscusSampleChatTests/Pods-QiscusSampleChatTests.debug.xcconfig"; sourceTree = "<group>"; };
+		D0B6678F34955992FE03694C /* Pods-QiscusSampleChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QiscusSampleChat.release.xcconfig"; path = "Target Support Files/Pods-QiscusSampleChat/Pods-QiscusSampleChat.release.xcconfig"; sourceTree = "<group>"; };
+		EA3FD370133B4CE05CB4197D /* Pods-QisusSampleChatTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QisusSampleChatTests.release.xcconfig"; path = "Target Support Files/Pods-QisusSampleChatTests/Pods-QisusSampleChatTests.release.xcconfig"; sourceTree = "<group>"; };
+		EBAE7203B0CD20AAB84461D8 /* Pods-QiscusSampleChat-QiscusSampleChatUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QiscusSampleChat-QiscusSampleChatUITests.release.xcconfig"; path = "Target Support Files/Pods-QiscusSampleChat-QiscusSampleChatUITests/Pods-QiscusSampleChat-QiscusSampleChatUITests.release.xcconfig"; sourceTree = "<group>"; };
+		F47ACF575C98D477F656F861 /* Pods-QisusSampleChat-QisusSampleChatUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QisusSampleChat-QisusSampleChatUITests.release.xcconfig"; path = "Target Support Files/Pods-QisusSampleChat-QisusSampleChatUITests/Pods-QisusSampleChat-QisusSampleChatUITests.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8423A0ED2BD540320082544D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C47A2821C06DD65A632AC654 /* Pods_QiscusSampleChat.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8423A1032BD540330082544D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				219DE27C3B8B11405FA7A2DA /* Pods_QiscusSampleChatTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8423A10D2BD540330082544D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FDC89A137E5129F0660B3632 /* Pods_QiscusSampleChat_QiscusSampleChatUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6DD2E9F8D40D3455020EC7E4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8423A14F2BD723EA0082544D /* QiscusCore.framework */,
+				8423A14B2BD723DF0082544D /* QiscusCore.framework */,
+				8423A1452BD71FFC0082544D /* QiscusCore.framework */,
+				4D984FF6A894352AA058B10C /* Pods_QiscusSampleChat.framework */,
+				09F5C32FE41F2B96AC79A4DD /* Pods_QiscusSampleChat_QiscusSampleChatUITests.framework */,
+				41ABEC40578FE22F2221D0D5 /* Pods_QiscusSampleChatTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8423A0E72BD540320082544D = {
+			isa = PBXGroup;
+			children = (
+				8423A0F22BD540320082544D /* QiscusSampleChat */,
+				8423A1092BD540330082544D /* QiscusSampleChatTests */,
+				8423A1132BD540330082544D /* QiscusSampleChatUITests */,
+				8423A0F12BD540320082544D /* Products */,
+				8589DAF8BD1C7264BB490047 /* Pods */,
+				6DD2E9F8D40D3455020EC7E4 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		8423A0F12BD540320082544D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8423A0F02BD540320082544D /* QiscusSampleChat.app */,
+				8423A1062BD540330082544D /* QiscusSampleChatTests.xctest */,
+				8423A1102BD540330082544D /* QiscusSampleChatUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8423A0F22BD540320082544D /* QiscusSampleChat */ = {
+			isa = PBXGroup;
+			children = (
+				8423A1392BD6684F0082544D /* Data */,
+				8423A12A2BD5F26F0082544D /* Utils */,
+				8423A1252BD546290082544D /* Component */,
+				8423A1702BD79FBE0082544D /* UI */,
+				8423A1232BD542EB0082544D /* Support Files */,
+				8423A0F32BD540320082544D /* AppDelegate.swift */,
+			);
+			path = QiscusSampleChat;
+			sourceTree = "<group>";
+		};
+		8423A1092BD540330082544D /* QiscusSampleChatTests */ = {
+			isa = PBXGroup;
+			children = (
+				8423A1542BD7247D0082544D /* Data */,
+				8423A1532BD724720082544D /* Mock */,
+				848BE51D2BD8815B00E07B82 /* UI */,
+				848BE51E2BD89B4100E07B82 /* AppTests.swift */,
+			);
+			path = QiscusSampleChatTests;
+			sourceTree = "<group>";
+		};
+		8423A1132BD540330082544D /* QiscusSampleChatUITests */ = {
+			isa = PBXGroup;
+			children = (
+				8423A1142BD540330082544D /* LoginViewControllerUITests.swift */,
+				8423A1162BD540330082544D /* QiscusSampleChatUITestsLaunchTests.swift */,
+			);
+			path = QiscusSampleChatUITests;
+			sourceTree = "<group>";
+		};
+		8423A1232BD542EB0082544D /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				8423A0FC2BD540330082544D /* Assets.xcassets */,
+				8423A0FE2BD540330082544D /* LaunchScreen.storyboard */,
+				8423A1012BD540330082544D /* Info.plist */,
+			);
+			name = "Support Files";
+			sourceTree = "<group>";
+		};
+		8423A1252BD546290082544D /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				8423A1262BD546380082544D /* BaseViewController.swift */,
+				8423A1822BD7EEB20082544D /* AppComponent.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
+		8423A12A2BD5F26F0082544D /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				8423A12B2BD5F28D0082544D /* Dimens+Utils.swift */,
+				8423A12D2BD5FE3E0082544D /* Views+Utils.swift */,
+				8423A12F2BD5FF130082544D /* Colors+Utils.swift */,
+				8423A1312BD60B490082544D /* Images+Utils.swift */,
+				8423A1332BD658690082544D /* Alert+Utils.swift */,
+				8423A1352BD6653E0082544D /* Constants.swift */,
+				8423A1742BD7C5950082544D /* Json+Utils.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		8423A1392BD6684F0082544D /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				8423A1652BD77D630082544D /* DataBase */,
+				8423A15D2BD74F160082544D /* Manager */,
+				8423A1592BD726940082544D /* Model */,
+				8423A1572BD726010082544D /* Repository.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		8423A1532BD724720082544D /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				8423A1492BD721950082544D /* MockQiscusCore.swift */,
+				8423A1612BD756AB0082544D /* MockQiscusManager.swift */,
+				8423A16E2BD79B1D0082544D /* MockUserLocalDateBase.swift */,
+				8423A1792BD7CA250082544D /* MockUserPersistance.swift */,
+				8423A17E2BD7E46F0082544D /* MockJson+Utils.swift */,
+				848BE5202BD8A56C00E07B82 /* MockRepository.swift */,
+			);
+			path = Mock;
+			sourceTree = "<group>";
+		};
+		8423A1542BD7247D0082544D /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				8423A1762BD7C9970082544D /* DataBase */,
+				8423A15E2BD74F330082544D /* Manager */,
+				8423A1552BD724D10082544D /* RepositoryTests.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		8423A1592BD726940082544D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8423A15A2BD726B20082544D /* UserLogin */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		8423A15A2BD726B20082544D /* UserLogin */ = {
+			isa = PBXGroup;
+			children = (
+				8423A15B2BD726B90082544D /* UserRequest.swift */,
+				8423A1682BD7948C0082544D /* UserActive.swift */,
+				8423A16A2BD799500082544D /* UserError.swift */,
+			);
+			path = UserLogin;
+			sourceTree = "<group>";
+		};
+		8423A15D2BD74F160082544D /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				8423A1412BD71D1D0082544D /* QiscusManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		8423A15E2BD74F330082544D /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				8423A15F2BD74F480082544D /* QiscusManagerTests.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		8423A1652BD77D630082544D /* DataBase */ = {
+			isa = PBXGroup;
+			children = (
+				8423A1632BD77CC50082544D /* DataStore.swift */,
+				8423A1662BD77D8A0082544D /* UserLocalDateBase.swift */,
+			);
+			path = DataBase;
+			sourceTree = "<group>";
+		};
+		8423A1702BD79FBE0082544D /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				84E527FF2BD8B9270051C8C7 /* Chat */,
+				84E527FE2BD8B91C0051C8C7 /* Login */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		8423A1762BD7C9970082544D /* DataBase */ = {
+			isa = PBXGroup;
+			children = (
+				8423A1772BD7C9A90082544D /* UserLocalDataBaseTeste.swift */,
+			);
+			path = DataBase;
+			sourceTree = "<group>";
+		};
+		848BE51D2BD8815B00E07B82 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				8423A1372BD667C30082544D /* LoginPresenterTests.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		84E527FE2BD8B91C0051C8C7 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				8423A0F72BD540320082544D /* LoginViewController.swift */,
+				8423A1802BD7EC3F0082544D /* LoginPresenter.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		84E527FF2BD8B9270051C8C7 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				84E528002BD8B9370051C8C7 /* ChatViewController.swift */,
+			);
+			path = Chat;
+			sourceTree = "<group>";
+		};
+		8589DAF8BD1C7264BB490047 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BDBD1C4BC06BD8DC639421EE /* Pods-QisusSampleChat.debug.xcconfig */,
+				A9F41D6C27C6247BEEE1B882 /* Pods-QisusSampleChat.release.xcconfig */,
+				0D10521608208B45C6A7B295 /* Pods-QisusSampleChat-QisusSampleChatUITests.debug.xcconfig */,
+				F47ACF575C98D477F656F861 /* Pods-QisusSampleChat-QisusSampleChatUITests.release.xcconfig */,
+				38F5956621D69D2BF7495E4A /* Pods-QisusSampleChatTests.debug.xcconfig */,
+				EA3FD370133B4CE05CB4197D /* Pods-QisusSampleChatTests.release.xcconfig */,
+				6129F383CEC82357D892C25B /* Pods-QiscusSampleChat.debug.xcconfig */,
+				D0B6678F34955992FE03694C /* Pods-QiscusSampleChat.release.xcconfig */,
+				159377D9700906CDA13D5020 /* Pods-QiscusSampleChat-QiscusSampleChatUITests.debug.xcconfig */,
+				EBAE7203B0CD20AAB84461D8 /* Pods-QiscusSampleChat-QiscusSampleChatUITests.release.xcconfig */,
+				C0BF945B6B4C1CED95214C82 /* Pods-QiscusSampleChatTests.debug.xcconfig */,
+				7D2FE18F1C3C9FEA6CCFDB4B /* Pods-QiscusSampleChatTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8423A0EF2BD540320082544D /* QiscusSampleChat */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8423A11A2BD540330082544D /* Build configuration list for PBXNativeTarget "QiscusSampleChat" */;
+			buildPhases = (
+				63338A43D7F03BD2FBB6226B /* [CP] Check Pods Manifest.lock */,
+				8423A0EC2BD540320082544D /* Sources */,
+				8423A0ED2BD540320082544D /* Frameworks */,
+				8423A0EE2BD540320082544D /* Resources */,
+				B54EFAB7813FD44A5F251A3F /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = QiscusSampleChat;
+			productName = QisusSampleChat;
+			productReference = 8423A0F02BD540320082544D /* QiscusSampleChat.app */;
+			productType = "com.apple.product-type.application";
+		};
+		8423A1052BD540330082544D /* QiscusSampleChatTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8423A11D2BD540330082544D /* Build configuration list for PBXNativeTarget "QiscusSampleChatTests" */;
+			buildPhases = (
+				300099CF91520F8D0860FF65 /* [CP] Check Pods Manifest.lock */,
+				8423A1022BD540330082544D /* Sources */,
+				8423A1032BD540330082544D /* Frameworks */,
+				8423A1042BD540330082544D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8423A1082BD540330082544D /* PBXTargetDependency */,
+			);
+			name = QiscusSampleChatTests;
+			productName = QisusSampleChatTests;
+			productReference = 8423A1062BD540330082544D /* QiscusSampleChatTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		8423A10F2BD540330082544D /* QiscusSampleChatUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8423A1202BD540330082544D /* Build configuration list for PBXNativeTarget "QiscusSampleChatUITests" */;
+			buildPhases = (
+				2C454678D9CAC64E36797FAC /* [CP] Check Pods Manifest.lock */,
+				8423A10C2BD540330082544D /* Sources */,
+				8423A10D2BD540330082544D /* Frameworks */,
+				8423A10E2BD540330082544D /* Resources */,
+				EFA39B3CB8492F44CE8CB6FE /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8423A1122BD540330082544D /* PBXTargetDependency */,
+			);
+			name = QiscusSampleChatUITests;
+			productName = QisusSampleChatUITests;
+			productReference = 8423A1102BD540330082544D /* QiscusSampleChatUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8423A0E82BD540320082544D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1530;
+				LastUpgradeCheck = 1530;
+				TargetAttributes = {
+					8423A0EF2BD540320082544D = {
+						CreatedOnToolsVersion = 15.3;
+					};
+					8423A1052BD540330082544D = {
+						CreatedOnToolsVersion = 15.3;
+						LastSwiftMigration = 1530;
+						TestTargetID = 8423A0EF2BD540320082544D;
+					};
+					8423A10F2BD540330082544D = {
+						CreatedOnToolsVersion = 15.3;
+						TestTargetID = 8423A0EF2BD540320082544D;
+					};
+				};
+			};
+			buildConfigurationList = 8423A0EB2BD540320082544D /* Build configuration list for PBXProject "QiscusSampleChat" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 8423A0E72BD540320082544D;
+			productRefGroup = 8423A0F12BD540320082544D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8423A0EF2BD540320082544D /* QiscusSampleChat */,
+				8423A1052BD540330082544D /* QiscusSampleChatTests */,
+				8423A10F2BD540330082544D /* QiscusSampleChatUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8423A0EE2BD540320082544D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8423A0FD2BD540330082544D /* Assets.xcassets in Resources */,
+				8423A1002BD540330082544D /* Base in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8423A1042BD540330082544D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8423A10E2BD540330082544D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2C454678D9CAC64E36797FAC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-QiscusSampleChat-QiscusSampleChatUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		300099CF91520F8D0860FF65 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-QiscusSampleChatTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		63338A43D7F03BD2FBB6226B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-QiscusSampleChat-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B54EFAB7813FD44A5F251A3F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-QiscusSampleChat/Pods-QiscusSampleChat-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-QiscusSampleChat/Pods-QiscusSampleChat-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QiscusSampleChat/Pods-QiscusSampleChat-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EFA39B3CB8492F44CE8CB6FE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-QiscusSampleChat-QiscusSampleChatUITests/Pods-QiscusSampleChat-QiscusSampleChatUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-QiscusSampleChat-QiscusSampleChatUITests/Pods-QiscusSampleChat-QiscusSampleChatUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QiscusSampleChat-QiscusSampleChatUITests/Pods-QiscusSampleChat-QiscusSampleChatUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8423A0EC2BD540320082544D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8423A1642BD77CC50082544D /* DataStore.swift in Sources */,
+				8423A1342BD658690082544D /* Alert+Utils.swift in Sources */,
+				8423A1272BD546380082544D /* BaseViewController.swift in Sources */,
+				8423A16B2BD799500082544D /* UserError.swift in Sources */,
+				8423A12C2BD5F28D0082544D /* Dimens+Utils.swift in Sources */,
+				8423A15C2BD726B90082544D /* UserRequest.swift in Sources */,
+				8423A1422BD71D1D0082544D /* QiscusManager.swift in Sources */,
+				8423A1322BD60B490082544D /* Images+Utils.swift in Sources */,
+				8423A1582BD726010082544D /* Repository.swift in Sources */,
+				8423A1752BD7C5950082544D /* Json+Utils.swift in Sources */,
+				8423A0F82BD540320082544D /* LoginViewController.swift in Sources */,
+				8423A1672BD77D8A0082544D /* UserLocalDateBase.swift in Sources */,
+				8423A1812BD7EC3F0082544D /* LoginPresenter.swift in Sources */,
+				8423A0F42BD540320082544D /* AppDelegate.swift in Sources */,
+				8423A1832BD7EEB20082544D /* AppComponent.swift in Sources */,
+				8423A12E2BD5FE3E0082544D /* Views+Utils.swift in Sources */,
+				8423A1302BD5FF130082544D /* Colors+Utils.swift in Sources */,
+				8423A1692BD7948C0082544D /* UserActive.swift in Sources */,
+				84E528012BD8B9370051C8C7 /* ChatViewController.swift in Sources */,
+				8423A1362BD6653E0082544D /* Constants.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8423A1022BD540330082544D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8423A1382BD667C30082544D /* LoginPresenterTests.swift in Sources */,
+				8423A1782BD7C9A90082544D /* UserLocalDataBaseTeste.swift in Sources */,
+				8423A1602BD74F480082544D /* QiscusManagerTests.swift in Sources */,
+				848BE51F2BD89B4100E07B82 /* AppTests.swift in Sources */,
+				8423A1622BD756AB0082544D /* MockQiscusManager.swift in Sources */,
+				8423A16F2BD79B1D0082544D /* MockUserLocalDateBase.swift in Sources */,
+				8423A1562BD724D10082544D /* RepositoryTests.swift in Sources */,
+				8423A17F2BD7E46F0082544D /* MockJson+Utils.swift in Sources */,
+				848BE5212BD8A56C00E07B82 /* MockRepository.swift in Sources */,
+				8423A17A2BD7CA250082544D /* MockUserPersistance.swift in Sources */,
+				8423A14A2BD721950082544D /* MockQiscusCore.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8423A10C2BD540330082544D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8423A1172BD540330082544D /* QiscusSampleChatUITestsLaunchTests.swift in Sources */,
+				8423A1152BD540330082544D /* LoginViewControllerUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8423A1082BD540330082544D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8423A0EF2BD540320082544D /* QiscusSampleChat */;
+			targetProxy = 8423A1072BD540330082544D /* PBXContainerItemProxy */;
+		};
+		8423A1122BD540330082544D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8423A0EF2BD540320082544D /* QiscusSampleChat */;
+			targetProxy = 8423A1112BD540330082544D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		8423A0FE2BD540330082544D /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8423A0FF2BD540330082544D /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		8423A1182BD540330082544D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		8423A1192BD540330082544D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8423A11B2BD540330082544D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6129F383CEC82357D892C25B /* Pods-QiscusSampleChat.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = QiscusSampleChat/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aditya.QiscusSampleChat;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		8423A11C2BD540330082544D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0B6678F34955992FE03694C /* Pods-QiscusSampleChat.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = QiscusSampleChat/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aditya.QiscusSampleChat;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		8423A11E2BD540330082544D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C0BF945B6B4C1CED95214C82 /* Pods-QiscusSampleChatTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aditya.QisusSampleChatTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/QiscusSampleChat.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/QiscusSampleChat";
+			};
+			name = Debug;
+		};
+		8423A11F2BD540330082544D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7D2FE18F1C3C9FEA6CCFDB4B /* Pods-QiscusSampleChatTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aditya.QisusSampleChatTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/QiscusSampleChat.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/QiscusSampleChat";
+			};
+			name = Release;
+		};
+		8423A1212BD540330082544D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 159377D9700906CDA13D5020 /* Pods-QiscusSampleChat-QiscusSampleChatUITests.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aditya.QisusSampleChatUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_TARGET_NAME = QisusSampleChat;
+			};
+			name = Debug;
+		};
+		8423A1222BD540330082544D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EBAE7203B0CD20AAB84461D8 /* Pods-QiscusSampleChat-QiscusSampleChatUITests.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aditya.QisusSampleChatUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_TARGET_NAME = QisusSampleChat;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8423A0EB2BD540320082544D /* Build configuration list for PBXProject "QiscusSampleChat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8423A1182BD540330082544D /* Debug */,
+				8423A1192BD540330082544D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8423A11A2BD540330082544D /* Build configuration list for PBXNativeTarget "QiscusSampleChat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8423A11B2BD540330082544D /* Debug */,
+				8423A11C2BD540330082544D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8423A11D2BD540330082544D /* Build configuration list for PBXNativeTarget "QiscusSampleChatTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8423A11E2BD540330082544D /* Debug */,
+				8423A11F2BD540330082544D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8423A1202BD540330082544D /* Build configuration list for PBXNativeTarget "QiscusSampleChatUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8423A1212BD540330082544D /* Debug */,
+				8423A1222BD540330082544D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8423A0E82BD540320082544D /* Project object */;
+}
