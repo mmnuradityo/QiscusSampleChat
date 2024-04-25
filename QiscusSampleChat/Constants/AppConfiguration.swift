@@ -1,12 +1,12 @@
 //
 //  Constants.swift
-//  QisusSampleChat
+//  QiscusSampleChat
 //
 //  Created by Admin on 22/04/24.
 //
 
 import Foundation
 
-struct Constants {
+struct AppConfiguration {
   static let APP_ID = Bundle.main.object(forInfoDictionaryKey: "APP_ID") as? String
 }

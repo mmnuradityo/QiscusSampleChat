@@ -1,6 +1,6 @@
 //
 //  BsseViewController.swift
-//  QisusSampleChat
+//  QiscusSampleChat
 //
 //  Created by Admin on 21/04/24.
 //

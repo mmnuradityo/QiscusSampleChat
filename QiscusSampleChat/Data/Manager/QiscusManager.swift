@@ -1,6 +1,6 @@
 //
 //  DataStore.swift
-//  QisusSampleChat
+//  QiscusSampleChat
 //
 //  Created by Admin on 23/04/24.
 //
@@ -18,7 +18,7 @@ protocol QiscusManagerProtocol {
 class QiscusManager: QiscusManagerProtocol {
   
   func setupEngine() {
-    let appId = Constants.APP_ID
+    let appId = AppConfiguration.APP_ID
     QiscusCore.setup(AppID: appId ?? "")
   }
   

@@ -1,6 +1,6 @@
 //
 //  Color+Utils.swift
-//  QisusSampleChat
+//  QiscusSampleChat
 //
 //  Created by Admin on 22/04/24.
 //
@@ -10,6 +10,8 @@ import UIKit
 struct Colors {
   static let primaryColor = UIColor(hex: "#27B199")
   static let strokeColor = UIColor(hex: "#E3E3E3")
+  static let chatFormBackgroundColor = UIColor(hex: "#FAFAFA")
+  static let textFormColor = UIColor(hex: "#B9B9B9")
   
 }
 

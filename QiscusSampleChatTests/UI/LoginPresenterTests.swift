@@ -1,12 +1,12 @@
 //
 //  LoginPresenterTests.swift
-//  QisusSampleChatTests
+//  QiscusSampleChatTests
 //
 //  Created by Admin on 22/04/24.
 //
 
 import XCTest
-@testable import QisusSampleChat
+@testable import QiscusSampleChat
 
 class LoginPresenterTests: XCTestCase {
   

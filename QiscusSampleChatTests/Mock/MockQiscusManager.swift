@@ -1,12 +1,12 @@
 //
 //  MockQiscusManager.swift
-//  QisusSampleChatTests
+//  QiscusSampleChatTests
 //
 //  Created by Admin on 23/04/24.
 //
 
 import Foundation
-@testable import QisusSampleChat
+@testable import QiscusSampleChat
 @testable import QiscusCore
 
 class MockQiscusManager: QiscusManagerProtocol {

@@ -1,12 +1,12 @@
 //
 //  MockRepository.swift
-//  QisusSampleChatTests
+//  QiscusSampleChatTests
 //
 //  Created by Admin on 24/04/24.
 //
 
 import XCTest
-@testable import QisusSampleChat
+@testable import QiscusSampleChat
 
 class MockRepository: RepositoryProtocol {
   
@@ -17,7 +17,7 @@ class MockRepository: RepositoryProtocol {
   var isSuccess = false
   var isErrorLogout = false
   
-  func login(userRequest: QisusSampleChat.UserRequest, onSuccess: @escaping (QisusSampleChat.UserActive) -> Void, onError: @escaping (QisusSampleChat.UserError) -> Void) {
+  func login(userRequest: QiscusSampleChat.UserRequest, onSuccess: @escaping (QiscusSampleChat.UserActive) -> Void, onError: @escaping (QiscusSampleChat.UserError) -> Void) {
     if let error = error {
       onError(error)
     } else if let user = userActive {
@@ -27,12 +27,12 @@ class MockRepository: RepositoryProtocol {
     expectation?.fulfill()
   }
   
-  func getUserActive() -> QisusSampleChat.UserActive? {
+  func getUserActive() -> QiscusSampleChat.UserActive? {
     methodCalledCount += 1
     return userActive
   }
   
-  func logout(completion: @escaping (QisusSampleChat.UserError) -> Void) {
+  func logout(completion: @escaping (QiscusSampleChat.UserError) -> Void) {
     if let error = error {
       if isErrorLogout {
         completion(error)

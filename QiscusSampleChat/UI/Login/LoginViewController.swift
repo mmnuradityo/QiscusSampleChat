@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  QisusSampleChat
+//  QiscusSampleChat
 //
 //  Created by Admin on 21/04/24.
 //
@@ -38,33 +38,34 @@ extension LoginViewController {
   
   func style() {
     logoImageView.translatesAutoresizingMaskIntoConstraints = false
-    logoImageView.image = UIImage(named: "qiscusLogo")
+    logoImageView.image = UIImage(named: Images.qiscusLogo)
     logoImageView.contentMode = .scaleAspectFit
     logoImageView.accessibilityIdentifier = "logoImageView"
     
     userIdTextField.translatesAutoresizingMaskIntoConstraints = false
-    userIdTextField.accessibilityIdentifier = "userIdTextField"
-    userIdTextField.makeFormStyle(placeholder: "Enter your userId")
-    userIdTextField.autocapitalizationType = .none
+    userIdTextField.makeFormStyle(
+      identifier: "userIdTextField", placeholder: "Enter your userId"
+    )
     userIdTextField.keyboardType = .emailAddress
     userIdTextField.delegate = self
     
     userKeyTextField.translatesAutoresizingMaskIntoConstraints = false
-    userKeyTextField.accessibilityIdentifier = "userKeyTextField"
-    userKeyTextField.makeFormStyle(placeholder: "Enter your userKey")
-    userKeyTextField.autocapitalizationType = .none
+    userKeyTextField.makeFormStyle(
+      identifier: "userKeyTextField", placeholder: "Enter your userKey"
+    )
     userKeyTextField.delegate = self
 
     userNameTextField.translatesAutoresizingMaskIntoConstraints = false
-    userNameTextField.accessibilityIdentifier = "userNameTextField"
-    userNameTextField.makeFormStyle(placeholder: "Enter your user name")
-    userNameTextField.autocapitalizationType = .none
+    userNameTextField.makeFormStyle(
+      identifier: "userKeyTextField", placeholder: "Enter your user name"
+    )
     userNameTextField.delegate = self
     
     loginButton.translatesAutoresizingMaskIntoConstraints = false
+    loginButton.makeButtonStyle(
+      identifier: "loginButton", title: "Login"
+    )
     loginButton.isEnabled = false
-    loginButton.makeButtonStyle(title: "Login")
-    loginButton.accessibilityIdentifier = "loginButton"
     loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
   }
   

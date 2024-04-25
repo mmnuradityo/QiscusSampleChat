@@ -1,6 +1,6 @@
 //
 //  Alert+Utils.swift
-//  QisusSampleChat
+//  QiscusSampleChat
 //
 //  Created by Admin on 22/04/24.
 //

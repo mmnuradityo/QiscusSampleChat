@@ -1,12 +1,12 @@
 //
 //  MockUserPersistance.swift
-//  QisusSampleChatTests
+//  QiscusSampleChatTests
 //
 //  Created by Admin on 23/04/24.
 //
 
 import Foundation
-@testable import QisusSampleChat
+@testable import QiscusSampleChat
 
 class MockUserPersistance: UserDefaults {
   

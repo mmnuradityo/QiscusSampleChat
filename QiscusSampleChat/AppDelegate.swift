@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  QisusSampleChat
+//  QiscusSampleChat
 //
 //  Created by Admin on 21/04/24.
 //
@@ -13,7 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]?) -> Bool {
     
-//    AppComponent.shared.getQiscusManager().setupEngine()
+    AppComponent.shared.getQiscusManager().setupEngine()
     
     window = UIWindow(frame: UIScreen.main.bounds)
     window?.makeKeyAndVisible()

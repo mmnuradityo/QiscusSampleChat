@@ -15,12 +15,12 @@
 		8423A1152BD540330082544D /* LoginViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A1142BD540330082544D /* LoginViewControllerUITests.swift */; };
 		8423A1172BD540330082544D /* QiscusSampleChatUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A1162BD540330082544D /* QiscusSampleChatUITestsLaunchTests.swift */; };
 		8423A1272BD546380082544D /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A1262BD546380082544D /* BaseViewController.swift */; };
-		8423A12C2BD5F28D0082544D /* Dimens+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A12B2BD5F28D0082544D /* Dimens+Utils.swift */; };
+		8423A12C2BD5F28D0082544D /* Dimens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A12B2BD5F28D0082544D /* Dimens.swift */; };
 		8423A12E2BD5FE3E0082544D /* Views+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A12D2BD5FE3E0082544D /* Views+Utils.swift */; };
 		8423A1302BD5FF130082544D /* Colors+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A12F2BD5FF130082544D /* Colors+Utils.swift */; };
 		8423A1322BD60B490082544D /* Images+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A1312BD60B490082544D /* Images+Utils.swift */; };
 		8423A1342BD658690082544D /* Alert+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A1332BD658690082544D /* Alert+Utils.swift */; };
-		8423A1362BD6653E0082544D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A1352BD6653E0082544D /* Constants.swift */; };
+		8423A1362BD6653E0082544D /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A1352BD6653E0082544D /* AppConfiguration.swift */; };
 		8423A1382BD667C30082544D /* LoginPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A1372BD667C30082544D /* LoginPresenterTests.swift */; };
 		8423A1422BD71D1D0082544D /* QiscusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A1412BD71D1D0082544D /* QiscusManager.swift */; };
 		8423A14A2BD721950082544D /* MockQiscusCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8423A1492BD721950082544D /* MockQiscusCore.swift */; };
@@ -43,6 +43,19 @@
 		848BE51F2BD89B4100E07B82 /* AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848BE51E2BD89B4100E07B82 /* AppTests.swift */; };
 		848BE5212BD8A56C00E07B82 /* MockRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848BE5202BD8A56C00E07B82 /* MockRepository.swift */; };
 		84E528012BD8B9370051C8C7 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E528002BD8B9370051C8C7 /* ChatViewController.swift */; };
+		84E528032BD905470051C8C7 /* ChatToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E528022BD905470051C8C7 /* ChatToolbarView.swift */; };
+		84E528072BD90CF60051C8C7 /* BaseCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E528062BD90CF60051C8C7 /* BaseCustomView.swift */; };
+		84E5280C2BD96E040051C8C7 /* Inter-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84E528092BD96E040051C8C7 /* Inter-SemiBold.ttf */; };
+		84E5280D2BD96E040051C8C7 /* Inter-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84E5280A2BD96E040051C8C7 /* Inter-Medium.ttf */; };
+		84E5280E2BD96E040051C8C7 /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84E5280B2BD96E040051C8C7 /* Inter-Regular.ttf */; };
+		84E528112BD96F5A0051C8C7 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E528102BD96F5A0051C8C7 /* Fonts.swift */; };
+		84E528132BD977CB0051C8C7 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E528122BD977CB0051C8C7 /* Images.swift */; };
+		84E528152BD9D0D30051C8C7 /* ChatFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E528142BD9D0D30051C8C7 /* ChatFormView.swift */; };
+		84E528172BD9D7B70051C8C7 /* Keyboard+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E528162BD9D7B70051C8C7 /* Keyboard+Utils.swift */; };
+		84E5281B2BDA2CA90051C8C7 /* TextTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E5281A2BDA2CA90051C8C7 /* TextTableViewCell.swift */; };
+		84E5281D2BDA2DBB0051C8C7 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E5281C2BDA2DBB0051C8C7 /* BaseTableViewCell.swift */; };
+		84E5281F2BDA39250051C8C7 /* ChatDataDummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E5281E2BDA39250051C8C7 /* ChatDataDummy.swift */; };
+		84E528212BDA45C90051C8C7 /* ChatMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E528202BDA45C90051C8C7 /* ChatMenuView.swift */; };
 		C47A2821C06DD65A632AC654 /* Pods_QiscusSampleChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D984FF6A894352AA058B10C /* Pods_QiscusSampleChat.framework */; };
 		FDC89A137E5129F0660B3632 /* Pods_QiscusSampleChat_QiscusSampleChatUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09F5C32FE41F2B96AC79A4DD /* Pods_QiscusSampleChat_QiscusSampleChatUITests.framework */; };
 /* End PBXBuildFile section */
@@ -84,12 +97,12 @@
 		8423A1142BD540330082544D /* LoginViewControllerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewControllerUITests.swift; sourceTree = "<group>"; };
 		8423A1162BD540330082544D /* QiscusSampleChatUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QiscusSampleChatUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		8423A1262BD546380082544D /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
-		8423A12B2BD5F28D0082544D /* Dimens+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dimens+Utils.swift"; sourceTree = "<group>"; };
+		8423A12B2BD5F28D0082544D /* Dimens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dimens.swift; sourceTree = "<group>"; };
 		8423A12D2BD5FE3E0082544D /* Views+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Views+Utils.swift"; sourceTree = "<group>"; };
 		8423A12F2BD5FF130082544D /* Colors+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Colors+Utils.swift"; sourceTree = "<group>"; };
 		8423A1312BD60B490082544D /* Images+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Images+Utils.swift"; sourceTree = "<group>"; };
 		8423A1332BD658690082544D /* Alert+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Alert+Utils.swift"; sourceTree = "<group>"; };
-		8423A1352BD6653E0082544D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		8423A1352BD6653E0082544D /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
 		8423A1372BD667C30082544D /* LoginPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPresenterTests.swift; sourceTree = "<group>"; };
 		8423A1412BD71D1D0082544D /* QiscusManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QiscusManager.swift; sourceTree = "<group>"; };
 		8423A1452BD71FFC0082544D /* QiscusCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = QiscusCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -115,6 +128,19 @@
 		848BE51E2BD89B4100E07B82 /* AppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTests.swift; sourceTree = "<group>"; };
 		848BE5202BD8A56C00E07B82 /* MockRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRepository.swift; sourceTree = "<group>"; };
 		84E528002BD8B9370051C8C7 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		84E528022BD905470051C8C7 /* ChatToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatToolbarView.swift; sourceTree = "<group>"; };
+		84E528062BD90CF60051C8C7 /* BaseCustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCustomView.swift; sourceTree = "<group>"; };
+		84E528092BD96E040051C8C7 /* Inter-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-SemiBold.ttf"; sourceTree = "<group>"; };
+		84E5280A2BD96E040051C8C7 /* Inter-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Medium.ttf"; sourceTree = "<group>"; };
+		84E5280B2BD96E040051C8C7 /* Inter-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Regular.ttf"; sourceTree = "<group>"; };
+		84E528102BD96F5A0051C8C7 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
+		84E528122BD977CB0051C8C7 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
+		84E528142BD9D0D30051C8C7 /* ChatFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatFormView.swift; sourceTree = "<group>"; };
+		84E528162BD9D7B70051C8C7 /* Keyboard+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Keyboard+Utils.swift"; sourceTree = "<group>"; };
+		84E5281A2BDA2CA90051C8C7 /* TextTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextTableViewCell.swift; sourceTree = "<group>"; };
+		84E5281C2BDA2DBB0051C8C7 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
+		84E5281E2BDA39250051C8C7 /* ChatDataDummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDataDummy.swift; sourceTree = "<group>"; };
+		84E528202BDA45C90051C8C7 /* ChatMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMenuView.swift; sourceTree = "<group>"; };
 		A9F41D6C27C6247BEEE1B882 /* Pods-QisusSampleChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QisusSampleChat.release.xcconfig"; path = "Target Support Files/Pods-QisusSampleChat/Pods-QisusSampleChat.release.xcconfig"; sourceTree = "<group>"; };
 		BDBD1C4BC06BD8DC639421EE /* Pods-QisusSampleChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QisusSampleChat.debug.xcconfig"; path = "Target Support Files/Pods-QisusSampleChat/Pods-QisusSampleChat.debug.xcconfig"; sourceTree = "<group>"; };
 		C0BF945B6B4C1CED95214C82 /* Pods-QiscusSampleChatTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QiscusSampleChatTests.debug.xcconfig"; path = "Target Support Files/Pods-QiscusSampleChatTests/Pods-QiscusSampleChatTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -190,6 +216,7 @@
 		8423A0F22BD540320082544D /* QiscusSampleChat */ = {
 			isa = PBXGroup;
 			children = (
+				84E5280F2BD96F450051C8C7 /* Constants */,
 				8423A1392BD6684F0082544D /* Data */,
 				8423A12A2BD5F26F0082544D /* Utils */,
 				8423A1252BD546290082544D /* Component */,
@@ -223,6 +250,7 @@
 		8423A1232BD542EB0082544D /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
+				84E528082BD96D3F0051C8C7 /* Fonts */,
 				8423A0FC2BD540330082544D /* Assets.xcassets */,
 				8423A0FE2BD540330082544D /* LaunchScreen.storyboard */,
 				8423A1012BD540330082544D /* Info.plist */,
@@ -235,6 +263,7 @@
 			children = (
 				8423A1262BD546380082544D /* BaseViewController.swift */,
 				8423A1822BD7EEB20082544D /* AppComponent.swift */,
+				84E528062BD90CF60051C8C7 /* BaseCustomView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -242,13 +271,12 @@
 		8423A12A2BD5F26F0082544D /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				8423A12B2BD5F28D0082544D /* Dimens+Utils.swift */,
 				8423A12D2BD5FE3E0082544D /* Views+Utils.swift */,
 				8423A12F2BD5FF130082544D /* Colors+Utils.swift */,
 				8423A1312BD60B490082544D /* Images+Utils.swift */,
 				8423A1332BD658690082544D /* Alert+Utils.swift */,
-				8423A1352BD6653E0082544D /* Constants.swift */,
 				8423A1742BD7C5950082544D /* Json+Utils.swift */,
+				84E528162BD9D7B70051C8C7 /* Keyboard+Utils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -367,9 +395,52 @@
 		84E527FF2BD8B9270051C8C7 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				84E528192BDA2C880051C8C7 /* TableViewCell */,
+				84E528182BDA2C790051C8C7 /* View */,
 				84E528002BD8B9370051C8C7 /* ChatViewController.swift */,
+				84E5281E2BDA39250051C8C7 /* ChatDataDummy.swift */,
 			);
 			path = Chat;
+			sourceTree = "<group>";
+		};
+		84E528082BD96D3F0051C8C7 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				84E5280A2BD96E040051C8C7 /* Inter-Medium.ttf */,
+				84E5280B2BD96E040051C8C7 /* Inter-Regular.ttf */,
+				84E528092BD96E040051C8C7 /* Inter-SemiBold.ttf */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
+		84E5280F2BD96F450051C8C7 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				8423A1352BD6653E0082544D /* AppConfiguration.swift */,
+				8423A12B2BD5F28D0082544D /* Dimens.swift */,
+				84E528102BD96F5A0051C8C7 /* Fonts.swift */,
+				84E528122BD977CB0051C8C7 /* Images.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		84E528182BDA2C790051C8C7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				84E528022BD905470051C8C7 /* ChatToolbarView.swift */,
+				84E528142BD9D0D30051C8C7 /* ChatFormView.swift */,
+				84E528202BDA45C90051C8C7 /* ChatMenuView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		84E528192BDA2C880051C8C7 /* TableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				84E5281A2BDA2CA90051C8C7 /* TextTableViewCell.swift */,
+				84E5281C2BDA2DBB0051C8C7 /* BaseTableViewCell.swift */,
+			);
+			path = TableViewCell;
 			sourceTree = "<group>";
 		};
 		8589DAF8BD1C7264BB490047 /* Pods */ = {
@@ -502,6 +573,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				8423A0FD2BD540330082544D /* Assets.xcassets in Resources */,
+				84E5280C2BD96E040051C8C7 /* Inter-SemiBold.ttf in Resources */,
+				84E5280D2BD96E040051C8C7 /* Inter-Medium.ttf in Resources */,
+				84E5280E2BD96E040051C8C7 /* Inter-Regular.ttf in Resources */,
 				8423A1002BD540330082544D /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -632,24 +706,34 @@
 			files = (
 				8423A1642BD77CC50082544D /* DataStore.swift in Sources */,
 				8423A1342BD658690082544D /* Alert+Utils.swift in Sources */,
+				84E528072BD90CF60051C8C7 /* BaseCustomView.swift in Sources */,
 				8423A1272BD546380082544D /* BaseViewController.swift in Sources */,
+				84E5281D2BDA2DBB0051C8C7 /* BaseTableViewCell.swift in Sources */,
+				84E528212BDA45C90051C8C7 /* ChatMenuView.swift in Sources */,
 				8423A16B2BD799500082544D /* UserError.swift in Sources */,
-				8423A12C2BD5F28D0082544D /* Dimens+Utils.swift in Sources */,
+				84E528152BD9D0D30051C8C7 /* ChatFormView.swift in Sources */,
+				8423A12C2BD5F28D0082544D /* Dimens.swift in Sources */,
 				8423A15C2BD726B90082544D /* UserRequest.swift in Sources */,
 				8423A1422BD71D1D0082544D /* QiscusManager.swift in Sources */,
+				84E5281F2BDA39250051C8C7 /* ChatDataDummy.swift in Sources */,
 				8423A1322BD60B490082544D /* Images+Utils.swift in Sources */,
 				8423A1582BD726010082544D /* Repository.swift in Sources */,
+				84E528112BD96F5A0051C8C7 /* Fonts.swift in Sources */,
 				8423A1752BD7C5950082544D /* Json+Utils.swift in Sources */,
 				8423A0F82BD540320082544D /* LoginViewController.swift in Sources */,
+				84E528132BD977CB0051C8C7 /* Images.swift in Sources */,
 				8423A1672BD77D8A0082544D /* UserLocalDateBase.swift in Sources */,
 				8423A1812BD7EC3F0082544D /* LoginPresenter.swift in Sources */,
 				8423A0F42BD540320082544D /* AppDelegate.swift in Sources */,
+				84E5281B2BDA2CA90051C8C7 /* TextTableViewCell.swift in Sources */,
 				8423A1832BD7EEB20082544D /* AppComponent.swift in Sources */,
 				8423A12E2BD5FE3E0082544D /* Views+Utils.swift in Sources */,
 				8423A1302BD5FF130082544D /* Colors+Utils.swift in Sources */,
 				8423A1692BD7948C0082544D /* UserActive.swift in Sources */,
 				84E528012BD8B9370051C8C7 /* ChatViewController.swift in Sources */,
-				8423A1362BD6653E0082544D /* Constants.swift in Sources */,
+				8423A1362BD6653E0082544D /* AppConfiguration.swift in Sources */,
+				84E528172BD9D7B70051C8C7 /* Keyboard+Utils.swift in Sources */,
+				84E528032BD905470051C8C7 /* ChatToolbarView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -902,7 +986,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.aditya.QisusSampleChatTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aditya.QiscusSampleChatTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -928,7 +1012,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.aditya.QisusSampleChatTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aditya.QiscusSampleChatTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -950,7 +1034,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.aditya.QisusSampleChatUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aditya.QiscusSampleChatUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -959,7 +1043,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
-				TEST_TARGET_NAME = QisusSampleChat;
+				TEST_TARGET_NAME = QiscusSampleChat;
 			};
 			name = Debug;
 		};
@@ -972,7 +1056,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.aditya.QisusSampleChatUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aditya.QiscusSampleChatUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -981,7 +1065,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
-				TEST_TARGET_NAME = QisusSampleChat;
+				TEST_TARGET_NAME = QiscusSampleChat;
 			};
 			name = Release;
 		};
