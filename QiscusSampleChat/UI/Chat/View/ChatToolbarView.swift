@@ -38,6 +38,7 @@ extension ChatToolbarView {
     backgroundColor = Colors.primaryColor
     
     backArrowButton.translatesAutoresizingMaskIntoConstraints = false
+    backArrowButton.accessibilityIdentifier = "backArrowButton"
     backArrowButton.setBackgroundImage(
       UIImage(named: Images.backArrow), for: .normal
     )

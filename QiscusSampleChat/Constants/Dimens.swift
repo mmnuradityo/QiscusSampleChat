@@ -16,7 +16,16 @@ struct Dimens {
   static let medium: CGFloat = 24
   static let large: CGFloat = 32
   static let extraLarge: CGFloat = 52
+  
+  static let paddingChatVerticalImageContent: CGFloat = 107
+  static let paddingChatVerticalDuration: CGFloat = 6
+  static let paddingChatVerticalContent: CGFloat = 10
+  static let paddingChatHorizontalContent: CGFloat = 16
+  static let paddingChatDownloadFile: CGFloat = 10
+  static let paddingChatDescriptionFile: CGFloat = 22
   static let paddingChatIcon: CGFloat = 21
+  static let contentChatEndSpace: CGFloat = 12
+  static let contentChatStartSpace: CGFloat = 20
   static let paddingForm: CGFloat = 16
   static let marginChatSpace: CGFloat = 56
   static let menuChatSpace: CGFloat = 10
@@ -27,4 +36,5 @@ struct Dimens {
   static let toolbarHeight: CGFloat = 69
   static let chatFormHeight: CGFloat = 66
   static let chatMenuHeight: CGFloat = 44
+  static let strokeSize: CGFloat = 1
 }

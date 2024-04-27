@@ -13,6 +13,9 @@ class ChatViewController: BaseViewController {
   let chatTableView = UITableView()
   let chatFormView = ChatFormView()
   let chatMenuView = ChatMenuView()
+  let floatingButton = UIButton(type: .custom)
+  
+  let tableViewCellFactory = TableViewCellFactory()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -34,26 +37,54 @@ extension ChatViewController {
     KeyboardUtils.setupKeyboradShowingOrHidding(
       self, willShowSelector: #selector(keyboardWillShow), willHideSelector: #selector(keyboardWillHide)
     )
+    
+    setupHeaderView()
   }
   
   func style() {
+    chatToolbarView.accessibilityIdentifier = "chatToolbarView"
     chatToolbarView.delegate = self
     
     chatTableView.translatesAutoresizingMaskIntoConstraints = false
-    chatTableView.backgroundColor = .systemOrange
-    chatTableView.register(TextTableViewCell.self, forCellReuseIdentifier: TextTableViewCell.cellIdentifier)
-    chatTableView.rowHeight = TextTableViewCell.rowHight
+    chatTableView.accessibilityIdentifier = "chatTableView"
+    chatTableView.backgroundColor = .clear
+    chatTableView.rowHeight =  UIView.noIntrinsicMetric
+    chatTableView.contentInset = UIEdgeInsets(
+      top: Dimens.smaller, left: 0, bottom: Dimens.smaller, right: 0
+    )
+    chatTableView.separatorStyle = .none
+    chatTableView.separatorInset = .zero
+    chatTableView.layoutMargins = .zero
     chatTableView.dataSource = self
-//    chatTableView.delegate = self
+    chatTableView.delegate = self
+    tableViewCellFactory.registerCells(in: chatTableView)
     
+    chatFormView.accessibilityIdentifier = "chatFormView"
     chatFormView.delegate = self
     
+    chatMenuView.accessibilityIdentifier = "chatMenuView"
     chatMenuView.isHidden = true
     chatMenuView.delegate = self
+    
+    floatingButton.translatesAutoresizingMaskIntoConstraints = false
+    floatingButton.accessibilityIdentifier = "floatingButton"
+    floatingButton.setBackgroundColor(
+      color: Colors.strokeColor, forState: .normal
+    )
+    floatingButton.setImage(
+      UIImage(systemName: "arrow.down"), for: .normal
+    )
+    floatingButton.clipsToBounds = true
+    floatingButton.layer.masksToBounds = true
+    floatingButton.tintColor = Colors.primaryColor
+    floatingButton.layer.cornerRadius = Dimens.chatMenuHeight / 2
+    floatingButton.isHidden = true
   }
   
   func layout() {
-    addToView(chatToolbarView, chatTableView, chatFormView, chatMenuView)
+    addToView(
+      chatToolbarView, chatTableView, chatFormView, chatMenuView, floatingButton
+    )
     
     NSLayoutConstraint.activate([
       chatToolbarView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -75,6 +106,11 @@ extension ChatViewController {
       chatMenuView.bottomAnchor.constraint(equalTo: chatFormView.topAnchor),
       chatMenuView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
       view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: chatMenuView.safeAreaLayoutGuide.trailingAnchor),
+      
+      floatingButton.widthAnchor.constraint(equalToConstant: Dimens.chatMenuHeight),
+      floatingButton.heightAnchor.constraint(equalToConstant: Dimens.chatMenuHeight),
+      floatingButton.bottomAnchor.constraint(equalTo: chatFormView.topAnchor, constant: -Dimens.smaller),
+      view.trailingAnchor.constraint(equalTo: floatingButton.trailingAnchor, constant: Dimens.smaller)
     ])
     
   }
@@ -125,7 +161,7 @@ extension ChatViewController: ChatMenuViewDelegate {
 }
 
 // MARK: ~ handle show or hide Keyboard
-extension ChatViewController {
+extension ChatViewController { 
   @objc func keyboardWillShow(_ sender: NSNotification) {
     guard let userInfo = sender.userInfo,
           let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
@@ -152,21 +188,37 @@ extension ChatViewController {
 
 // MARK: ~ handle UITableViewDataSource
 extension ChatViewController: UITableViewDataSource {
+  
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return chatListDummy.count
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    if let cell = tableView.dequeueReusableCell(
-      withIdentifier: TextTableViewCell.cellIdentifier,
-      for: indexPath
-    ) as? TextTableViewCell {
-      let chat = chatListDummy[indexPath.row]
-      
-      return cell
-    }
-    
-    return UITableViewCell()
+    return tableViewCellFactory.create(
+      fromTableView: tableView, indexPath: indexPath, message: chatListDummy[indexPath.row]
+    )
   }
   
+  func numberOfSections(in tableView: UITableView) -> Int {
+      return 1
+  }
+}
+
+//MARK: ~ handle UITableViewDelegate
+extension ChatViewController: UITableViewDelegate {
+  
+  private func setupHeaderView() {
+    let headerView = HeaderTableView(frame: .zero)
+    headerView.accessibilityIdentifier = "headerView"
+    
+    var size = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+    size.width = UIScreen.main.bounds.width
+    headerView.frame.size = size
+    
+    chatTableView.tableHeaderView = headerView
+  }
+  
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+  }
 }

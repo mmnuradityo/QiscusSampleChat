@@ -37,9 +37,10 @@ extension ChatMenuView {
   
   func style() {
     translatesAutoresizingMaskIntoConstraints = false
-    backgroundColor = .darkGray.withAlphaComponent(0.5)
+    backgroundColor = .darkGray.withAlphaComponent(0.6)
     
     stackView.translatesAutoresizingMaskIntoConstraints = false
+    stackView.accessibilityIdentifier = "stackView"
     stackView.axis = .vertical
     stackView.alignment = .leading
     stackView.distribution = .fillEqually
@@ -52,22 +53,26 @@ extension ChatMenuView {
     )
     stackView.isLayoutMarginsRelativeArrangement = true
     
+    cameraButton.accessibilityIdentifier = "cameraButton"
     setupMenuButton(
-      targetButton: cameraButton, imageIcon: Images.camera, title: "Camera"
+      targetButton: cameraButton, imageIcon: Images.menuCamera, title: "Camera"
     )
     cameraButton.addTarget(self, action: #selector(cameraButtonDidTapped), for: .touchUpInside)
     
+    galleryButton.accessibilityIdentifier = "galleryButton"
     setupMenuButton(
-      targetButton: galleryButton, imageIcon: Images.gallery, title: "Gallery"
+      targetButton: galleryButton, imageIcon: Images.menuGallery, title: "Gallery"
     )
     galleryButton.addTarget(self, action: #selector(galleryButtonDidTapped), for: .touchUpInside)
     
+    fileButton.accessibilityIdentifier = "fileButton"
     setupMenuButton(
-      targetButton: fileButton, imageIcon: Images.file, title: "File"
+      targetButton: fileButton, imageIcon: Images.manuFile, title: "File"
     )
     fileButton.addTarget(self, action: #selector(fileButtonDidTapped), for: .touchUpInside)
     
     outsideView.translatesAutoresizingMaskIntoConstraints = false
+    outsideView.accessibilityIdentifier = "outsideView"
     let gesture:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(outsideDidTapped))
     gesture.numberOfTapsRequired = 1
     outsideView.isUserInteractionEnabled = true

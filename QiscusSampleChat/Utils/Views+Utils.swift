@@ -7,12 +7,38 @@
 
 import UIKit
 
+class TextLabel: UILabel  {
+  private var topInset = CGFloat(0)
+  private var bottomInset = CGFloat(0)
+  private var leftInset = CGFloat(0)
+  private var rightInset = CGFloat(0)
+  
+  func setPadding(top: CGFloat, bottom: CGFloat, left: CGFloat, right: CGFloat) {
+    topInset = top
+    bottomInset = bottom
+    leftInset = left
+    rightInset = right
+  }
+  
+  override func drawText(in rect: CGRect) {
+    let insets: UIEdgeInsets = UIEdgeInsets(top: topInset, left: leftInset, bottom: bottomInset, right: rightInset)
+    super.drawText(in: rect.inset(by: insets))
+  }
+  
+  override public var intrinsicContentSize: CGSize {
+    var intrinsicSuperViewContentSize = super.intrinsicContentSize
+    intrinsicSuperViewContentSize.height += topInset + bottomInset
+    intrinsicSuperViewContentSize.width += leftInset + rightInset
+    return intrinsicSuperViewContentSize
+  }
+}
+  
 extension UITextView {
   
   func makeFormStyle(identifier: String, placeholder: String) {
     self.accessibilityIdentifier = identifier
     self.layer.cornerRadius = Dimens.smallest
-    self.layer.borderWidth = 1
+    self.layer.borderWidth = Dimens.strokeSize
     self.layer.borderColor = Colors.strokeColor.cgColor
     self.textContainerInset = UIEdgeInsets(
       top: Dimens.smallest, left: Dimens.paddingForm,
@@ -42,7 +68,7 @@ extension UITextField {
     self.accessibilityIdentifier = identifier
     self.placeholder = placeholder
     self.layer.cornerRadius = Dimens.smallest
-    self.layer.borderWidth = 1
+    self.layer.borderWidth = Dimens.strokeSize
     self.layer.borderColor = Colors.strokeColor.cgColor
     self.setPadding(start: Dimens.paddingForm, end: Dimens.paddingForm)
     self.autocapitalizationType = .none

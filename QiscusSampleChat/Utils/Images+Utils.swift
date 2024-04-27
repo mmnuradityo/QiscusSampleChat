@@ -20,7 +20,7 @@ extension UIImage {
     self.init(cgImage: cgImage)
   }
   
-  public func rounded(radius: CGFloat) -> UIImage {
+  func rounded(radius: CGFloat) -> UIImage {
       let rect = CGRect(origin: .zero, size: size)
       UIGraphicsBeginImageContextWithOptions(size, false, 0)
       UIBezierPath(roundedRect: rect, cornerRadius: radius).addClip()

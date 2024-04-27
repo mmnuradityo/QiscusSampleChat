@@ -9,6 +9,7 @@ import UIKit
 
 class ChatFormView: BaseCustomView {
   
+  let strokeView = UIView()
   let menuButton = UIButton()
   let formTextView = UITextView()
   let sendButton = UIButton()
@@ -37,13 +38,19 @@ extension ChatFormView {
     translatesAutoresizingMaskIntoConstraints = false
     backgroundColor = Colors.chatFormBackgroundColor
     
+    strokeView.translatesAutoresizingMaskIntoConstraints = false
+    strokeView.accessibilityIdentifier = "strokeView"
+    strokeView.backgroundColor = Colors.strokeColor
+    
     menuButton.translatesAutoresizingMaskIntoConstraints = false
+    menuButton.accessibilityIdentifier = "menuButton"
     menuButton.setBackgroundImage(
       UIImage(named: Images.chatFormMenu), for: .normal
     )
     menuButton.addTarget(self, action: #selector(menuButtonDidTapped), for: .touchUpInside)
     
     formTextView.translatesAutoresizingMaskIntoConstraints = false
+    formTextView.accessibilityIdentifier = "formTextView"
     formTextView.makeFormStyle(
       identifier: "formTextField", placeholder: formPlaceholder
     )
@@ -54,6 +61,7 @@ extension ChatFormView {
     formTextView.delegate = self
     
     sendButton.translatesAutoresizingMaskIntoConstraints = false
+    sendButton.accessibilityIdentifier = "sendButton"
     sendButton.setBackgroundImage(
       UIImage(named: Images.chatFormSend), for: .normal
     )
@@ -61,9 +69,14 @@ extension ChatFormView {
   }
   
   func layout() {
-    addToView(menuButton, formTextView, sendButton)
+    addToView(strokeView, menuButton, formTextView, sendButton)
     
     activatedWithConstrain([
+      strokeView.topAnchor.constraint(equalTo: topAnchor),
+      strokeView.leadingAnchor.constraint(equalTo: leadingAnchor),
+      strokeView.trailingAnchor.constraint(equalTo: trailingAnchor),
+      strokeView.heightAnchor.constraint(equalToConstant: Dimens.strokeSize),
+      
       menuButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Dimens.paddingChatIcon),
       menuButton.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: Dimens.paddingChatIcon),
       menuButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Dimens.small),
