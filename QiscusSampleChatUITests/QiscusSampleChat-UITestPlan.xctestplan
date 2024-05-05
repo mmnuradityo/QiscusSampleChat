@@ -1,0 +1,27 @@
+{
+  "configurations" : [
+    {
+      "id" : "5457A04A-D150-4657-BA3B-AE903722C607",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "commandLineArgumentEntries" : [
+
+    ],
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:QiscusSampleChat.xcodeproj",
+        "identifier" : "8423A10F2BD540330082544D",
+        "name" : "QiscusSampleChatUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

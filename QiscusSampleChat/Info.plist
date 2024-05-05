@@ -2,13 +2,36 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>APP_ID</key>
+	<string>sdksample</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Inter_Medium.ttf</string>
 		<string>Inter-Regular.ttf</string>
 		<string>Inter-SemiBold.ttf</string>
 	</array>
-	<key>APP_ID</key>
-	<string>sdksample</string>
+	<key>UTImportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.plain-text</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>txt</string>
+			<key>UTTypeIconFiles</key>
+			<array/>
+			<key>UTTypeIdentifier</key>
+			<string>com.qiscus.plain-text.txt</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>txt</string>
+				</array>
+			</dict>
+		</dict>
+		<dict/>
+	</array>
 </dict>
 </plist>

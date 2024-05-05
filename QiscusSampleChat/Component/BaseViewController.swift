@@ -9,10 +9,8 @@ import UIKit
 
 open class BaseViewController: UIViewController {
   
-  open override func viewDidLoad() {
-    super.viewDidLoad()
-    setupDismissKeyboardGesture()
-  }
+  var dismissGesture: UITapGestureRecognizer?
+  var tapOutsideDelegate: TapOutsideDelegate?
   
   func addToStackView(_ stackView: UIStackView, views: UIView...) {
     for view in views {
@@ -27,7 +25,7 @@ open class BaseViewController: UIViewController {
     }
   }
   
-  func activatedWithConstrain(_ constraints: [NSLayoutConstraint]) {
+  func activatedWithConstraint(_ constraints: [NSLayoutConstraint]) {
     NSLayoutConstraint.activate(constraints)
   }
   
@@ -41,21 +39,35 @@ open class BaseViewController: UIViewController {
   }
   
   @objc public func backAction() {
-    dismiss(animated: true, completion: nil)
+    self.dismiss(animated: true, completion: nil)
+  }
+  
+  // MARK: - Dismiss OutsideGestureDelegate
+  protocol TapOutsideDelegate {
+    func handleTapOutside()
   }
   
 }
 
-// MARK: - Dismiss Keyboard
+// MARK: - Dismiss OutsideGesture
 extension BaseViewController {
   
-  private func setupDismissKeyboardGesture() {
-    let dismissKeyboardTap = UITapGestureRecognizer(target: self, action: #selector(viewTapped(_ : )))
-    view.addGestureRecognizer(dismissKeyboardTap)
+  func addDismissGesture() {
+    dismissGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped(_ : )))
+    view.addGestureRecognizer(dismissGesture!)
+  }
+  
+  func removeDismissGesture() {
+    if let dismissTap = self.dismissGesture {
+      view.removeGestureRecognizer(dismissTap)
+      self.dismissGesture = nil
+    }
   }
   
   @objc func viewTapped(_ recognizer: UITapGestureRecognizer) {
-    view.endEditing(true) // resign first responder
+    view.endEditing(true)
+    tapOutsideDelegate?.handleTapOutside()
   }
   
 }
+

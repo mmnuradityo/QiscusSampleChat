@@ -8,18 +8,23 @@
 import QiscusCore
 
 protocol QiscusManagerProtocol {
-  func setupEngine()
-  
+  func setupEngine(appID: String)
   func login(userRequest: UserRequest, onSuccess: @escaping (UserModel) -> Void, onError: @escaping (QError) -> Void)
-  
-  func logout(onError: @escaping (QError?) -> Void)
+  func logout(completion: @escaping () -> Void)
+  func getDataBase() -> QiscusDatabaseManager?
+  func registerDeviceToken(deviceToken: String, onSuccess: @escaping (Bool) -> Void, onError: @escaping (QError) -> Void)
+  func loadRoomWithMessage(roomId: String, onSuccess: @escaping (RoomModel, [CommentModel]) -> Void, onError: @escaping (QError) -> Void)
+  func loadMoreMessages(roomId: String, lastMessageId: String, limit: Int, onSuccess: @escaping ([CommentModel]) -> Void, onError: @escaping (QError) -> Void)
+  func sendMessage(messageRequest: CommentModel, onSuccess: @escaping (CommentModel) -> Void, onError: @escaping (QError) -> Void)
+  func uploadFileupload(file: FileUploadModel, onSuccess: @escaping (FileModel) -> Void, onError: @escaping (QError) -> Void, progress: @escaping (Double) -> Void)
+  func connectToQiscus(delegate: QiscusConnectionDelegate)
+  func loadRooms(page: Int, limit: Int, onSuccess: @escaping ([RoomModel], Meta?) -> Void, onError: @escaping (QError) -> Void)
 }
 
 class QiscusManager: QiscusManagerProtocol {
   
-  func setupEngine() {
-    let appId = AppConfiguration.APP_ID
-    QiscusCore.setup(AppID: appId ?? "")
+  func setupEngine(appID: String) {
+    QiscusCore.setup(AppID: appID)
   }
   
   func login(userRequest: UserRequest, onSuccess: @escaping (UserModel) -> Void, onError: @escaping (QError) -> Void) {
@@ -34,7 +39,75 @@ class QiscusManager: QiscusManagerProtocol {
     )
   }
   
-  func logout(onError: @escaping (QError?) -> Void) {
-    QiscusCore.clearUser(completion: onError)
+  func logout(completion: @escaping () -> Void) {
+    QiscusCore.clearUser { error in
+      self.getDataBase()?.clear()
+      completion()
+    }
   }
+  
+  func getDataBase() -> QiscusDatabaseManager? {
+    return QiscusCore.database
+  }
+  
+  func registerDeviceToken(deviceToken: String, onSuccess: @escaping (Bool) -> Void, onError: @escaping (QError) -> Void) {
+    if QiscusCore.hasSetupUser() {
+      QiscusCore.shared.registerDeviceToken(token: deviceToken, onSuccess: onSuccess, onError: onError)
+    }
+  }
+  
+  func loadRoomWithMessage(
+    roomId:  String,
+    onSuccess: @escaping (RoomModel, [CommentModel]) -> Void,
+    onError: @escaping (QError) -> Void
+  ) {
+    QiscusCore.shared.getChatRoomWithMessages(
+      roomId: roomId, onSuccess: onSuccess, onError: onError
+    )
+  }
+  
+  func loadMoreMessages(
+    roomId: String,
+    lastMessageId: String,
+    limit: Int,
+    onSuccess: @escaping ([CommentModel]) -> Void,
+    onError: @escaping (QError) -> Void
+  ) {
+    QiscusCore.shared.loadMore(
+      roomID: roomId,
+      lastCommentID: lastMessageId,
+      after: false,
+      limit: limit,
+      onSuccess: onSuccess,
+      onError: onError
+    )
+  }
+  
+  func sendMessage(messageRequest: CommentModel, onSuccess: @escaping (CommentModel) -> Void, onError: @escaping (QError) -> Void) {
+    QiscusCore.shared.sendMessage(message: messageRequest, onSuccess: onSuccess, onError: onError)
+  }
+  
+  func uploadFileupload(
+    file : FileUploadModel,
+    onSuccess: @escaping (FileModel) -> Void,
+    onError: @escaping (QError) -> Void,
+    progress: @escaping (Double) -> Void
+  ) {
+    QiscusCore.shared.upload(file: file, onSuccess: onSuccess, onError: onError, progressListener: progress)
+  }
+  
+  func connectToQiscus(delegate: QiscusConnectionDelegate) {
+    if QiscusCore.hasSetupUser() {
+      _ = QiscusCore.connect(delegate: delegate)
+    }
+  }
+  
+  func loadRooms(
+    page: Int, limit: Int,
+    onSuccess: @escaping ([RoomModel],Meta?) -> Void,
+    onError: @escaping (QError) -> Void
+  ) {
+    QiscusCore.shared.getAllChatRooms(page: page, limit: limit, onSuccess: onSuccess, onError: onError)
+  }
+  
 }

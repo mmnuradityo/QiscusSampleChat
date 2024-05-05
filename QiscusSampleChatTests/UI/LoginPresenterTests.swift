@@ -10,35 +10,42 @@ import XCTest
 
 class LoginPresenterTests: XCTestCase {
   
-  var presenter: LoginPresenter!
+  var sut: LoginPresenter!
+  var delegate: LoginPresenterTestsDelegate!
   var repository: MockRepository!
   
   override func setUp() {
     super.setUp()
+    delegate = LoginPresenterTestsDelegate()
     repository = MockRepository()
-    presenter = LoginPresenter(
-      repository: repository, delegate: self
+    
+    sut = LoginPresenter(
+      repository: repository, delegate: delegate
     )
   }
   
   override func tearDown() {
     super.tearDown()
-    presenter = nil
+    sut = nil
     repository = nil
+    delegate = nil
   }
   
   func testLoginPresenter_WhenLogin_ReturnSuccess() {
     let expectation = self.expectation(description: "Expectation is succesfull() method to be called")
     repository.expectation = expectation
     repository.isSuccess = true
+    delegate.isSuccess = true
     
-    repository.userActive = UserActive(id: "1", email: "test@mail.com", username: "test")
+    let user = UserActive(id: "1", email: "test@mail.com", username: "test")
+    repository.userActive = user
+    delegate.userActive = user
     
     let userId = "test@mail.com"
     let userkey = "test"
     let userName = "test"
     
-    presenter.login(userId: userId, userkey: userkey, userName: userName)
+    sut.login(userId: userId, userkey: userkey, userName: userName)
     self.wait(for: [expectation], timeout: 1)
     
     XCTAssertEqual(repository.methodCalledCount, 1)
@@ -48,13 +55,15 @@ class LoginPresenterTests: XCTestCase {
     let expectation = self.expectation(description: "Expectation is failed() method to be called")
     repository.expectation = expectation
     
-    repository.error = UserError.custom(message: "Login failed")
+    let error = UserError.custom(message: "Login failed")
+    repository.error = error
+    delegate.error = error
     
     let userId = "test@mail.com"
     let userkey = "test"
     let userName = "test"
     
-    presenter.login(userId: userId, userkey: userkey, userName: userName)
+    sut.login(userId: userId, userkey: userkey, userName: userName)
     self.wait(for: [expectation], timeout: 1)
     
     XCTAssertEqual(repository.methodCalledCount, 1)
@@ -62,22 +71,28 @@ class LoginPresenterTests: XCTestCase {
   
 }
 
-extension LoginPresenterTests: LoginPresenter.LoginDelegate {
+class LoginPresenterTestsDelegate: LoginPresenter.LoginDelegate {
+  
+  var isSuccess = false
+  var isErrorLogout = false
+  var userActive: UserActive?
+  var error: Error?
+  
   func onSuccess(userActive: UserActive) {
-    if !repository.isSuccess {
-      XCTFail("LoginPresenterTests OnSuccess whit error \(String(describing: repository.error?.localizedDescription))")
+    if !isSuccess {
+      XCTFail("LoginPresenterTests OnSuccess whit error \(String(describing: error?.localizedDescription))")
     } else {
-      XCTAssertNotNil(repository.userActive)
-      XCTAssertEqual(userActive.email, repository.userActive!.email)
+      XCTAssertNotNil(userActive)
+      XCTAssertEqual(userActive.email, self.userActive!.email)
     }
   }
   
   func onError(error: UserError) {
-    if repository.isErrorLogout {
-      XCTFail("LoginPresenterTests OnError whit error \(String(describing: repository.error?.localizedDescription))")
+    if isErrorLogout {
+      XCTFail("LoginPresenterTests OnError whit error \(String(describing: error.localizedDescription))")
     } else {
-      XCTAssertNotNil(repository.error)
-      XCTAssertEqual(error, repository.error)
+      XCTAssertNotNil(error)
+      XCTAssertEqual(error, self.error as! UserError)
     }
   }
 }

@@ -29,12 +29,22 @@ struct Dimens {
   static let paddingForm: CGFloat = 16
   static let marginChatSpace: CGFloat = 56
   static let menuChatSpace: CGFloat = 10
+  static let contentChatFromAvatarSpace: CGFloat = 78
+  static let chatFromAvatarSpace: CGFloat = 70
   
-  // views
   static let formHeight: CGFloat = 38
   static let buttonHeight: CGFloat = 38
   static let toolbarHeight: CGFloat = 69
   static let chatFormHeight: CGFloat = 66
   static let chatMenuHeight: CGFloat = 44
   static let strokeSize: CGFloat = 1
+  static let chatNotSupportHeight: CGFloat = 40
+  static let chatDatetHeight: CGFloat = 63
+  static let paddingRoomList: CGFloat = 10
+  static let roomListHeight: CGFloat = 72
+  static let roomListCounterRadius: CGFloat = 9
+  static let roomListCounterPadding: CGFloat = 2
+  static let roomListCounterSize: CGFloat = 18
+  static let roomListProgressSize: CGFloat = 40
+  
 }

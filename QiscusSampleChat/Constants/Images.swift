@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Images {
+struct Images {
   static let qiscusLogo = "QiscusLogo"
   static let backArrow = "BackArrow"
   static let chatFormSend = "ChatFormSend"
@@ -26,6 +26,8 @@ class Images {
   static let chatStatusSending = "ChatStatusSending"
   static let chatStatusFailed = "ChatStatusFailed"
   static let chatPlaceholder = "ImagePlaceholder"
+  static let toolbarMenuOptions = "ToolbarMenuOptions"
+  static let menuOptionsLogin = "MenuOptionsLogin"
   
   static let avatarSize: CGFloat = 44
   static let backArrowSize: CGFloat = 16
@@ -40,4 +42,7 @@ class Images {
   static let downloadChatSize: CGFloat = 18
   
   static let chatFromSize: CGFloat = 14
+  static let toolbarIconHeight: CGFloat = 18
+  static let toolbarIconWidth: CGFloat = 60
+  
 }

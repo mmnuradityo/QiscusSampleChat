@@ -54,21 +54,15 @@ extension ChatMenuView {
     stackView.isLayoutMarginsRelativeArrangement = true
     
     cameraButton.accessibilityIdentifier = "cameraButton"
-    setupMenuButton(
-      targetButton: cameraButton, imageIcon: Images.menuCamera, title: "Camera"
-    )
+    cameraButton.setupMenuButton(imageIcon: Images.menuCamera, title: "Camera")
     cameraButton.addTarget(self, action: #selector(cameraButtonDidTapped), for: .touchUpInside)
     
     galleryButton.accessibilityIdentifier = "galleryButton"
-    setupMenuButton(
-      targetButton: galleryButton, imageIcon: Images.menuGallery, title: "Gallery"
-    )
+    galleryButton.setupMenuButton(imageIcon: Images.menuGallery, title: "Gallery")
     galleryButton.addTarget(self, action: #selector(galleryButtonDidTapped), for: .touchUpInside)
     
     fileButton.accessibilityIdentifier = "fileButton"
-    setupMenuButton(
-      targetButton: fileButton, imageIcon: Images.manuFile, title: "File"
-    )
+    fileButton.setupMenuButton(imageIcon: Images.manuFile, title: "File")
     fileButton.addTarget(self, action: #selector(fileButtonDidTapped), for: .touchUpInside)
     
     outsideView.translatesAutoresizingMaskIntoConstraints = false
@@ -85,7 +79,7 @@ extension ChatMenuView {
     )
     addToView(outsideView)
     
-    activatedWithConstrain([
+    activatedWithConstraint([
       cameraButton.heightAnchor.constraint(equalToConstant: Images.iconSize),
       galleryButton.heightAnchor.constraint(equalToConstant: Images.iconSize),
       fileButton.heightAnchor.constraint(equalToConstant: Images.iconSize),
@@ -99,31 +93,6 @@ extension ChatMenuView {
       outsideView.leadingAnchor.constraint(equalTo: leadingAnchor),
       trailingAnchor.constraint(equalTo: outsideView.trailingAnchor)
     ])
-  }
-}
-
-// MARK: ~ view logic
-extension ChatMenuView {
-  
-  func setupMenuButton(targetButton: UIButton, imageIcon: String, title: String) {
-    targetButton.translatesAutoresizingMaskIntoConstraints = false
-    targetButton.setImage(UIImage(named: imageIcon), for: .normal)
-    targetButton.setTitle(title, for: .normal)
-    targetButton.setTitleColor(.black, for: .normal)
-    targetButton.setTitleColor(Colors.primaryColor, for: .highlighted)
-    targetButton.titleLabel?.font = UIFont(
-      name: Fonts.interRegular, size: Fonts.formSize
-    )
-    targetButton.configuration = configureButton()
-  }
-  
-  func configureButton() -> UIButton.Configuration {
-    var buttonConfiguration = UIButton.Configuration.borderless()
-    buttonConfiguration.imagePadding = Dimens.smaller
-    buttonConfiguration.contentInsets = NSDirectionalEdgeInsets(
-      top: 0, leading: 0, bottom: 0, trailing: 0
-    )
-    return buttonConfiguration
   }
 }
 

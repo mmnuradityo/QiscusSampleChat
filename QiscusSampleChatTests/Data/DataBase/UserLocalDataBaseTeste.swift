@@ -10,7 +10,7 @@ import XCTest
 
 class UserLocalDataBaseTeste: XCTestCase {
   
-  var userLocalDateBase: UserLocalDateBase!
+  var sut: UserLocalDateBase!
   var userPersistance: MockUserPersistance!
   var jsonUtils: JsonUtilsProtocol.Type!
   var userActive: UserActive!
@@ -20,19 +20,19 @@ class UserLocalDataBaseTeste: XCTestCase {
     userActive = UserActive(id: "1", email: "email@mail.com")
     userPersistance = MockUserPersistance()
     jsonUtils = MockJsonUtils.self
-    userLocalDateBase = UserLocalDateBase(persistent: userPersistance, jsonUtils: jsonUtils)
+    sut = UserLocalDateBase(persistent: userPersistance, jsonUtils: jsonUtils)
   }
   
   override func tearDown() {
     super.tearDown()
-    userLocalDateBase = nil
+    sut = nil
     userPersistance = nil
     jsonUtils = nil
     userActive = nil
   }
   
   func testUserLocalDateBase_WhenSaveUserWithInvalidProvided_ShouldReturnFalse() {
-    let isSaved = userLocalDateBase.saveUser(user: userActive)
+    let isSaved = sut.saveUser(user: userActive)
     
     XCTAssertFalse(isSaved)
   }
@@ -40,13 +40,13 @@ class UserLocalDataBaseTeste: XCTestCase {
   func testUserLocalDateBase_WhenSaveUserWithValidProvided_ShouldReturnTrue() {
     MockJsonUtils.result = "{\"id\":\"1\",\"email\":\"email@mail.com\"}"
     
-    let isSaved = userLocalDateBase.saveUser(user: userActive)
+    let isSaved = sut.saveUser(user: userActive)
     
     XCTAssertTrue(isSaved)
   }
   
   func testUserLocalDateBase_WhenGetUserFailed_ShouldReturnNil() {
-    let user = userLocalDateBase.getUser()
+    let user = sut.getUser()
     
     XCTAssertNil(user)
   }
@@ -55,14 +55,14 @@ class UserLocalDataBaseTeste: XCTestCase {
     userPersistance.isSavedSuccess = true
     MockJsonUtils.userActive = userActive
     
-    let user = userLocalDateBase.getUser()
+    let user = sut.getUser()
     
     XCTAssertNotNil(user)
     XCTAssertEqual(user!.email, userActive.email)
   }
   
   func testUserLocalDateBase_WhenClearUserFailed_ShouldReturnNil() {
-    let user = userLocalDateBase.clearUser()
+    let user = sut.clearUser()
     
     XCTAssertNil(user)
   }
@@ -71,7 +71,7 @@ class UserLocalDataBaseTeste: XCTestCase {
     userPersistance.isSavedSuccess = true
     MockJsonUtils.userActive = userActive
     
-    let user = userLocalDateBase.clearUser()
+    let user = sut.clearUser()
     
     XCTAssertNotNil(user)
   }

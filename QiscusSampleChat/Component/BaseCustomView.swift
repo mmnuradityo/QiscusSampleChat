@@ -22,7 +22,7 @@ open class BaseCustomView: UIView {
     }
   }
   
-  func activatedWithConstrain(_ constraints: [NSLayoutConstraint]) {
+  func activatedWithConstraint(_ constraints: [NSLayoutConstraint]) {
     NSLayoutConstraint.activate(constraints)
   }
   

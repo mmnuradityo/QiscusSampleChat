@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Fonts {
+struct Fonts {
   static let interRegular = "Inter-Regular"
   static let interSemiBold = "Inter-SemiBold"
   static let interMedium = "Inter-Medium"
@@ -16,7 +16,9 @@ class Fonts {
   static let toolbarSubtitleSize: CGFloat = 14
   static let formSize: CGFloat = 14
   static let defaultSize: CGFloat = 12
+  static let roomTimeSize: CGFloat = 10
   static let descriptionChatSize: CGFloat = 10
+  static let roomListNameSize: CGFloat = 16
   static let timeChatMinWidth: CGFloat = setWidthBasedOnMaxCharacterCount(5, fontSize: Fonts.defaultSize)
   
   static func setWidthBasedOnMaxCharacterCount(_ maxCharacterCount: Int, fontSize: CGFloat) -> CGFloat {

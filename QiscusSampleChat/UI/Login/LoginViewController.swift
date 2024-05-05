@@ -8,7 +8,15 @@ import UIKit
 
 class LoginViewController: BaseViewController {
   
-  var presenter: LoginPresenterProtocol?
+  static func instantiate() -> UINavigationController {
+    let viewController = LoginViewController()
+    viewController.view.accessibilityIdentifier = "loginViewController"
+    
+    let navigationController = UINavigationController(rootViewController: viewController)
+    navigationController.modalPresentationStyle = .fullScreen
+    navigationController.navigationBar.isHidden = true
+    return navigationController
+  }
   
   let logoImageView = UIImageView()
   let userIdTextField = UITextField()
@@ -16,18 +24,28 @@ class LoginViewController: BaseViewController {
   let userNameTextField = UITextField()
   let loginButton = UIButton()
   
+  var presenter: LoginPresenterProtocol?
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     setup()
     style()
     layout()
   }
+  
+  override func viewDidDisappear(_ animated: Bool) {
+    super.viewDidDisappear(animated)
+    removeDismissGesture()
+  }
+  
 }
 
 // MARK: - setup and layouting
 extension LoginViewController {
   
   func setup() {
+    addDismissGesture()
+    
     if presenter == nil {
       presenter = LoginPresenter(
         repository: AppComponent.shared.getRepository(),
@@ -57,7 +75,7 @@ extension LoginViewController {
 
     userNameTextField.translatesAutoresizingMaskIntoConstraints = false
     userNameTextField.makeFormStyle(
-      identifier: "userKeyTextField", placeholder: "Enter your user name"
+      identifier: "userNameTextField", placeholder: "Enter your user name"
     )
     userNameTextField.delegate = self
     
@@ -74,7 +92,7 @@ extension LoginViewController {
       logoImageView, userIdTextField, userKeyTextField, userNameTextField, loginButton
     )
     
-    activatedWithConstrain([
+    activatedWithConstraint([
       logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Dimens.large * 4),
       logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
       
@@ -103,6 +121,7 @@ extension LoginViewController {
 
 // MARK: - view logic
 extension LoginViewController: LoginPresenter.LoginDelegate {
+  
   private func setLoginButtonToEnable(isEnable: Bool) {
     loginButton.isEnabled = isEnable
     loginButton.setBackgroundColor(
@@ -115,11 +134,8 @@ extension LoginViewController: LoginPresenter.LoginDelegate {
     let alert = AlertUtils.alertDialog(
       title: "Success", message: "Login successfull", identifier: AlertUtils.identifierSuccess
     ) { _ in
-      self.dismiss(animated: true, completion: nil)
-      
-      self.navigationController?.pushViewController(
-        ChatViewController(), animated: true
-      )
+      self.navigationController?.viewControllers.removeAll()
+      self.present(RoomListViewController.instantiate(), animated: true)
     }
     present(alert, animated: true, completion: nil)
   }
@@ -132,6 +148,7 @@ extension LoginViewController: LoginPresenter.LoginDelegate {
     }
     present(alert, animated: true, completion: nil)
   }
+  
 }
 
 
@@ -160,10 +177,12 @@ extension LoginViewController: UITextFieldDelegate {
 
 // MARK: ~ action handler
 extension LoginViewController {
+  
   @objc func loginButtonTapped(_ sender: UIButton) {
     let userId = userIdTextField.text ?? ""
     let userKey = userKeyTextField.text ?? ""
     let userName = userNameTextField.text ?? ""
     presenter?.login(userId: userId, userkey: userKey, userName: userName)
   }
+  
 }

@@ -71,7 +71,7 @@ extension ChatFormView {
   func layout() {
     addToView(strokeView, menuButton, formTextView, sendButton)
     
-    activatedWithConstrain([
+    activatedWithConstraint([
       strokeView.topAnchor.constraint(equalTo: topAnchor),
       strokeView.leadingAnchor.constraint(equalTo: leadingAnchor),
       strokeView.trailingAnchor.constraint(equalTo: trailingAnchor),
