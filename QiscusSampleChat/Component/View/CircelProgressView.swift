@@ -1,12 +1,13 @@
 //
-//  CircularProgressView.swift
+//  CircelProgressView.swift
 //  QiscusSampleChat
 //
 //  Created by Admin on 05/05/24.
 //
+
 import UIKit
 
-class CircularProgressView: UIView, CAAnimationDelegate {
+class CircelProgressView: UIView, CAAnimationDelegate {
   
   let circularLayer = CAShapeLayer()
   

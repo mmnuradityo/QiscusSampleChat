@@ -146,12 +146,3 @@ extension RoomModel {
     return result
   }
 }
-
-// MARK: ~ handle ChatRoomModel list
-extension ChatRoomModel {
-  
-  func append(_ rooms: [ChatRoomModel]) {
-    
-  }
-  
-}

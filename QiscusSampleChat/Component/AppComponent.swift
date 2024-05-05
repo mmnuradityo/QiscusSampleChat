@@ -16,6 +16,7 @@ class AppComponent {
   private var imageManager: ImageManagerProtocol!
   private var repository: RepositoryProtocol!
   private var chatEventHandler: ChatEventHandlerProtocol!
+  private var notiicationfUtils: NotificationUtils!
   
   func getDataStore() -> DataStoreProtocol {
     if dataStore == nil {
@@ -52,6 +53,13 @@ class AppComponent {
       chatEventHandler = ChatEventHandler(repository: getRepository())
     }
     return chatEventHandler
+  }
+ 
+  func getNotificationUtils() -> NotificationUtils {
+    if notiicationfUtils == nil {
+      notiicationfUtils = NotificationUtils()
+    }
+    return notiicationfUtils
   }
   
 }

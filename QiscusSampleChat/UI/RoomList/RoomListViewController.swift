@@ -21,6 +21,7 @@ class RoomListViewController: BaseViewController {
   
   let roomListToolbarView = RoomListToolbarView()
   let chatRoomTabelView = UITableView()
+  let refreshControl = UIRefreshControl()
   
   let tableViewCellFactory = RoomTableViewCellFactory()
   var presenter: RoomListPresenterProtocol?
@@ -54,6 +55,7 @@ extension RoomListViewController {
     }
     
     setupFooterView()
+    setupRefreshControl()
   }
   
   func style() {
@@ -131,6 +133,13 @@ extension RoomListViewController: UITableViewDelegate {
     chatRoomTabelView.tableFooterView = footerView
   }
   
+  private func setupRefreshControl() {
+    refreshControl.tintColor = Colors.primaryColor
+    refreshControl.addTarget(self, action: #selector(refreshContent), for: .valueChanged)
+    chatRoomTabelView.refreshControl = refreshControl
+  }
+  
+  
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     if getTableData().count > indexPath.row {
       let chatRoom = getTableData()[indexPath.row]
@@ -156,6 +165,8 @@ extension RoomListViewController: RoomListPresenter.RoomListDelegate {
   }
   
   func onRooms(chatRoomList: ChatRoomListModel) {
+    self.chatRoomTabelView.refreshControl?.endRefreshing()
+    
     if chatRoomList.listRooms.count == 0 {
       chatRoomTabelView.tableFooterView = nil
       chatRoomTabelView.reloadData()
@@ -196,6 +207,17 @@ extension RoomListViewController: RoomTableViewCellFactory.FactoryDelete {
         }
       }
     }
+  }
+  
+}
+
+// MARK: ~ hanlde Action
+extension RoomListViewController {
+  
+  @objc func refreshContent() {
+    chatRoomList = nil
+    chatRoomTabelView.reloadData()
+    presenter?.loadRooms(page: 1)
   }
   
 }

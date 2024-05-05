@@ -25,6 +25,7 @@ class ChatViewController: BaseViewController {
   let chatFormView = ChatFormView()
   let chatMenuView = ChatMenuView()
   let floatingButton = UIButton(type: .custom)
+  let progressView = LinearProgressView()
   var popupOptiosnMenuView: PopupOptionsMenuView?
   
   let tableViewCellFactory = ChatTableViewCellFactory()
@@ -69,16 +70,22 @@ extension ChatViewController {
     
     if presenter == nil {
       AppComponent.shared.getChatEventHandler().connectToQiscus()
-      
       presenter = ChatPresenter(
         repository: AppComponent.shared.getRepository(), delegate: self
       )
     }
+    
+    requestNotification()
   }
   
   func style() {
     chatToolbarView.accessibilityIdentifier = "chatToolbarView"
     chatToolbarView.delegate = self
+    
+    progressView.translatesAutoresizingMaskIntoConstraints = false
+    progressView.accessibilityIdentifier = "progressView"
+    progressView.progressTintColor = .systemYellow
+    progressView.isHidden = true
     
     chatTableView.translatesAutoresizingMaskIntoConstraints = false
     chatTableView.accessibilityIdentifier = "chatTableView"
@@ -117,11 +124,12 @@ extension ChatViewController {
     floatingButton.tintColor = Colors.primaryColor
     floatingButton.layer.cornerRadius = Dimens.chatMenuHeight / 2
     floatingButton.isHidden = true
+    floatingButton.addTarget(self, action: #selector(floatingButtonTaped), for: .touchUpInside)
   }
   
   func layout() {
     addToView(
-      chatToolbarView, chatTableView, chatFormView, chatMenuView, floatingButton
+      chatToolbarView, chatTableView, progressView, chatFormView, chatMenuView, floatingButton
     )
     
     activatedWithConstraint([
@@ -129,6 +137,11 @@ extension ChatViewController {
       chatToolbarView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
       view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: chatToolbarView.trailingAnchor),
       chatToolbarView.heightAnchor.constraint(equalToConstant: Dimens.toolbarHeight),
+      
+      progressView.topAnchor.constraint(equalTo: chatToolbarView.bottomAnchor),
+      progressView.heightAnchor.constraint(equalToConstant: Dimens.extraSmall),
+      progressView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+      view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: progressView.safeAreaLayoutGuide.trailingAnchor),
       
       chatTableView.topAnchor.constraint(equalTo: chatToolbarView.bottomAnchor),
       chatTableView.bottomAnchor.constraint(equalTo: chatFormView.topAnchor),
@@ -175,8 +188,10 @@ extension ChatViewController: ChatToolbarViewDelegate, BaseViewController.TapOut
   }
   
   func handleTapOutside() {
-    chatToolbarView.setMenuOptionsButton()
-    menuOptionsDidTapped()
+    if chatToolbarView.menuOptionsButton.isSelected {
+      chatToolbarView.setMenuOptionsButton()
+      menuOptionsDidTapped()
+    }
   }
   
 }
@@ -299,11 +314,24 @@ extension ChatViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
     if !isLoading {
       if indexPath.row == (self.getTableData().count - 1) {
-        self.presenter?.loadMoreMessages(
+        progressView.startIndefinateProgress()
+        
+        presenter?.loadMoreMessages(
           roomId: chatRoom?.id ?? "",
           lastMessageId: chatRoom?.listMessages[indexPath.row].id ?? ""
         )
       }
+    }
+  }
+  
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    let currentOffset = scrollView.contentOffset.y
+    let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
+    
+    if maximumOffset > 0 && currentOffset <= 0 {
+      if !floatingButton.isHidden { floatingButton.isHidden = true }
+    } else if maximumOffset - currentOffset > 5 {
+      if floatingButton.isHidden { floatingButton.isHidden = false }
     }
   }
   
@@ -336,6 +364,7 @@ extension ChatViewController: ChatPresenter.ChatDelete {
   func onMessages(messageModels: [MessageModel]) {
     if self.chatRoom != nil {
       self.chatRoom!.appendBefore(messageModels)
+      progressView.stopIndefinateProgress()
       chatTableView.reloadData()
     }
   }
@@ -558,6 +587,25 @@ extension ChatViewController {
         title: titile, message: description, identifier: identifier
       )
       present(alert, animated: true, completion: nil)
+  }
+  
+  @objc func floatingButtonTaped() {
+    let firstIndexPath = IndexPath(row: 0, section: 0)
+    chatTableView.scrollToRow(at: firstIndexPath, at: .top, animated: true)
+  }
+  
+  func requestNotification() {
+    AppComponent.shared.getNotificationUtils().requestNotif {
+      // do nothing
+    } onDenied: { error in
+      DispatchQueue.main.sync {
+        self.showAlert(
+          titile: "Request Notification",
+          description: error.localizedDescription,
+          identifier: AlertUtils.identifierError
+        )
+      }
+    }
   }
   
 }
