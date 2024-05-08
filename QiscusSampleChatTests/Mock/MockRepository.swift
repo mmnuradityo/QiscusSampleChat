@@ -145,4 +145,9 @@ class MockRepository: RepositoryProtocol {
   func loadRooms(page: Int, limit: Int, onSuccess: @escaping (ChatRoomListModel) -> Void, onError: @escaping (ChatError) -> Void) {
     // TODO:
   }
+  
+  func downloadFile(url: URL?, onSuccess: @escaping (URL) -> Void, onProgress: @escaping (Float) -> Void, onError: @escaping (QiscusSampleChat.ChatError) -> Void) {
+    //
+  }
+  
 }

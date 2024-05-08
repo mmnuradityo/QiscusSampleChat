@@ -32,7 +32,7 @@ open class BaseViewController: UIViewController {
   public func barBtnBack() -> UIBarButtonItem {
     return UIBarButtonItem(
       title: "back",
-      image: UIImage(systemName: "arrow.backward"),
+      image: UIImage(named: Images.backArrow)?.withTintColor(.white),
       target: self,
       action: #selector(backAction)
     )

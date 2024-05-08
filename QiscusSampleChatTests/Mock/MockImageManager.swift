@@ -8,7 +8,7 @@
 import Foundation
 @testable import QiscusSampleChat
 
-class MockImageManager: ImageManagerProtocol {
+class MockImageManager: ThumbnailManagerProtocol {
   
   var data: Data?
   

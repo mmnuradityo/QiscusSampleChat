@@ -11,15 +11,37 @@ class FileTableViewCell: BaseChatTableViewCell {
   
   let fileBackgroundView = UIView()
   let fileIconImageView = UIImageView()
-  let downloadButton = UIButton(type: .custom)
   let descriptionLabel = UILabel()
+  let downloadButton = CarrierButton<MessageModel>(type: .custom)
+  let downloadProgressView = CircelIndetermineProgressView()
+  
+  var delegate: FileActionDelegate?
+  var tapGesture: CarrierTapGesture<MessageModel>?
+  var cellUploadIdentifier: String = ""
   
   override func configure(message: MessageModel) {
     super.configure(message: message)
-    
+    cellUploadIdentifier = message.id
     textChatLabel.text = message.data.fileName
     descriptionLabel.text = message.data.caption
+    downloadButton.isHidden = message.data.isDownloaded
+    downloadProgressView.isHidden = true
+    
+    if !downloadButton.isHidden {
+      downloadButton.data = message
+      downloadButton.removeTarget(self, action: #selector(downloadButtonTaped), for: .touchUpInside)
+      downloadButton.addTarget(self, action: #selector(downloadButtonTaped), for: .touchUpInside)
+    } else {
+      if tapGesture != nil {
+        fileBackgroundView.removeGestureRecognizer(tapGesture!)
+      }
+      tapGesture = CarrierTapGesture(target: self, action: #selector(fileBackgroundTaped))
+      tapGesture?.data = message
+      fileBackgroundView.isUserInteractionEnabled = true
+      fileBackgroundView.addGestureRecognizer(tapGesture!)
+    }
   }
+  
 }
 
 // MARK: - setup and layouting
@@ -39,6 +61,10 @@ extension FileTableViewCell {
     fileIconImageView.translatesAutoresizingMaskIntoConstraints = false
     fileIconImageView.accessibilityIdentifier = "fileIconImageView"
     
+    descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+    descriptionLabel.accessibilityIdentifier = "descriptionLabel"
+    descriptionLabel.font = UIFont(name: Fonts.interRegular, size: Fonts.descriptionChatSize)
+    
     downloadButton.translatesAutoresizingMaskIntoConstraints = false
     downloadButton.accessibilityIdentifier = "downloadButton"
     downloadButton.contentVerticalAlignment = .fill
@@ -47,15 +73,17 @@ extension FileTableViewCell {
     downloadButton.layer.cornerRadius = Images.downloadChatSize/2
     downloadButton.clipsToBounds = true
     
-    descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-    descriptionLabel.accessibilityIdentifier = "descriptionLabel"
-    descriptionLabel.font = UIFont(name: Fonts.interRegular, size: Fonts.descriptionChatSize)
+    downloadProgressView.translatesAutoresizingMaskIntoConstraints = false
+    downloadProgressView.accessibilityIdentifier = "descriptionLabel"
+    downloadProgressView.strokeColor = UIColor.black
+    downloadProgressView.isHidden = true
     
     listOfContentView.append(fileBackgroundView)
     listOfContentView.append(fileIconImageView)
     listOfContentView.append(downloadButton)
     listOfContentView.append(textChatLabel)
     listOfContentView.append(descriptionLabel)
+    listOfContentView.append(downloadProgressView)
   }
   
   override func layout() {
@@ -76,6 +104,12 @@ extension FileTableViewCell {
       downloadButton.heightAnchor.constraint(equalToConstant: Images.downloadChatSize),
       downloadButton.widthAnchor.constraint(equalToConstant: Images.downloadChatSize),
       
+      downloadProgressView.topAnchor.constraint(equalTo: downloadButton.topAnchor),
+      downloadProgressView.bottomAnchor.constraint(equalTo: downloadButton.bottomAnchor),
+      downloadProgressView.leadingAnchor.constraint(equalTo: downloadButton.leadingAnchor),
+      downloadProgressView.leadingAnchor.constraint(equalTo: downloadButton.leadingAnchor),
+      downloadProgressView.trailingAnchor.constraint(equalTo: downloadButton.trailingAnchor),
+      
       textChatLabel.topAnchor.constraint(equalTo: fileBackgroundView.topAnchor, constant: Dimens.smaller),
       textChatLabel.leadingAnchor.constraint(equalTo: fileIconImageView.trailingAnchor, constant: Dimens.smallest),
       fileBackgroundView.trailingAnchor.constraint(equalTo: textChatLabel.trailingAnchor, constant: Dimens.medium),
@@ -85,6 +119,42 @@ extension FileTableViewCell {
       descriptionLabel.trailingAnchor.constraint(greaterThanOrEqualTo: downloadButton.leadingAnchor, constant: -Dimens.paddingChatDescriptionFile),
       fileBackgroundView.bottomAnchor.constraint(greaterThanOrEqualTo: descriptionLabel.bottomAnchor, constant: Dimens.smaller)
     ])
+  }
+  
+}
+
+// MARK: - Action
+extension FileTableViewCell: UploadDelegate {
+  
+  @objc func downloadButtonTaped(_ sender: UIButton) {
+    if !downloadButton.isHidden {
+      downloadButton.isHidden = true
+      downloadProgressView.isHidden = false
+      
+      guard let message = (sender as! CarrierButton<MessageModel>).data else { return }
+      delegate?.downloadFile(message: message, completion: { messageResult, progress, error in
+        if messageResult != nil {
+          self.configure(message: messageResult!)
+        } else if error != nil {
+          self.downloadButton.isHidden = false
+          self.downloadProgressView.isHidden = true
+        }
+      })
+    }
+  }
+  
+  @objc func fileBackgroundTaped(_ sender: UITapGestureRecognizer) {
+    guard let message = (sender as! CarrierTapGesture<MessageModel>).data else { return }
+    delegate?.openDocument(documentURL: message.data.url)
+  }
+  
+  func uploadIdentifier() -> String {
+    return cellUploadIdentifier
+  }
+  
+  func uploadFile(percent: Double) {
+    downloadButton.isHidden = true
+    downloadProgressView.isHidden = percent == 0
   }
   
 }

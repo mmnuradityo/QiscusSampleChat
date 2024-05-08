@@ -8,26 +8,23 @@
 import MobileCoreServices
 import AVFoundation
 
-protocol ImageManagerProtocol {
+protocol ThumbnailManagerProtocol {
   func loadThumbnailVideo(url: URL?, completion: @escaping (Data?, ImageModel.State) -> Void)
   func loadThumbnailImage(url: URL?, completion: @escaping (Data?, ImageModel.State) -> Void)
 }
 
-class ImageManager: ImageManagerProtocol {
+class ThumbnailManager: ThumbnailManagerProtocol {
   
   func loadThumbnailVideo(url: URL?, completion: @escaping (Data?, ImageModel.State) -> Void) {
     Task {
       do {
         if let url = url {
-          if !FileManager.default.fileExists(atPath: url.path) {
-            completion(nil, .loading)
-          }
-          
           let asset: AVAsset = AVAsset(url: url)
           let imageGenerator = AVAssetImageGenerator(asset: asset)
-            
+          imageGenerator.appliesPreferredTrackTransform = true
+          
           async let thumbnailImage = try imageGenerator.copyCGImage(
-            at: CMTimeMake(value: 1, timescale: 60), actualTime: nil
+            at:.zero, actualTime: nil
           )
           
           let dataImage = convertCGImageToNSData(
@@ -37,7 +34,7 @@ class ImageManager: ImageManagerProtocol {
           return
         }
       } catch {
-        // don nothings
+        // do nothings
       }
       
       completion(nil, .failed)
@@ -61,16 +58,12 @@ class ImageManager: ImageManagerProtocol {
     Task {
       do {
         if let url = url {
-          if !FileManager.default.fileExists(atPath: url.path) {
-            completion(nil, .loading)
-          }
-          
           async let imageData: Data = try Data(contentsOf: url)
           completion(try await imageData, .success)
           return
         }
       } catch {
-        // don nothings
+        // do nothings
       }
       
       completion(nil, .failed)
@@ -78,3 +71,4 @@ class ImageManager: ImageManagerProtocol {
   }
   
 }
+

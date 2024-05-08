@@ -13,7 +13,7 @@ class AppComponent {
   
   private var dataStore: DataStoreProtocol!
   private var qiscusManager: QiscusManagerProtocol!
-  private var imageManager: ImageManagerProtocol!
+  private var imageManager: ThumbnailManagerProtocol!
   private var repository: RepositoryProtocol!
   private var chatEventHandler: ChatEventHandlerProtocol!
   private var notiicationfUtils: NotificationUtils!
@@ -25,9 +25,9 @@ class AppComponent {
     return dataStore
   }
   
-  func getImageManager() -> ImageManagerProtocol {
+  func getImageManager() -> ThumbnailManagerProtocol {
     if imageManager == nil {
-      imageManager = ImageManager()
+      imageManager = ThumbnailManager()
     }
     return imageManager
   }

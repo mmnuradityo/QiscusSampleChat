@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import QiscusCore
 
 class ChatTableViewCellFactory: BaseTabelViewCellFactory<MessageModel> {
   
   var delegate: FactoryDelete?
+  var uploadelegates: [UploadDelegate] = []
   
   override func registerCells(in tableView: UITableView) {
     tableView.register(TextOtherTableViewCell.self, forCellReuseIdentifier: getIndentifier(objectType: TextOtherTableViewCell.self))
@@ -44,8 +46,13 @@ class ChatTableViewCellFactory: BaseTabelViewCellFactory<MessageModel> {
     
     if cell is VideoTableViewCell {
       configureVideoMessage(cell as! VideoTableViewCell, message: message, index: indexPath)
+      
     } else if cell is ImageTableViewCell {
       configureImageMessage(cell as! ImageTableViewCell, message: message, index: indexPath)
+      
+    } else if cell is FileTableViewCell {
+      (cell as! FileTableViewCell).delegate = self
+      configureHandleUploaded(cell: cell as! UploadDelegate, for: message.status)
     }
     
     return cell
@@ -95,11 +102,15 @@ class ChatTableViewCellFactory: BaseTabelViewCellFactory<MessageModel> {
     func loadThumbnailVideo(
       message: MessageModel, index: IndexPath, completion: @escaping (Data?, ImageModel.State) -> Void
     )
+    func downloadFile(message: MessageModel, completion: @escaping (MessageModel?, Float?, ChatError?) -> Void)
+    func showImage(message: MessageModel)
+    func playVideo(videoURL: URL?)
+    func openDocument(documentURL: URL?)
   }
 }
 
 // MARK: ~ Helper
-extension ChatTableViewCellFactory {
+extension ChatTableViewCellFactory: FileActionDelegate {
   
   private func configureAvatar(_ cell: BaseChatTableViewCell, message: MessageModel, index: IndexPath) {
     if cell.avatarChatImageView.isHidden { return }
@@ -115,6 +126,8 @@ extension ChatTableViewCellFactory {
   }
   
   private func configureImageMessage(_ cell: ImageTableViewCell, message: MessageModel, index: IndexPath) {
+    cell.delegate = self
+    
     if !cell.contentImageView.isLoadImage(
       imageState: message.data.previewImage?.state,
       dataImage: message.data.previewImage?.data
@@ -126,6 +139,9 @@ extension ChatTableViewCellFactory {
   }
   
   private func configureVideoMessage(_ cell: VideoTableViewCell, message: MessageModel, index: IndexPath) {
+    configureHandleUploaded(cell: cell, for: message.status)
+    cell.delegate = self
+    
     if !cell.contentImageView.isLoadImage(
       imageState: message.data.previewImage?.state,
       dataImage: message.data.previewImage?.data
@@ -136,4 +152,42 @@ extension ChatTableViewCellFactory {
     }
   }
   
+  func configureHandleUploaded(cell delegate: UploadDelegate, for status: CommentStatus) {
+      switch status {
+      case .sending, .pending:
+        self.uploadelegates.append(delegate)
+      default:
+        if let index = self.uploadelegates.firstIndex(
+          where: { $0.uploadIdentifier() == delegate.uploadIdentifier() }
+        ) {
+          self.uploadelegates.remove(at: index)
+        }
+      }
+  }
+  func downloadFile(message: MessageModel, completion: @escaping (MessageModel?, Float?, ChatError?) -> Void) {
+    delegate?.downloadFile(message: message, completion: completion)
+  }
+  
+  func showImage(message: MessageModel) {
+    delegate?.showImage(message: message)
+  }
+  func playVideo(videoURL: URL?) {
+    delegate?.playVideo(videoURL: videoURL)
+  }
+  
+  func openDocument(documentURL: URL?) {
+    delegate?.openDocument(documentURL: documentURL)
+  }
+}
+
+protocol FileActionDelegate {
+  func downloadFile(message: MessageModel, completion: @escaping (MessageModel?, Float?, ChatError?) -> Void)
+  func showImage(message: MessageModel)
+  func playVideo(videoURL: URL?)
+  func openDocument(documentURL: URL?)
+}
+
+protocol UploadDelegate {
+  func uploadIdentifier() -> String
+  func uploadFile(percent: Double)
 }

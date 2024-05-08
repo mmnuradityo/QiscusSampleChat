@@ -13,6 +13,7 @@ protocol ChatPresenterProtocol {
   func loadMoreMessages(roomId: String, lastMessageId: String)
   func loadThumbnailImage(url: URL?, completion: @escaping (Data?, ImageModel.State) -> Void)
   func loadThumbnailVideo(url: URL?, completion: @escaping (Data?, ImageModel.State) -> Void)
+  func downloadFile(message: MessageModel, onSuccess: @escaping (MessageModel) -> Void, onProgress: @escaping (Float) -> Void, onError: @escaping (ChatError) -> Void)
   func sendMessage(messageRequest: MessageRequest)
   func sendMessageFile(messageRequest: MessageRequest)
   func logout()
@@ -58,6 +59,12 @@ class ChatPresenter: ChatPresenterProtocol {
     repository.loadThumbnailVideo(url: url, completion: completion)
   }
   
+  func downloadFile(
+    message: MessageModel, onSuccess: @escaping (MessageModel) -> Void, onProgress: @escaping (Float) -> Void, onError: @escaping (ChatError) -> Void
+  ) {
+    repository.downloadFile(message: message, onSuccess: onSuccess, onProgress: onProgress, onError: onError)
+  }
+  
   func sendMessage(messageRequest: MessageRequest) {
     let comment = messageRequest.toComment()
     var messageFromComment = comment.toMessage()
@@ -84,7 +91,7 @@ class ChatPresenter: ChatPresenterProtocol {
       messageFromComment.status = .failed
       self.delegate.onSendMessage(messageModel: messageFromComment)
     } progress: { percent in
-      self.delegate.onProgressUploadFIle(percent: percent)
+      self.delegate.onProgressUploadFile(messageId: comment.id, percent: percent)
     }
   }
   
@@ -101,7 +108,7 @@ class ChatPresenter: ChatPresenterProtocol {
     func onSendMessage(messageModel: MessageModel)
     func onRoomEvent(chatRoomModel: ChatRoomModel)
     func onMessageEvent(messageModel: MessageModel)
-    func onProgressUploadFIle(percent: Double)
+    func onProgressUploadFile(messageId: String, percent: Double)
     func onError(error: ChatError)
     func onLogout()
   }

@@ -19,6 +19,7 @@ protocol RepositoryProtocol {
   func loadMoreMessages(roomId: String, lastMessageId: String, limit: Int, onSuccess: @escaping ([MessageModel]) -> Void, onError: @escaping (ChatError) -> Void)
   func loadThumbnailImage(url: URL?, completion: @escaping (Data?, ImageModel.State) -> Void)
   func loadThumbnailVideo(url: URL?, completion: @escaping (Data?, ImageModel.State) -> Void)
+  func downloadFile(message: MessageModel, onSuccess: @escaping (MessageModel) -> Void, onProgress: @escaping (Float) -> Void, onError: @escaping (ChatError) -> Void)
   
   // sending
   func sendMessage(messageRequest: MessageRequest, onSuccess: @escaping (MessageModel) -> Void, onError: @escaping (ChatError) -> Void)
@@ -36,13 +37,13 @@ protocol RepositoryProtocol {
 class Repository: RepositoryProtocol {
   
   let dataStore: DataStoreProtocol
-  let imageManager: ImageManagerProtocol
+  let imageManager: ThumbnailManagerProtocol
   let qiscusManager: QiscusManagerProtocol
   let globalDispatchQueue: DispatchQueue
   
   init(
     dataStore: DataStoreProtocol,
-    imageManager: ImageManagerProtocol,
+    imageManager: ThumbnailManagerProtocol,
     qiscusManager: QiscusManagerProtocol,
     dispatchQueue: DispatchQueue = DispatchQueue.global(qos: .background)
   ) {
@@ -153,7 +154,6 @@ class Repository: RepositoryProtocol {
   func loadMoreMessages(roomId: String, lastMessageId: String, limit: Int, onSuccess: @escaping ([MessageModel]) -> Void, onError: @escaping (ChatError) -> Void) {
     qiscusManager.loadMoreMessages(roomId: roomId, lastMessageId: lastMessageId, limit: limit) { comments in
       self.globalDispatchQueue.async {
-//        self.qiscusManager.getDataBase().comment.save(comments)
         let messages = self.getCommentToMessages(comments)
         
         DispatchQueue.main.async {
@@ -171,6 +171,25 @@ class Repository: RepositoryProtocol {
   
   func loadThumbnailVideo(url: URL?, completion: @escaping (Data?, ImageModel.State) -> Void) {
     imageManager.loadThumbnailVideo(url: url, completion: completion)
+  }
+  
+  func downloadFile(
+    message: MessageModel,
+    onSuccess: @escaping (MessageModel) -> Void,
+    onProgress: @escaping (Float) -> Void,
+    onError: @escaping (ChatError) -> Void
+  ) {
+    guard let url = message.data.url else {
+      onError(ChatError.custom(message: "url is empty"))
+      return
+    }
+    qiscusManager.downloadFile(url: url, onSuccess: { url in
+      self.saveFileIfNeeded(fileUrl: url, onError: onError)
+      var messageResult = message
+      messageResult.data.url = url
+      messageResult.data.isDownloaded = true
+      onSuccess(messageResult)
+    }, onProgress: onProgress)
   }
   
   func sendMessage(messageRequest: MessageRequest, onSuccess: @escaping (MessageModel) -> Void, onError: @escaping (ChatError) -> Void) {
@@ -196,6 +215,8 @@ class Repository: RepositoryProtocol {
     }
     
     qiscusManager.uploadFileupload(file: fileRequest) { fileModel in
+      self.saveFileIfNeeded(fileUrl: fileModel.url, onError: onError)
+      
       var request = messageRequest
       request.createPayload(fileModel: fileModel)
       
@@ -206,6 +227,37 @@ class Repository: RepositoryProtocol {
       onError(ChatError.custom(message: error.message))
     } progress: { percent in
       progress(percent)
+    }
+  }
+  
+  private func saveFileIfNeeded(fileUrl: URL?, onError: @escaping (ChatError) -> Void) {
+    guard let fileUrl = fileUrl,
+          FileUtils.fileExistsWithURL(fileNameWithExtension: fileUrl.lastPathComponent) == nil
+    else { return }
+    
+    FileUtils.save(tempLocalUrl: fileUrl) { url, error in
+      if let error = error {
+        onError(ChatError.custom(message: error.localizedDescription))
+        return
+      }
+      
+      switch FileUtils.generateType(from: url!.lastPathComponent) {
+      case .image:
+        FileUtils.saveImageToGallery(imageURL: url!) { error in
+          if let error = error {
+            onError(ChatError.custom(message: error.localizedDescription))
+          }
+        }
+      case .video:
+        FileUtils.saveVideoToGallery(videoURL: url!) { error in
+          if let error = error {
+            onError(ChatError.custom(message: error.localizedDescription))
+          }
+        }
+      default:
+        break
+      }
+      
     }
   }
   

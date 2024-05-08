@@ -15,6 +15,7 @@ protocol QiscusManagerProtocol {
   func registerDeviceToken(deviceToken: String, onSuccess: @escaping (Bool) -> Void, onError: @escaping (QError) -> Void)
   func loadRoomWithMessage(roomId: String, onSuccess: @escaping (RoomModel, [CommentModel]) -> Void, onError: @escaping (QError) -> Void)
   func loadMoreMessages(roomId: String, lastMessageId: String, limit: Int, onSuccess: @escaping ([CommentModel]) -> Void, onError: @escaping (QError) -> Void)
+  func downloadFile(url: URL, onSuccess: @escaping (URL) -> Void, onProgress: @escaping (Float) -> Void)
   func sendMessage(messageRequest: CommentModel, onSuccess: @escaping (CommentModel) -> Void, onError: @escaping (QError) -> Void)
   func uploadFileupload(file: FileUploadModel, onSuccess: @escaping (FileModel) -> Void, onError: @escaping (QError) -> Void, progress: @escaping (Double) -> Void)
   func connectToQiscus(delegate: QiscusConnectionDelegate)
@@ -25,6 +26,7 @@ class QiscusManager: QiscusManagerProtocol {
   
   func setupEngine(appID: String) {
     QiscusCore.setup(AppID: appID)
+    QiscusCore.enableDebugMode(value: true)
   }
   
   func login(userRequest: UserRequest, onSuccess: @escaping (UserModel) -> Void, onError: @escaping (QError) -> Void) {
@@ -81,6 +83,10 @@ class QiscusManager: QiscusManagerProtocol {
       onSuccess: onSuccess,
       onError: onError
     )
+  }
+  
+  func downloadFile(url: URL, onSuccess: @escaping (URL) -> Void, onProgress: @escaping (Float) -> Void) {
+    QiscusCore.shared.download(url: url, onSuccess: onSuccess, onProgress: onProgress)
   }
   
   func sendMessage(messageRequest: CommentModel, onSuccess: @escaping (CommentModel) -> Void, onError: @escaping (QError) -> Void) {

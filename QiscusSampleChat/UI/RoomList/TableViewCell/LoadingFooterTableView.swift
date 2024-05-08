@@ -9,7 +9,7 @@ import UIKit
 
 class LoadingFooterTableView: BaseCustomView {
   
-    let progressView = CircelProgressView(frame: CGRect(
+    let progressView = CircelIndetermineProgressView(frame: CGRect(
       origin: .zero,
       size: CGSize(width: Dimens.roomListProgressSize, height: Dimens.roomListProgressSize)
     ))

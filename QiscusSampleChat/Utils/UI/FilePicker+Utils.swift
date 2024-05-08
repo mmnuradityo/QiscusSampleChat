@@ -18,15 +18,23 @@ class FilePickerUtils {
     imagePicker.allowsEditing = true
     imagePicker.sourceType = .photoLibrary
     imagePicker.mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary) ?? []
-//    imagePicker.mediaTypes = ["public.movie"]
+    imagePicker.modalPresentationStyle = .fullScreen
     return imagePicker
   }
   
+  var cameraPicker: UIImagePickerController {
+    let cameraPicker = UIImagePickerController()
+    cameraPicker.delegate = self.delegate
+    cameraPicker.allowsEditing = true
+    cameraPicker.sourceType = .camera
+    cameraPicker.modalPresentationStyle = .fullScreen
+    return cameraPicker
+  }
+  
   var documentPicker: UIDocumentPickerViewController {
-    let documentPicker: UIDocumentPickerViewController
-    documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.pdf, .txt], asCopy: true)
+    let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.pdf, .txt], asCopy: true)
     documentPicker.delegate = self.delegate
-    documentPicker.modalPresentationStyle = .formSheet
+    documentPicker.modalPresentationStyle = .fullScreen
     return documentPicker
   }
   

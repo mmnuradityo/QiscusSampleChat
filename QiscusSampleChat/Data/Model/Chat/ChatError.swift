@@ -10,6 +10,7 @@ import Foundation
 enum ChatError: LocalizedError, Equatable {
   case invalidLoadRoom
   case invalidEmptyUploadFile
+  case invalidDownloadFile
   case custom(message: String)
   
   // MARK: - CutomErrorMessage

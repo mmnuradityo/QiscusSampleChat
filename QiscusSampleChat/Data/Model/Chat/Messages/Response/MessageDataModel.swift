@@ -11,10 +11,10 @@ struct MessageDataModel {
   
   let dataType: MessageType
   let fileName: String
-  let url: URL?
   let caption: String
+  var url: URL?
   
-  var _isDownloaded: Bool = false
+  var _isDownloaded: Bool
   private var _previewImage: ImageModel?
   
   var isDownloaded: Bool {
@@ -22,40 +22,35 @@ struct MessageDataModel {
       return self._isDownloaded
     }
     set {
-      let isPosibleType = self.dataType == .image
-      || self.dataType == .video
-      || self.dataType == .file
-      
-      self._isDownloaded = isPosibleType && newValue
+      self._isDownloaded = newValue
     }
   }
   
   var previewImage: ImageModel? {
     get {
-      if self.dataType == .image || self.dataType == .video {
-        if self._previewImage != nil {
-          return self._previewImage
-        } else {
-          var imageUrl = ImageModel(url: self.url)
+      if (self.dataType == .image
+          && self._previewImage != nil)
+          && self._previewImage != nil {
+        return self._previewImage
+      } else {
+        var imageUrl = ImageModel(url: self.url)
+        if self.dataType == .image {
           imageUrl.createThumbnailURL()
-          return imageUrl
         }
+        return imageUrl
       }
-      
-      return nil
     }
     set {
-      if self.dataType == .image {
-        self._previewImage = newValue
-      }
+      self._previewImage = newValue
     }
   }
   
-  init(dataType: MessageType, fileName: String, url: String, caption: String) {
+  init(dataType: MessageType, fileName: String, url: String, caption: String, isDownloaded: Bool = false) {
     self.dataType = dataType
     self.fileName = fileName
     self.url = URL(string: url)
     self.caption = caption
+    self._isDownloaded = isDownloaded
   }
   
 }

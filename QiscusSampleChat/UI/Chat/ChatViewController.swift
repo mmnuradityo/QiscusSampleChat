@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVKit
 
 class ChatViewController: BaseViewController {
   
@@ -33,6 +34,7 @@ class ChatViewController: BaseViewController {
   
   var presenter: ChatPresenterProtocol?
   var chatRoom: ChatRoomModel?
+  var obserNotification: NSObjectProtocol?
   var isLoading: Bool = true
   
   override func viewDidLoad() {
@@ -52,6 +54,10 @@ class ChatViewController: BaseViewController {
     removeDismissGesture()
     KeyboardUtils.removeObserver(self)
     AppComponent.shared.getChatEventHandler().removeObserver()
+    
+    if let observer = obserNotification {
+      NotificationCenter.default.removeObserver(observer)
+    }
   }
   
 }
@@ -129,7 +135,7 @@ extension ChatViewController {
   
   func layout() {
     addToView(
-      chatToolbarView, chatTableView, progressView, chatFormView, chatMenuView, floatingButton
+      chatToolbarView, chatTableView, progressView, chatFormView, floatingButton, chatMenuView
     )
     
     activatedWithConstraint([
@@ -163,7 +169,7 @@ extension ChatViewController {
       floatingButton.bottomAnchor.constraint(equalTo: chatFormView.topAnchor, constant: -Dimens.smaller),
       view.trailingAnchor.constraint(equalTo: floatingButton.trailingAnchor, constant: Dimens.smaller)
     ])
-
+    
   }
 }
 
@@ -212,12 +218,10 @@ extension ChatViewController: ChatFormViewDelegate {
 extension ChatViewController: ChatMenuViewDelegate {
   
   func cameraButtonDidTapped() {
-    filePicker.imagePicker.sourceType = .camera
-    present(filePicker.imagePicker, animated: true, completion: nil)
+    present(filePicker.cameraPicker, animated: true, completion: nil)
   }
   
   func galleryButtonDidTapped() {
-    filePicker.imagePicker.sourceType = .photoLibrary
     present(filePicker.imagePicker, animated: true, completion: nil)
   }
   
@@ -362,18 +366,16 @@ extension ChatViewController: ChatPresenter.ChatDelete {
   }
   
   func onMessages(messageModels: [MessageModel]) {
+    progressView.stopIndefinateProgress()
+    
     if self.chatRoom != nil {
       self.chatRoom!.appendBefore(messageModels)
-      progressView.stopIndefinateProgress()
-      chatTableView.reloadData()
+      self.chatTableView.reloadData()
     }
   }
   
   func onSendMessage(messageModel: MessageModel) {
-    if self.chatRoom != nil {
-      self.chatRoom!.appendOrUpdate(messageModel)
-      chatTableView.reloadData()
-    }
+    insertOrUpdateTableViewCell(messageModel)
   }
   
   func onError(error: ChatError) {
@@ -382,8 +384,15 @@ extension ChatViewController: ChatPresenter.ChatDelete {
     )
   }
   
-  func onProgressUploadFIle(percent: Double) {
-    // TODO:
+  func onProgressUploadFile(messageId: String, percent: Double) {
+    var uploadDelegate: UploadDelegate
+    for index in 0..<tableViewCellFactory.uploadelegates.count {
+      uploadDelegate = self.tableViewCellFactory.uploadelegates[index]
+      if uploadDelegate.uploadIdentifier() == messageId {
+        uploadDelegate.uploadFile(percent: percent)
+        break
+      }
+    }
   }
   
   func onRoomEvent(chatRoomModel: ChatRoomModel) {
@@ -397,9 +406,9 @@ extension ChatViewController: ChatPresenter.ChatDelete {
   }
   
   func onMessageEvent(messageModel: MessageModel) {
-    if self.chatRoom != nil && self.chatRoom!.id == messageModel.roomId {
-      self.chatRoom?.appendOrUpdate(messageModel)
-      chatTableView.reloadData()
+    if self.chatRoom != nil,
+       self.chatRoom!.id == messageModel.roomId {
+      insertOrUpdateTableViewCell(messageModel)
     }
   }
   
@@ -410,7 +419,7 @@ extension ChatViewController: ChatPresenter.ChatDelete {
 }
 
 // MARK: ~ handle TableViewCellFactory
-extension ChatViewController: ChatTableViewCellFactory.FactoryDelete {
+extension ChatViewController: ChatTableViewCellFactory.FactoryDelete, UIDocumentInteractionControllerDelegate {
   
   func loadThumbnailAvatar(message: MessageModel, index: IndexPath, completion: @escaping (Data?, ImageModel.State) -> Void) {
     presenter?.loadThumbnailImage(url: message.sender.avatarImage.url) { dataImage, imageState in
@@ -421,9 +430,7 @@ extension ChatViewController: ChatTableViewCellFactory.FactoryDelete {
           var message = message
           message.sender.avatarImage.data = dataImage
           message.sender.avatarImage.state = imageState
-          
           self.chatRoom?.listMessages[index.row] = message
-          
           completion(dataImage, imageState)
         }
       }
@@ -431,7 +438,9 @@ extension ChatViewController: ChatTableViewCellFactory.FactoryDelete {
   }
   
   func loadThumbnailImage(message: MessageModel, index: IndexPath, completion: @escaping (Data?, ImageModel.State) -> Void) {
-    presenter?.loadThumbnailImage(url: message.data.previewImage?.url) { dataImage, imageState in
+    let url: URL? = message.data.isDownloaded ? message.data.url : message.data.previewImage?.url
+    
+    presenter?.loadThumbnailImage(url: url) { dataImage, imageState in
       DispatchQueue.main.async {
         if self.chatRoom != nil
             && self.chatRoom!.listMessages.count > index.row
@@ -440,9 +449,7 @@ extension ChatViewController: ChatTableViewCellFactory.FactoryDelete {
           message.data.previewImage = ImageModel(
             url: message.data.previewImage?.url, data: dataImage, state: imageState
           )
-          
           self.chatRoom?.listMessages[index.row] = message
-          
           completion(dataImage, imageState)
         }
       }
@@ -450,7 +457,9 @@ extension ChatViewController: ChatTableViewCellFactory.FactoryDelete {
   }
   
   func loadThumbnailVideo(message: MessageModel, index: IndexPath, completion: @escaping (Data?, ImageModel.State) -> Void) {
-    presenter?.loadThumbnailVideo(url: message.data.previewImage?.url) { dataImage, imageState in
+    let url: URL? = message.data.isDownloaded ? message.data.url : message.data.previewImage?.url
+    
+    presenter?.loadThumbnailVideo(url: url) { dataImage, imageState in
       DispatchQueue.main.async {
         if self.chatRoom != nil
             && self.chatRoom!.listMessages.count > index.row
@@ -459,33 +468,74 @@ extension ChatViewController: ChatTableViewCellFactory.FactoryDelete {
           message.data.previewImage = ImageModel(
             url: message.data.previewImage?.url, data: dataImage, state: imageState
           )
-          
           self.chatRoom?.listMessages[index.row] = message
-          
           completion(dataImage, imageState)
         }
       }
     }
   }
   
+  func downloadFile(message: MessageModel, completion: @escaping (MessageModel?, Float?, ChatError?) -> Void) {
+    presenter?.downloadFile(message: message) { messageResult in
+      self.insertOrUpdateTableViewCell(messageResult)
+      completion(messageResult, nil,  nil)
+    } onProgress: { progress in
+      completion(nil, progress, nil)
+    } onError: { error in
+      completion(nil, nil, error)
+    }
+  }
+  
+  func showImage(message: MessageModel) {
+    let imagePreviewViewController = ImagePreviewViewController.instantiate(message: message, self)
+    present(imagePreviewViewController, animated: true, completion: nil)
+  }
+  
+  func playVideo(videoURL: URL?) {
+    guard let videoURL = videoURL else {
+      showAlert(titile: "Error", description: "Video not found", identifier: AlertUtils.identifierError)
+      return
+    }
+    let player = AVPlayer(url: videoURL)
+    let playerViewController = AVPlayerViewController()
+    playerViewController.player = player
+    
+    present(playerViewController, animated: true) {
+      player.play()
+    }
+  }
+  
+  func openDocument(documentURL: URL?) {
+    guard let documentURL = documentURL else {
+      showAlert(titile: "Error", description: "Document not found", identifier: AlertUtils.identifierError)
+      return
+    }
+    let documentController = UIDocumentInteractionController(url: documentURL)
+    documentController.delegate = self
+    documentController.presentPreview(animated: true)
+  }
+  
+  func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
+    return self
+  }
 }
 
 // MARK: ~ handle FilePickerDelegate
-extension ChatViewController: FilePickerUtils.FilePickerDelegate {
+extension ChatViewController: FilePickerUtils.FilePickerDelegate, ImagePreviewViewDelegate {
   
   func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-    dismissPricker()
+    dismissPricker(picker)
   }
   
   func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
-    dismissPricker()
+    dismissPricker(controller)
   }
-
+  
   func imagePickerController(
     _ picker: UIImagePickerController,
     didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
   ) {
-    dismissPricker()
+    dismissPricker(picker)
     
     filePicker.obtainDataFromImage(info: info) { imageUrl in
       self.sendMessageFile(from: imageUrl, caption: "")
@@ -495,7 +545,7 @@ extension ChatViewController: FilePickerUtils.FilePickerDelegate {
   func documentPicker(
     _ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]
   ) {
-    dismissPricker()
+    dismissPricker(controller)
     
     filePicker.obtaiDataFromFile(urls: urls) { fileUrls in
       if fileUrls.count == 0 {
@@ -514,9 +564,15 @@ extension ChatViewController: FilePickerUtils.FilePickerDelegate {
     }
   }
   
-  private func dismissPricker() {
+  func didDismissImagePreview(message: MessageModel?) {
+    if let message = message {
+      insertOrUpdateTableViewCell(message)
+    }
+  }
+  
+  private func dismissPricker(_ picker: UIViewController) {
     showOrHideMenu()
-    dismiss(animated: true, completion: nil)
+    picker.dismiss(animated: true)
   }
   
 }
@@ -583,10 +639,10 @@ extension ChatViewController {
   }
   
   func showAlert(titile: String, description: String, identifier: String) {
-      let alert = AlertUtils.alertDialog(
-        title: titile, message: description, identifier: identifier
-      )
-      present(alert, animated: true, completion: nil)
+    let alert = AlertUtils.alertDialog(
+      title: titile, message: description, identifier: identifier
+    )
+    present(alert, animated: true, completion: nil)
   }
   
   @objc func floatingButtonTaped() {
@@ -604,6 +660,18 @@ extension ChatViewController {
           description: error.localizedDescription,
           identifier: AlertUtils.identifierError
         )
+      }
+    }
+  }
+  
+  func insertOrUpdateTableViewCell(_ message: MessageModel) {
+    if self.chatRoom != nil, let index = self.chatRoom?.appendOrUpdate(message) {
+      if index > 0 {
+        self.chatTableView.reloadRows(
+          at: [IndexPath(row: index, section: 0)], with: .none
+        )
+      } else {
+        self.chatTableView.reloadData()
       }
     }
   }

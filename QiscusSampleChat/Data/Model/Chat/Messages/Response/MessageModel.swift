@@ -80,12 +80,24 @@ extension CommentModel {
   
   private func createData(withPayload: [String: Any]?) -> MessageDataModel {
     let dataType = generateType()
-    if dataType != .text && withPayload != nil {
+    
+    if dataType != .text && dataType != .unknown && withPayload != nil {
+      let fileName = withPayload![MessageDataParams.fileName.rawValue] as? String ?? ""
+      let caption = withPayload![MessageDataParams.caption.rawValue] as? String ?? ""
+      let rawFileUrl = withPayload![MessageDataParams.url.rawValue] as? String ?? ""
+      
+      var fileUrl = FileUtils.fileExistsWithURL(
+        fileNameWithExtension: FileUtils.fileName(from: rawFileUrl)
+      )?.absoluteString ?? ""
+      var isDownloaded = true
+      
+      if fileUrl.isEmpty {
+        isDownloaded = false
+        fileUrl = rawFileUrl
+      }
+      
       return MessageDataModel(
-        dataType: dataType,
-        fileName: withPayload![MessageDataParams.fileName.rawValue] as? String ?? "",
-        url: withPayload![MessageDataParams.url.rawValue] as? String ?? "",
-        caption: withPayload![MessageDataParams.caption.rawValue] as? String ?? ""
+        dataType: dataType, fileName: fileName, url: fileUrl, caption: caption, isDownloaded: isDownloaded
       )
     } else {
       return MessageDataModel(
@@ -111,35 +123,12 @@ extension CommentModel {
       guard let payload = self.payload, let url = payload["url"] as? String else {
         return .unknown
       }
-      
-      switch fileExtension(fromURL: url) {
-      case "jpg", "png", "heic", "jpeg", "tif", "gif":
-        return .image
-      case "mp4", "3gp", "mov", "mkv", "webm":
-        return .video
-      case "doc", "docx", "xls", "xlsx", "ppt", "pptx", "csv", "pdf", 
-        "txt", "rtf", "odt", "ods", "odp", "odg", "odf", "odm", "ott":
-        return .file
-      default:
-        return .unknown
-      }
+      return FileUtils.generateType(from: url)
     default:
       return .unknown
     }
   }
-  
-  func fileExtension(fromURL url: String) -> String{
-    var ext = ""
-    if url.range(of: ".") != nil{
-      let fileNameArr = url.split(separator: ".")
-      ext = String(fileNameArr.last!).lowercased()
-      if ext.contains("?"){
-        let newArr = ext.split(separator: "?")
-        ext = String(newArr.first!).lowercased()
-      }
-    }
-    return ext
-  }
+
 }
 
 let timeFormatter: DateFormatter = {

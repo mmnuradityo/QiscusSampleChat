@@ -61,8 +61,9 @@ struct ChatRoomModel {
       
       if nextIndex <= posibleMaxIndex {
         nextMessage = messages[nextIndex]
-        currentMessage.isShowDate = currentMessage.dateString != nextMessage.dateString
-        currentMessage.isFirst = currentMessage.chatFrom != nextMessage.chatFrom
+        currentMessage = updateDate(
+          currentMessage: currentMessage, nextMessage: nextMessage
+        )
       } else if index == posibleMaxIndex {
         currentMessage.isShowDate = true
         currentMessage.isFirst = true
@@ -80,15 +81,11 @@ struct ChatRoomModel {
         }
       }
       
-      if let index = listMessages.firstIndex(where: { $0.id == currentMessage.id }) {
-        self.listMessages[index] = currentMessage
-      } else {
-        self.listMessages.append(currentMessage)
-      }
+      _ = insertOrUpdate(currentMessage)
     }
   }
   
-  mutating func appendOrUpdate(_ message: MessageModel) {
+  mutating func appendOrUpdate(_ message: MessageModel) -> Int {
     var currentMessage: MessageModel = message
     var nextMessage: MessageModel
     let index = listMessages.firstIndex(where: { $0.id == currentMessage.id }) ?? 0
@@ -99,14 +96,21 @@ struct ChatRoomModel {
         self.listMessages.remove(at: index)
       }
          
-      currentMessage.isShowDate = currentMessage.dateString != nextMessage.dateString
-      currentMessage.isFirst = currentMessage.chatFrom != nextMessage.chatFrom
+      currentMessage = updateDate(
+        currentMessage: currentMessage, nextMessage: nextMessage
+      )
     }
     
-    if let index = listMessages.firstIndex(where: { $0.id == currentMessage.id }) {
-      self.listMessages[index] = currentMessage
+    return insertOrUpdate(currentMessage)
+  }
+  
+  mutating func insertOrUpdate(_ message: MessageModel) -> Int {
+    if let index = self.listMessages.firstIndex(where: { $0.id == message.id }) {
+      self.listMessages[index] = message
+      return index
     } else {
-      self.listMessages.insert(currentMessage, at: 0)
+      self.listMessages.insert(message, at: 0)
+      return 0
     }
   }
   

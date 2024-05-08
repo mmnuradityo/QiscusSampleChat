@@ -38,7 +38,7 @@ class MessageRequestTests: XCTestCase {
   }
   
   static func removeDummyTextFile() {
-    if FileManager.default.fileExists(atPath: textFileURL.path) {
+    if FileManager.default.fileExists(atPath: textFileURL.absoluteString) {
       do {
         try FileManager.default.removeItem(at: textFileURL)
       } catch {

@@ -137,4 +137,8 @@ class MockQiscusManager: QiscusManagerProtocol {
     expectation?.fulfill()
   }
   
+  func downloadFile(url: URL, onSuccess: @escaping (URL) -> Void, onProgress: @escaping (Float) -> Void) {
+    //
+  }
+  
 }

@@ -7,9 +7,10 @@
 
 import UIKit
 
-class CircelProgressView: UIView, CAAnimationDelegate {
+class CircelIndetermineProgressView: UIView, CAAnimationDelegate {
   
   let circularLayer = CAShapeLayer()
+  var strokeColor = Colors.primaryColor
   
   let inAnimation: CAAnimation = {
     let animation = CABasicAnimation(keyPath: "strokeEnd")
@@ -70,6 +71,7 @@ class CircelProgressView: UIView, CAAnimationDelegate {
     
     circularLayer.position = center
     circularLayer.path = arcPath.cgPath
+    circularLayer.strokeColor = strokeColor.cgColor
     
     animateProgressView()
     circularLayer.add(rotationAnimation, forKey: "rotateAnimation")
@@ -83,8 +85,6 @@ class CircelProgressView: UIView, CAAnimationDelegate {
   
   func animateProgressView() {
     circularLayer.removeAnimation(forKey: "strokeAnimation")
-    
-    circularLayer.strokeColor = Colors.primaryColor.cgColor
     
     let strokeAnimationGroup = CAAnimationGroup()
     strokeAnimationGroup.duration = 1.0 + outAnimation.beginTime

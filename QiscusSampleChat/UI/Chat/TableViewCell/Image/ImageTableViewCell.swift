@@ -8,7 +8,11 @@
 import UIKit
 
 class ImageTableViewCell: BaseChatTableViewCell {
+  
   let contentImageView = UIImageView()
+  
+  var tapGesture: CarrierTapGesture<MessageModel>?
+  var delegate: FileActionDelegate?
   
   override func configure(message: MessageModel) {
     super.configure(message: message)
@@ -20,6 +24,16 @@ class ImageTableViewCell: BaseChatTableViewCell {
       textChatLabel.text = message.data.caption
     }
     
+    if message.data.dataType == .image {
+      if tapGesture != nil {
+        contentImageView.removeGestureRecognizer(tapGesture!)
+      }
+      tapGesture = CarrierTapGesture(target: self, action: #selector(contentImageViewTapped))
+      tapGesture?.data = message
+      contentImageView.isUserInteractionEnabled = true
+      contentImageView.addGestureRecognizer(tapGesture!)
+    }
+    
     configureComponent()
   }
 }
@@ -29,7 +43,6 @@ extension ImageTableViewCell {
   
   override func setup() {
     super.setup()
-    
     textChatLabel.layer.cornerRadius = Dimens.smallest
     textChatLabel.layer.masksToBounds = true
     textChatLabel.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
@@ -72,3 +85,11 @@ extension ImageTableViewCell {
   
 }
 
+extension ImageTableViewCell {
+  
+  @objc func contentImageViewTapped(_ sender: UITapGestureRecognizer) {
+    guard let message = (sender as! CarrierTapGesture<MessageModel>).data else { return }
+    delegate?.showImage(message: message)
+  }
+  
+}

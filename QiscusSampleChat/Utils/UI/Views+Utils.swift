@@ -129,10 +129,14 @@ extension UIButton {
     self.titleLabel?.font = UIFont(
       name: Fonts.interRegular, size: Fonts.formSize
     )
+    self.setConfigureButton()
+  }
+  
+  func setConfigureButton()  {
     self.configuration = configureButton()
   }
   
-  func configureButton() -> UIButton.Configuration {
+  private func configureButton() -> UIButton.Configuration {
     var buttonConfiguration = UIButton.Configuration.borderless()
     buttonConfiguration.imagePadding = Dimens.smaller
     buttonConfiguration.contentInsets = NSDirectionalEdgeInsets(
