@@ -11,9 +11,8 @@ import AVKit
 class ChatViewController: BaseViewController {
   
   static func instantiate(chatRoom: ChatRoomModel) -> UINavigationController {
-    let viewController = ChatViewController()
+    let viewController = ChatViewController(chatRoom: chatRoom)
     viewController.view.accessibilityIdentifier = "chatViewController"
-    viewController.chatRoom = chatRoom
     
     let navigationController = UINavigationController(rootViewController: viewController)
     navigationController.modalPresentationStyle = .fullScreen
@@ -34,8 +33,16 @@ class ChatViewController: BaseViewController {
   
   var presenter: ChatPresenterProtocol?
   var chatRoom: ChatRoomModel?
-  var obserNotification: NSObjectProtocol?
   var isLoading: Bool = true
+  
+  init(chatRoom: ChatRoomModel?) {
+    self.chatRoom = chatRoom
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+      fatalError("init(coder:) has not been implemented")
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -46,18 +53,23 @@ class ChatViewController: BaseViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    presenter?.loadRoomWithMessage(roomId: chatRoom?.id ?? "")
+    guard let presenter = self.presenter else { return }
+    AppComponent.shared.getEventHandler().registerObserverMessages(
+      observer: presenter as! EventObserver, roomId: chatRoom?.id ?? ""
+    )
+    if self.chatRoom?.listMessages.count == 0 {
+      presenter.loadRoomWithMessage(roomId: chatRoom?.id ?? "")
+    }
   }
   
   override func viewDidDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
+    AppComponent.shared.getEventHandler().removeObserver(roomId: chatRoom?.id ?? "")
+  }
+  
+  deinit {
     removeDismissGesture()
     KeyboardUtils.removeObserver(self)
-    AppComponent.shared.getChatEventHandler().removeObserver()
-    
-    if let observer = obserNotification {
-      NotificationCenter.default.removeObserver(observer)
-    }
   }
   
 }
@@ -75,13 +87,10 @@ extension ChatViewController {
     setupFooterView()
     
     if presenter == nil {
-      AppComponent.shared.getChatEventHandler().connectToQiscus()
       presenter = ChatPresenter(
         repository: AppComponent.shared.getRepository(), delegate: self
       )
     }
-    
-    requestNotification()
   }
   
   func style() {
@@ -106,6 +115,7 @@ extension ChatViewController {
     chatTableView.layoutMargins = .zero
     chatTableView.dataSource = self
     chatTableView.delegate = self
+    chatTableView.layer.removeAllAnimations()
     
     tableViewCellFactory.registerCells(in: chatTableView)
     tableViewCellFactory.delegate = self
@@ -187,10 +197,16 @@ extension ChatViewController: ChatToolbarViewDelegate, BaseViewController.TapOut
       popupOptiosnMenuView?.accessibilityIdentifier = "popupOptiosnMenuView"
       popupOptiosnMenuView?.logoutButton.addTarget(self, action: #selector(logoutMenuTapped), for: .touchUpInside)
       popupOptiosnMenuView?.show(at: chatToolbarView.menuOptionsButton, in: view)
+      rootCanBetaped(shouldBeTap: true)
     } else {
       popupOptiosnMenuView?.hide(in: view)
       popupOptiosnMenuView = nil
+      rootCanBetaped(shouldBeTap: false)
     }
+  }
+  
+  func rootCanBetaped(shouldBeTap: Bool) {
+    chatTableView.isUserInteractionEnabled = !shouldBeTap
   }
   
   func handleTapOutside() {
@@ -311,20 +327,18 @@ extension ChatViewController: UITableViewDelegate {
     chatTableView.tableFooterView = footerView
   }
   
-  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    
-  }
-  
-  func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-    if !isLoading {
-      if indexPath.row == (self.getTableData().count - 1) {
-        progressView.startIndefinateProgress()
-        
-        presenter?.loadMoreMessages(
-          roomId: chatRoom?.id ?? "",
-          lastMessageId: chatRoom?.listMessages[indexPath.row].id ?? ""
-        )
-      }
+  func tableView(
+    _ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath
+  ) {
+    if !isLoading,
+       indexPath.row == (self.getTableData().count - 1),
+       let lastId = chatRoom?.listMessages[indexPath.row].id,
+       lastId != chatRoom?.currentLoadMoreId {
+      
+      progressView.startIndefinateProgress()
+      presenter?.loadMoreMessages(
+        roomId: chatRoom?.id ?? "", lastMessageId:  lastId
+      )
     }
   }
   
@@ -348,39 +362,42 @@ extension ChatViewController: ChatPresenter.ChatDelete {
     self.isLoading = isLoading
   }
   
+  func onLoadMore(loadMoreId: String) {
+    if self.chatRoom != nil {
+      self.chatRoom!.currentLoadMoreId = loadMoreId
+    }
+    self.progressView.stopIndefinateProgress()
+  }
+  
   func onRoomWithMessage(chatRoomModel: ChatRoomModel) {
+    if let messageId = chatRoomModel.lastMessage?.id {
+      self.presenter?.markAsRead(roomId: chatRoomModel.id, messageId: messageId)
+    }
+    configureToolbar(chatRoomModel: chatRoomModel)
+    
     if self.chatRoom == nil {
       self.chatRoom = chatRoomModel
-    } else {
-      self.chatRoom!.appendBefore(chatRoomModel.listMessages)
+    } else if let indexs = self.chatRoom?.appendBefore(chatRoomModel.listMessages) {
+      self.tableViewCellFactory.insertOrUpdateTableViewCell(index: indexs)
+      return
     }
-    
-    if let presenter = self.presenter {
-      AppComponent.shared.getChatEventHandler().register(
-        observerEvent: presenter as! ChatEventObserver, roomId: chatRoomModel.id
-      )
-    }
-    
-    configureToolbar(chatRoomModel: chatRoomModel)
-    chatTableView.reloadData()
+    self.chatTableView.reloadData()
   }
   
   func onMessages(messageModels: [MessageModel]) {
-    progressView.stopIndefinateProgress()
-    
-    if self.chatRoom != nil {
-      self.chatRoom!.appendBefore(messageModels)
-      self.chatTableView.reloadData()
+    if let indexs = self.chatRoom?.appendBefore(messageModels) {
+      self.tableViewCellFactory.insertOrUpdateTableViewCell(index: indexs)
     }
   }
   
   func onSendMessage(messageModel: MessageModel) {
-    insertOrUpdateTableViewCell(messageModel)
+    insertOrUpdateTableViewCell(message: messageModel)
   }
   
   func onError(error: ChatError) {
     showAlert(
-      titile: "Error", description: error.localizedDescription, identifier: AlertUtils.identifierError
+      titile: "Error", description: error.localizedDescription,
+      identifier: AlertUtils.identifierError
     )
   }
   
@@ -408,7 +425,7 @@ extension ChatViewController: ChatPresenter.ChatDelete {
   func onMessageEvent(messageModel: MessageModel) {
     if self.chatRoom != nil,
        self.chatRoom!.id == messageModel.roomId {
-      insertOrUpdateTableViewCell(messageModel)
+      insertOrUpdateTableViewCell(message: messageModel)
     }
   }
   
@@ -421,63 +438,64 @@ extension ChatViewController: ChatPresenter.ChatDelete {
 // MARK: ~ handle TableViewCellFactory
 extension ChatViewController: ChatTableViewCellFactory.FactoryDelete, UIDocumentInteractionControllerDelegate {
   
-  func loadThumbnailAvatar(message: MessageModel, index: IndexPath, completion: @escaping (Data?, ImageModel.State) -> Void) {
+  func loadThumbnailAvatar(
+    message: MessageModel, index: IndexPath, completion: @escaping (Data?, ImageModel.State) -> Void
+  ) {
     presenter?.loadThumbnailImage(url: message.sender.avatarImage.url) { dataImage, imageState in
-      DispatchQueue.main.async {
-        if self.chatRoom != nil
-            && self.chatRoom!.listMessages.count > index.row
-        {
-          var message = message
-          message.sender.avatarImage.data = dataImage
-          message.sender.avatarImage.state = imageState
-          self.chatRoom?.listMessages[index.row] = message
+      if self.chatRoom != nil
+          && self.chatRoom!.listMessages.count > index.row
+      {
+        var message = message
+        message.sender.avatarImage.data = dataImage
+        message.sender.avatarImage.state = imageState
+        self.chatRoom?.listMessages[index.row] = message
+        
+        DispatchQueue.main.async {
           completion(dataImage, imageState)
         }
       }
     }
   }
   
-  func loadThumbnailImage(message: MessageModel, index: IndexPath, completion: @escaping (Data?, ImageModel.State) -> Void) {
-    let url: URL? = message.data.isDownloaded ? message.data.url : message.data.previewImage?.url
-    
-    presenter?.loadThumbnailImage(url: url) { dataImage, imageState in
-      DispatchQueue.main.async {
-        if self.chatRoom != nil
-            && self.chatRoom!.listMessages.count > index.row
-        {
-          var message = message
-          message.data.previewImage = ImageModel(
-            url: message.data.previewImage?.url, data: dataImage, state: imageState
-          )
-          self.chatRoom?.listMessages[index.row] = message
-          completion(dataImage, imageState)
+  func loadThumbnailImage(
+    message: MessageModel, index: IndexPath, completion: @escaping (Data?, ImageModel.State) -> Void
+  ) {
+    presenter?.loadThumbnailImage(message: message) { messageResult in
+      if self.chatRoom != nil
+          && self.chatRoom!.listMessages.count > index.row
+      {
+        self.chatRoom?.listMessages[index.row] = messageResult
+        if let preview = messageResult.data.previewImage {
+          DispatchQueue.main.async {
+            completion(preview.data, preview.state)
+          }
         }
       }
     }
   }
   
-  func loadThumbnailVideo(message: MessageModel, index: IndexPath, completion: @escaping (Data?, ImageModel.State) -> Void) {
-    let url: URL? = message.data.isDownloaded ? message.data.url : message.data.previewImage?.url
-    
-    presenter?.loadThumbnailVideo(url: url) { dataImage, imageState in
-      DispatchQueue.main.async {
-        if self.chatRoom != nil
-            && self.chatRoom!.listMessages.count > index.row
-        {
-          var message = message
-          message.data.previewImage = ImageModel(
-            url: message.data.previewImage?.url, data: dataImage, state: imageState
-          )
-          self.chatRoom?.listMessages[index.row] = message
-          completion(dataImage, imageState)
+  func loadThumbnailVideo(
+    message: MessageModel, index: IndexPath, completion: @escaping (Data?, ImageModel.State) -> Void
+  ) {
+    presenter?.loadThumbnailVideo(message: message) { messageResult in
+      if self.chatRoom != nil
+          && self.chatRoom!.listMessages.count > index.row
+      {
+        self.chatRoom?.listMessages[index.row] = messageResult
+        if let preview = messageResult.data.previewImage {
+          DispatchQueue.main.async {
+            completion(preview.data, preview.state)
+          }
         }
       }
     }
   }
   
-  func downloadFile(message: MessageModel, completion: @escaping (MessageModel?, Float?, ChatError?) -> Void) {
+  func downloadFile(
+    message: MessageModel, completion: @escaping (MessageModel?, Float?, ChatError?) -> Void
+  ) {
     presenter?.downloadFile(message: message) { messageResult in
-      self.insertOrUpdateTableViewCell(messageResult)
+      self.insertOrUpdateTableViewCell(message: messageResult)
       completion(messageResult, nil,  nil)
     } onProgress: { progress in
       completion(nil, progress, nil)
@@ -566,7 +584,7 @@ extension ChatViewController: FilePickerUtils.FilePickerDelegate, ImagePreviewVi
   
   func didDismissImagePreview(message: MessageModel?) {
     if let message = message {
-      insertOrUpdateTableViewCell(message)
+      insertOrUpdateTableViewCell(message: message)
     }
   }
   
@@ -650,29 +668,15 @@ extension ChatViewController {
     chatTableView.scrollToRow(at: firstIndexPath, at: .top, animated: true)
   }
   
-  func requestNotification() {
-    AppComponent.shared.getNotificationUtils().requestNotif {
-      // do nothing
-    } onDenied: { error in
-      DispatchQueue.main.sync {
-        self.showAlert(
-          titile: "Request Notification",
-          description: error.localizedDescription,
-          identifier: AlertUtils.identifierError
-        )
-      }
-    }
-  }
-  
-  func insertOrUpdateTableViewCell(_ message: MessageModel) {
-    if self.chatRoom != nil, let index = self.chatRoom?.appendOrUpdate(message) {
-      if index > 0 {
-        self.chatTableView.reloadRows(
-          at: [IndexPath(row: index, section: 0)], with: .none
-        )
-      } else {
-        self.chatTableView.reloadData()
-      }
+  func insertOrUpdateTableViewCell(message: MessageModel) {
+    if self.chatRoom == nil { return }
+    let tempCount = self.chatRoom!.listMessages.count
+    let index = self.chatRoom!.appendOrUpdate(message)
+    
+    if index == 0 && tempCount < self.chatRoom!.listMessages.count {
+      self.chatTableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .none)
+    } else {
+      self.chatTableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
     }
   }
   

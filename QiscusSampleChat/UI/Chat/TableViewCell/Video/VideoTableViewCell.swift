@@ -19,7 +19,14 @@ class VideoTableViewCell: ImageTableViewCell {
   override func configure(message: MessageModel) {
     super.configure(message: message)
     cellUploadIdentifier = message.id
-    durationLabel.text = "00:00"
+    
+    if let duration = message.data.extras[
+      MessageDataExtraParams.duration.rawValue
+    ] as? String {
+      durationLabel.text = duration
+    } else {
+      durationLabel.text = "00:00"
+    }
     
     playButton.isHidden = !message.data.isDownloaded
     downloadButton.isHidden = message.data.isDownloaded
@@ -35,6 +42,7 @@ class VideoTableViewCell: ImageTableViewCell {
       playButton.addTarget(self, action: #selector(playButtonTaped), for: .touchUpInside)
     }
   }
+  
 }
 
 // MARK: - setup and layouting

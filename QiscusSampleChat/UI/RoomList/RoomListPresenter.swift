@@ -41,6 +41,20 @@ class RoomListPresenter: RoomListPresenterProtocol {
   protocol RoomListDelegate {
     func onloading(isLoading: Bool)
     func onRooms(chatRoomList: ChatRoomListModel)
+    func onRoom(room: ChatRoomModel)
+    func onMessage(message: MessageModel)
     func onError(error: ChatError)
   }
+}
+
+extension RoomListPresenter: EventObserver {
+  
+  func onEventRoom(room: ChatRoomModel) {
+    delegate.onRoom(room: room)
+  }
+  
+  func onEventMessage(message: MessageModel) {
+    delegate.onMessage(message: message)
+  }
+  
 }

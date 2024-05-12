@@ -65,6 +65,10 @@ extension ChatFormView {
     sendButton.setBackgroundImage(
       UIImage(named: Images.chatFormSend), for: .normal
     )
+    sendButton.setBackgroundImage(
+      UIImage(named: Images.chatFormSend)?.withTintColor(Colors.strokeColor), for: .disabled
+    )
+    sendButton.isEnabled = false
     sendButton.addTarget(self, action: #selector(sendButtonDidTapped), for: .touchUpInside)
   }
   
@@ -113,6 +117,8 @@ extension ChatFormView: UITextViewDelegate {
     let size = CGSize(width: textView.frame.size.width, height: textView.frame.size.height)
     let estimateSize = textView.sizeThatFits(size)
     
+    sendButton.isEnabled = !textView.text.isEmpty
+    
     guard textView.contentSize.height < 70.0 else {
       textView.isScrollEnabled = true
       return
@@ -142,6 +148,5 @@ extension ChatFormView {
 // MARK: ~ Action
 protocol ChatFormViewDelegate {
   func menuButtonDidTapped()
-  
   func sendButtonDidTapped()
 }

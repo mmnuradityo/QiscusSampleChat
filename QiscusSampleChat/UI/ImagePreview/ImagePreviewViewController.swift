@@ -9,14 +9,9 @@ import UIKit
 
 class ImagePreviewViewController: BaseViewController {
   
-  static let notificationMessage = Notification.Name(rawValue: "MessageImapePreview")
-  static let dataKey = "data"
-  
   static func instantiate(message: MessageModel, _ delegate: ImagePreviewViewDelegate) -> UINavigationController {
-    let viewController = ImagePreviewViewController()
+    let viewController = ImagePreviewViewController(message: message, delegate: delegate)
     viewController.view.accessibilityIdentifier = "imagePreviewViewController"
-    viewController.delegate = delegate
-    viewController.message = message
     
     let navigationController = UINavigationController(rootViewController: viewController)
     navigationController.modalPresentationStyle = .fullScreen
@@ -30,11 +25,21 @@ class ImagePreviewViewController: BaseViewController {
     label.text = "Image Preview"
     return label
   }()
-  let imageView = UIImageView()
+  let zoomableImageView = PanZoomImageView()
   
   var delegate: ImagePreviewViewDelegate?
   var presenter: ImagePreviewPresenterProtocol?
   var message: MessageModel?
+  
+  init(message: MessageModel?, delegate: ImagePreviewViewDelegate?) {
+    self.message = message
+    self.delegate = delegate
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+      fatalError("init(coder:) has not been implemented")
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -74,19 +79,19 @@ extension ImagePreviewViewController {
   }
   
   func style() {
-    imageView.translatesAutoresizingMaskIntoConstraints = false
-    imageView.accessibilityIdentifier = "imageView"
-    imageView.contentMode = .scaleAspectFit
+    zoomableImageView.translatesAutoresizingMaskIntoConstraints = false
+    zoomableImageView.accessibilityIdentifier = "imageView"
+    zoomableImageView.contentMode = .scaleAspectFit
   }
   
   func layout() {
-    addToView(imageView)
+    addToView(zoomableImageView)
     
     activatedWithConstraint([
-      imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-      imageView.bottomAnchor.constraint(equalTo:view.safeAreaLayoutGuide.bottomAnchor),
-      imageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-      imageView.trailingAnchor.constraint(equalTo:view.safeAreaLayoutGuide.trailingAnchor)
+      zoomableImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+      zoomableImageView.bottomAnchor.constraint(equalTo:view.safeAreaLayoutGuide.bottomAnchor),
+      zoomableImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+      zoomableImageView.trailingAnchor.constraint(equalTo:view.safeAreaLayoutGuide.trailingAnchor)
     ])
     
   }
@@ -129,7 +134,7 @@ extension ImagePreviewViewController: ImagePreviewPresenter.ImagePreviewDelegate
       self.message?.data.previewImage?.state = .success
       
       if let imageData = imageData {
-        self.imageView.image = UIImage(data: imageData)
+        self.zoomableImageView.imageView.image = UIImage(data: imageData)
       }
     }
   }
@@ -143,10 +148,12 @@ extension ImagePreviewViewController: ImagePreviewPresenter.ImagePreviewDelegate
   }
   
   func onError(error: ChatError) {
-    let alert = AlertUtils.alertDialog(
-      title: "Error", message: error.localizedDescription, identifier: AlertUtils.identifierError
-    )
-    self.present(alert, animated: true, completion: nil)
+    DispatchQueue.main.async {
+      let alert = AlertUtils.alertDialog(
+        title: "Error", message: error.localizedDescription, identifier: AlertUtils.identifierError
+      )
+      self.present(alert, animated: true, completion: nil)
+    }
   }
   
 }

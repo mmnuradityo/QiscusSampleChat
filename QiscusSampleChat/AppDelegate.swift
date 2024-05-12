@@ -31,6 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate {
   
   private func setupEngine() {
+    let enableLogDebug = false
     DebugRunner.run {
       let appIdToSet = AppConfiguration.APP_ID ?? ""
       let appId: String
@@ -42,10 +43,15 @@ extension AppDelegate {
         appId = appIdToSet
       }
       
-      AppComponent.shared.getQiscusManager().setupEngine(appID: appId)
+      AppComponent.shared.getQiscusManager().setupEngine(
+        appID: appId, enableLogDebug: enableLogDebug
+      )
+      AppComponent.shared.getEventHandler().connectToQiscus()
     } release: {
-      AppComponent.shared.getQiscusManager().setupEngine(appID: AppConfiguration.APP_ID ?? "")
-      AppComponent.shared.getChatEventHandler().connectToQiscus()
+      AppComponent.shared.getQiscusManager().setupEngine(
+        appID: AppConfiguration.APP_ID ?? "", enableLogDebug: enableLogDebug
+      )
+      AppComponent.shared.getEventHandler().connectToQiscus()
     }
   }
   

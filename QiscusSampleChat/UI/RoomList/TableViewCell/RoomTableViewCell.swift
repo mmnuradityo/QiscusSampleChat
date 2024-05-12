@@ -28,7 +28,7 @@ class RoomTableViewCell: BaseTableViewCell {
   func configure(room: ChatRoomModel) {
     roomNameLabel.text = room.name
     lastMessageLabel.text = room.lastMessage?.data.caption
-    timeLabel.text = room.lastMessage?.time
+    timeLabel.text = room.lastMessage?.timeString
     
     if room.unreadCount > 0 {
       counterLabel.isHidden = false

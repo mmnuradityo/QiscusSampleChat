@@ -23,7 +23,11 @@ class FileTableViewCell: BaseChatTableViewCell {
     super.configure(message: message)
     cellUploadIdentifier = message.id
     textChatLabel.text = message.data.fileName
-    descriptionLabel.text = message.data.caption
+    
+    let fileSize = message.data.extras[MessageDataExtraParams.size.rawValue] ?? "0"
+    let fileExtention = message.data.extras[MessageDataExtraParams.extention.rawValue] ?? "unknow"
+    descriptionLabel.text = "\(fileSize) - \(fileExtention) file"
+    
     downloadButton.isHidden = message.data.isDownloaded
     downloadProgressView.isHidden = true
     
@@ -36,6 +40,7 @@ class FileTableViewCell: BaseChatTableViewCell {
         fileBackgroundView.removeGestureRecognizer(tapGesture!)
       }
       tapGesture = CarrierTapGesture(target: self, action: #selector(fileBackgroundTaped))
+      tapGesture?.delegate = self
       tapGesture?.data = message
       fileBackgroundView.isUserInteractionEnabled = true
       fileBackgroundView.addGestureRecognizer(tapGesture!)

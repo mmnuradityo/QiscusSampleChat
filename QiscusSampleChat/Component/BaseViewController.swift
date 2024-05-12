@@ -53,7 +53,7 @@ open class BaseViewController: UIViewController {
 extension BaseViewController {
   
   func addDismissGesture() {
-    dismissGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped(_ : )))
+    dismissGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
     view.addGestureRecognizer(dismissGesture!)
   }
   
@@ -64,7 +64,7 @@ extension BaseViewController {
     }
   }
   
-  @objc func viewTapped(_ recognizer: UITapGestureRecognizer) {
+  @objc func viewTapped() {
     view.endEditing(true)
     tapOutsideDelegate?.handleTapOutside()
   }

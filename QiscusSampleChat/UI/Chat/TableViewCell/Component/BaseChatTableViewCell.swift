@@ -34,7 +34,7 @@ open class BaseChatTableViewCell: BaseTableViewCell, BaseTableViewCellCallerProt
   }
   
   func configure(message: MessageModel) {
-    timeChatLabel.text = message.time
+    timeChatLabel.text = message.timeString
     configureDateTime(message: message)
     
     switch message.chatFrom {

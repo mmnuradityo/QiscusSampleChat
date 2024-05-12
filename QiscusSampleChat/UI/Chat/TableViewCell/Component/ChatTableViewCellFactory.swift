@@ -14,6 +14,8 @@ class ChatTableViewCellFactory: BaseTabelViewCellFactory<MessageModel> {
   var uploadelegates: [UploadDelegate] = []
   
   override func registerCells(in tableView: UITableView) {
+    super.registerCells(in: tableView)
+    
     tableView.register(TextOtherTableViewCell.self, forCellReuseIdentifier: getIndentifier(objectType: TextOtherTableViewCell.self))
     tableView.register(TextMeTableViewCell.self, forCellReuseIdentifier: getIndentifier(objectType: TextMeTableViewCell.self))
     tableView.register(ImageMeTableViewCell.self, forCellReuseIdentifier: getIndentifier(objectType: ImageMeTableViewCell.self))

@@ -6,16 +6,14 @@
 //
 
 import Foundation
-import UniformTypeIdentifiers
 
 struct AppConfiguration {
   
-//  static let APP_IDENTIFIER = Bundle.main.bundleIdentifier ?? "QiscusApp"
-  static let APP_IDENTIFIER = "QiscusSampleChat"
+  static let APP_IDENTIFIER = Bundle.main.bundleIdentifier ?? "QiscusApp"
   static let APP_ID = Bundle.main.object(forInfoDictionaryKey: "APP_ID") as? String
   
 //  static let SAMPLE_ROOM_ID = "187190115"
-  static let SAMPLE_ROOM_ID = "185063351"
+//  static let SAMPLE_ROOM_ID = "185063351"
   
   private static var userEmail: String?
   
@@ -28,8 +26,4 @@ struct AppConfiguration {
     }
     return false
   }
-}
-
-extension UTType {
-  static var txt: UTType = UTType(importedAs: "com.qiscus.plain-text.txt")
 }

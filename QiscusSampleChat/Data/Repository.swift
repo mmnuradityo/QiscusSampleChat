@@ -6,6 +6,7 @@
 //
 
 import QiscusCore
+import AVFoundation
 
 protocol RepositoryProtocol {
   // login
@@ -18,7 +19,8 @@ protocol RepositoryProtocol {
   func loadRoomWithMessgae(roomId: String, onSuccess: @escaping (ChatRoomModel) -> Void, onError: @escaping (ChatError) -> Void)
   func loadMoreMessages(roomId: String, lastMessageId: String, limit: Int, onSuccess: @escaping ([MessageModel]) -> Void, onError: @escaping (ChatError) -> Void)
   func loadThumbnailImage(url: URL?, completion: @escaping (Data?, ImageModel.State) -> Void)
-  func loadThumbnailVideo(url: URL?, completion: @escaping (Data?, ImageModel.State) -> Void)
+  func loadThumbnailImage(message: MessageModel, completion: @escaping (MessageModel) -> Void)
+  func loadThumbnailVideo(message: MessageModel, completion: @escaping (MessageModel) -> Void)
   func downloadFile(message: MessageModel, onSuccess: @escaping (MessageModel) -> Void, onProgress: @escaping (Float) -> Void, onError: @escaping (ChatError) -> Void)
   
   // sending
@@ -27,11 +29,14 @@ protocol RepositoryProtocol {
   
   // event
   func connectToQiscus(delegate: QiscusConnectionDelegate)
+  func subscribeChatRooms(delegate: QiscusCoreDelegate)
+  func unSubcribeChatRooms()
   func subscribeChatRoom(delegate: QiscusCoreRoomDelegate, roomId: String)
   func unSubcribeChatRoom(roomId: String)
   
   // load rooms
   func loadRooms(page: Int, limit: Int, onSuccess: @escaping (ChatRoomListModel) -> Void, onError: @escaping (ChatError) -> Void)
+  func markAsRead(roomId: String, messageId: String)
 }
 
 class Repository: RepositoryProtocol {
@@ -117,15 +122,10 @@ class Repository: RepositoryProtocol {
       }
       
       self.qiscusManager.loadRoomWithMessage(roomId: roomId) { roomModel, comments in
-        self.globalDispatchQueue.async {
-          if localRoomModel == nil {
-            self.qiscusManager.getDataBase()?.room.save([roomModel])
-          }
-          //          self.qiscusManager.getDataBase().comment.save(comments)
-          self.onSuccessRoomWithMessage(
-            roomModel, comments: comments, onSuccess: onSuccess
-          )
-        }
+        self.qiscusManager.getDataBase()?.comment.save(comments)
+        self.onSuccessRoomWithMessage(
+          roomModel, comments: comments, onSuccess: onSuccess
+        )
       } onError: { qiscusError in
         onError(ChatError.custom(message: qiscusError.message))
       }
@@ -136,7 +136,7 @@ class Repository: RepositoryProtocol {
     _ roomModel: RoomModel, comments: [CommentModel]?, onSuccess: @escaping (ChatRoomModel) -> Void
   ) {
     var chatRoom = roomModel.toChatRoom()
-    chatRoom.appendBefore(getCommentToMessages(comments))
+    _ = chatRoom.appendBefore(getCommentToMessages(comments))
     
     DispatchQueue.main.async {
       onSuccess(chatRoom)
@@ -165,13 +165,46 @@ class Repository: RepositoryProtocol {
     }
   }
   
+  func markAsRead(roomId: String, messageId: String) {
+    qiscusManager.markAsRead(roomId: roomId, messageId: messageId)
+  }
+  
   func loadThumbnailImage(url: URL?, completion: @escaping (Data?, ImageModel.State) -> Void) {
     imageManager.loadThumbnailImage(url: url, completion: completion)
   }
   
-  func loadThumbnailVideo(url: URL?, completion: @escaping (Data?, ImageModel.State) -> Void) {
-    imageManager.loadThumbnailVideo(url: url, completion: completion)
+  func loadThumbnailImage(message: MessageModel, completion: @escaping (MessageModel) -> Void) {
+    let url: URL? = message.data.isDownloaded ? message.data.url : message.data.previewImage?.url
+    imageManager.loadThumbnailImage(url: url) { imageData, imageState in
+      var message = message
+      message.data.previewImage = ImageModel(
+        url: url, data: imageData, state: imageState
+      )
+      completion(message)
+    }
   }
+  
+  func loadThumbnailVideo(message: MessageModel, completion: @escaping (MessageModel) -> Void) {
+    let url: URL? = message.data.isDownloaded ? message.data.url : message.data.previewImage?.url
+    imageManager.loadThumbnailVideo(url: url) { imageData, durtion, imageState in
+      var message = message
+      message.data.previewImage = ImageModel(
+        url: url, data: imageData, state: imageState
+      )
+      message.data.extras[MessageDataExtraParams.duration.rawValue] =
+      durtion != nil ? self.videoTimeString(from: durtion!) : "00:00"
+      completion(message)
+    }
+  }
+  
+  private func videoTimeString(from time: CMTime) -> String {
+    let totalSeconds = CMTimeGetSeconds(time)
+    let minutes = Int(totalSeconds.truncatingRemainder(dividingBy: 3600) / 60)
+    let seconds = Int(totalSeconds.truncatingRemainder(dividingBy: 60))
+
+    return  String(format: "%02d:%02d", minutes, seconds)
+}
+
   
   func downloadFile(
     message: MessageModel,
@@ -265,11 +298,23 @@ class Repository: RepositoryProtocol {
     qiscusManager.connectToQiscus(delegate: delegate)
   }
   
+  func subscribeChatRooms(delegate: QiscusCoreDelegate) {
+    if QiscusCore.hasSetupUser() {
+      QiscusCore.delegate = delegate
+    }
+  }
+  
+  func unSubcribeChatRooms() {
+    if QiscusCore.hasSetupUser() {
+      QiscusCore.delegate = nil
+    }
+  }
+  
   func subscribeChatRoom(delegate: QiscusCoreRoomDelegate, roomId: String) {
     if QiscusCore.hasSetupUser() {
       if let roomModel = self.getQiscusDataBase()?.room.find(id: roomId) {
         roomModel.delegate = delegate
-//        QiscusCore.shared.subscribeChatRoom(roomModel)
+        QiscusCore.shared.subscribeChatRoom(roomModel)
       }
     }
   }
@@ -278,7 +323,7 @@ class Repository: RepositoryProtocol {
     if QiscusCore.hasSetupUser() {
       if let roomModel = self.getQiscusDataBase()?.room.find(id: roomId) {
         roomModel.delegate = nil
-//        QiscusCore.shared.unSubcribeChatRoom(roomModel)
+        QiscusCore.shared.unSubcribeChatRoom(roomModel)
       }
     }
   }

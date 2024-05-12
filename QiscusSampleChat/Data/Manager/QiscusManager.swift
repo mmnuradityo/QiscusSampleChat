@@ -8,7 +8,7 @@
 import QiscusCore
 
 protocol QiscusManagerProtocol {
-  func setupEngine(appID: String)
+  func setupEngine(appID: String, enableLogDebug: Bool)
   func login(userRequest: UserRequest, onSuccess: @escaping (UserModel) -> Void, onError: @escaping (QError) -> Void)
   func logout(completion: @escaping () -> Void)
   func getDataBase() -> QiscusDatabaseManager?
@@ -20,13 +20,14 @@ protocol QiscusManagerProtocol {
   func uploadFileupload(file: FileUploadModel, onSuccess: @escaping (FileModel) -> Void, onError: @escaping (QError) -> Void, progress: @escaping (Double) -> Void)
   func connectToQiscus(delegate: QiscusConnectionDelegate)
   func loadRooms(page: Int, limit: Int, onSuccess: @escaping ([RoomModel], Meta?) -> Void, onError: @escaping (QError) -> Void)
+  func markAsRead(roomId: String, messageId: String)
 }
 
 class QiscusManager: QiscusManagerProtocol {
   
-  func setupEngine(appID: String) {
+  func setupEngine(appID: String, enableLogDebug: Bool) {
     QiscusCore.setup(AppID: appID)
-    QiscusCore.enableDebugMode(value: true)
+    QiscusCore.enableDebugMode(value: enableLogDebug)
   }
   
   func login(userRequest: UserRequest, onSuccess: @escaping (UserModel) -> Void, onError: @escaping (QError) -> Void) {
@@ -114,6 +115,10 @@ class QiscusManager: QiscusManagerProtocol {
     onError: @escaping (QError) -> Void
   ) {
     QiscusCore.shared.getAllChatRooms(page: page, limit: limit, onSuccess: onSuccess, onError: onError)
+  }
+  
+  func markAsRead(roomId: String, messageId: String) {
+    QiscusCore.shared.markAsRead(roomId: roomId, commentId: messageId)
   }
   
 }

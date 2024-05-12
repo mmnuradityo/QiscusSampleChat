@@ -12,6 +12,7 @@ class RoomTableViewCellFactory: BaseTabelViewCellFactory<ChatRoomModel> {
   var delegate: FactoryDelete?
   
   override func registerCells(in tableView: UITableView) {
+    super.registerCells(in: tableView)
     tableView.register(RoomTableViewCell.self, forCellReuseIdentifier: getIndentifier(objectType: RoomTableViewCell.self))
   }
   

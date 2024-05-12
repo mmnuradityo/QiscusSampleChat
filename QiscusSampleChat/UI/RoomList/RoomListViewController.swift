@@ -24,6 +24,7 @@ class RoomListViewController: BaseViewController {
   let refreshControl = UIRefreshControl()
   
   let tableViewCellFactory = RoomTableViewCellFactory()
+  
   var presenter: RoomListPresenterProtocol?
   var chatRoomList: ChatRoomListModel?
   var isLoading: Bool = true
@@ -41,6 +42,10 @@ class RoomListViewController: BaseViewController {
     presenter?.loadRooms(page: page)
   }
 
+  deinit {
+    AppComponent.shared.getEventHandler().removeObserver()
+  }
+  
 }
 
 // MARK: - setup and layouting
@@ -49,13 +54,16 @@ extension RoomListViewController {
   func setup() {
     if presenter == nil {
       presenter = RoomListPresenter(
-        repository: AppComponent.shared.getRepository(),
-        delegate: self
+        repository: AppComponent.shared.getRepository(), delegate: self
+      )
+      AppComponent.shared.getEventHandler().registerObserverRooms(
+        observer: presenter as! EventObserver
       )
     }
     
     setupFooterView()
     setupRefreshControl()
+    requestNotification()
   }
   
   func style() {
@@ -175,10 +183,22 @@ extension RoomListViewController: RoomListPresenter.RoomListDelegate {
     
     if self.chatRoomList == nil {
       self.chatRoomList = chatRoomList
-    } else {
-      self.chatRoomList?.configureWithNewData(chatRoomList: chatRoomList)
+      self.chatRoomTabelView.reloadData()
+    } else if let indexs = self.chatRoomList?.configureWithNewData(chatRoomList: chatRoomList) {
+      self.tableViewCellFactory.insertOrUpdateTableViewCell(index: indexs)
     }
-    self.chatRoomTabelView.reloadData()
+  }
+  
+  func onRoom(room: ChatRoomModel) {
+    if let indexs = self.chatRoomList?.appendOrUpdate(room: room) {
+      self.tableViewCellFactory.insertOrUpdateTableViewCell(index: indexs)
+    }
+  }
+  
+  func onMessage(message: MessageModel) {
+    if let indexs = self.chatRoomList?.updateLastMessage(message: message) {
+      self.tableViewCellFactory.insertOrUpdateTableViewCell(index: indexs)
+    }
   }
   
   func onError(error: ChatError) {
@@ -218,6 +238,27 @@ extension RoomListViewController {
     chatRoomList = nil
     chatRoomTabelView.reloadData()
     presenter?.loadRooms(page: 1)
+  }
+  
+  func requestNotification() {
+    AppComponent.shared.getNotificationUtils().requestNotif {
+      // do nothing
+    } onDenied: { error in
+      DispatchQueue.main.sync {
+        self.showAlert(
+          titile: "Request Notification",
+          description: error.localizedDescription,
+          identifier: AlertUtils.identifierError
+        )
+      }
+    }
+  }
+  
+  func showAlert(titile: String, description: String, identifier: String) {
+    let alert = AlertUtils.alertDialog(
+      title: titile, message: description, identifier: identifier
+    )
+    present(alert, animated: true, completion: nil)
   }
   
 }

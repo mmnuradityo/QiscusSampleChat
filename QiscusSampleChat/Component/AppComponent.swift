@@ -15,8 +15,8 @@ class AppComponent {
   private var qiscusManager: QiscusManagerProtocol!
   private var imageManager: ThumbnailManagerProtocol!
   private var repository: RepositoryProtocol!
-  private var chatEventHandler: ChatEventHandlerProtocol!
-  private var notiicationfUtils: NotificationUtils!
+  private var chatEventHandler: EventHandlerProtocol!
+  private var notiicationfUtils: NotificationUtilsProtocol!
   
   func getDataStore() -> DataStoreProtocol {
     if dataStore == nil {
@@ -48,14 +48,14 @@ class AppComponent {
     return repository
   }
   
-  func getChatEventHandler() -> ChatEventHandlerProtocol {
+  func getEventHandler() -> EventHandlerProtocol {
     if chatEventHandler == nil {
-      chatEventHandler = ChatEventHandler(repository: getRepository())
+      chatEventHandler = EventHandler(repository: getRepository())
     }
     return chatEventHandler
   }
  
-  func getNotificationUtils() -> NotificationUtils {
+  func getNotificationUtils() -> NotificationUtilsProtocol {
     if notiicationfUtils == nil {
       notiicationfUtils = NotificationUtils()
     }

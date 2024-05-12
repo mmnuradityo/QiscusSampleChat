@@ -15,9 +15,16 @@ import UniformTypeIdentifiers
 class FileUtils {
   
   static var fileManager: FileManager = FileManager.default
-  static var imagesURL: URL = generateLocalURL(for: .documentDirectory, with: "Iamges")
-  static var videosURL: URL = generateLocalURL(for: .documentDirectory, with: "Video")
+  static var imagesURL: URL = generateLocalURL(for: .documentDirectory, with: "Images")
+  static var videosURL: URL = generateLocalURL(for: .documentDirectory, with: "Videos")
   static var documentsURL: URL = generateLocalURL(for: .documentDirectory, with: "Documents")
+  
+  static let fileByteCountFormatter: ByteCountFormatter = {
+    let bcf = ByteCountFormatter()
+    bcf.allowedUnits = [.useMB, .useKB]
+    bcf.countStyle = .file
+    return bcf
+  }()
   
   static func generateLocalURL(for directory: FileManager.SearchPathDirectory, with directoryName: String) -> URL {
     let rootDiredctoryUrl = fileManager.urls(for: directory, in: .userDomainMask)[0]
@@ -79,6 +86,23 @@ extension FileUtils {
     let components = stringUrl.split(separator: "/")
     return components.last.map(String.init) ?? ""
   }
+  
+  static func getFileSize(atPath path: String) -> String {
+    do {
+      let attributes = try FileUtils.fileManager.attributesOfItem(atPath: path)
+      if let fileSize = attributes[.size] as? Int64 {
+        let fileSizeFormatted = FileUtils.fileByteCountFormatter.string(
+          fromByteCount: fileSize
+        )
+        return fileSizeFormatted
+      } else {
+        return "0 byte"
+      }
+    } catch {
+      return "0 byte"
+    }
+  }
+
 }
 
 // MARK: Files

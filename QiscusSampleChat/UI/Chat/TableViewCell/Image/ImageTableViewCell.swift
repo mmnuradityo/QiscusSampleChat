@@ -36,6 +36,7 @@ class ImageTableViewCell: BaseChatTableViewCell {
     
     configureComponent()
   }
+  
 }
 
 // MARK: - setup and layouting

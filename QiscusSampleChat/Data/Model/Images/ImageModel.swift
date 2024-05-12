@@ -8,6 +8,7 @@
 import Foundation
 
 struct ImageModel {
+  
   var url: URL?
   var data: Data?
   var state: State

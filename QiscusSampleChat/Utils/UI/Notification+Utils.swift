@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NotificationUtils: NSObject {
+class NotificationUtils: NSObject, NotificationUtilsProtocol {
   
   override init() {
     super.init()
@@ -25,17 +25,20 @@ class NotificationUtils: NSObject {
       }
   }
   
-  func notify(title: String, subtitle: String, message: String) {
+  func notify(chatroom: ChatRoomModel) {
+    if let message = chatroom.lastMessage,
+        message.chatFrom == .me { return }
+    
     DispatchQueue.main.async {
       let content = UNMutableNotificationContent()
-      content.title = title
-      content.subtitle = subtitle
-      content.body = message
+      content.title = chatroom.name
+      content.subtitle = chatroom.lastMessage?.sender.name ?? ""
+      content.body = chatroom.lastMessage?.data.caption ?? ""
       content.sound = .default
       
       let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
       
-      let request = UNNotificationRequest(identifier: "message", content: content, trigger: trigger)
+      let request = UNNotificationRequest(identifier: chatroom.id, content: content, trigger: trigger)
       
       let center = UNUserNotificationCenter.current()
       center.add(request) { error in
@@ -84,4 +87,9 @@ enum NotificationError: LocalizedError, Equatable {
       return "Notification request is denied"
     }
   }
+}
+
+protocol NotificationUtilsProtocol {
+  func requestNotif(onGranted: @escaping () -> Void, onDenied: @escaping (NotificationError) -> Void)
+  func notify(chatroom: ChatRoomModel)
 }
