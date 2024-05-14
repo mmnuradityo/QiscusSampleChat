@@ -130,8 +130,8 @@ extension ImagePreviewViewController: ImagePreviewPresenter.ImagePreviewDelegate
   
   func onLoadImageSuccess(imageData: Data?) {
     DispatchQueue.main.async {
-      self.message?.data.previewImage?.data = imageData
-      self.message?.data.previewImage?.state = .success
+      self.message?.data.previewImage.data = imageData
+      self.message?.data.previewImage.state = .success
       
       if let imageData = imageData {
         self.zoomableImageView.imageView.image = UIImage(data: imageData)
@@ -141,8 +141,8 @@ extension ImagePreviewViewController: ImagePreviewPresenter.ImagePreviewDelegate
   
   func onDownloaded(message: MessageModel) {
     var message = message
-    message.data.previewImage?.data = self.message?.data.previewImage?.data
-    message.data.previewImage?.state = self.message?.data.previewImage?.state ?? .new
+    message.data.previewImage.data = self.message?.data.previewImage.data
+    message.data.previewImage.state = self.message?.data.previewImage.state ?? .new
     self.message = message
     self.navigationItem.rightBarButtonItem?.isHidden = true
   }

@@ -11,13 +11,13 @@ import QiscusCore
 protocol ChatPresenterProtocol {
   func loadRoomWithMessage(roomId: String)
   func loadMoreMessages(roomId: String, lastMessageId: String)
-  func markAsRead(roomId: String, messageId: String)
   func loadThumbnailImage(url: URL?, completion: @escaping (Data?, ImageModel.State) -> Void)
   func loadThumbnailImage(message: MessageModel, completion: @escaping (MessageModel) -> Void)
   func loadThumbnailVideo(message: MessageModel, completion: @escaping (MessageModel) -> Void)
   func downloadFile(message: MessageModel, onSuccess: @escaping (MessageModel) -> Void, onProgress: @escaping (Float) -> Void, onError: @escaping (ChatError) -> Void)
   func sendMessage(messageRequest: MessageRequest)
   func sendMessageFile(messageRequest: MessageRequest)
+  func markAsRead(roomId: String, messageId: String)
   func logout()
 }
 
@@ -34,7 +34,7 @@ class ChatPresenter: ChatPresenterProtocol {
   func loadRoomWithMessage(roomId: String) {
     delegate.onLoading(isLoading: true)
     
-    repository.loadRoomWithMessgae(roomId: roomId) { chatRoom in
+    repository.loadRoomWithMessage(roomId: roomId) { chatRoom in
       var chatRoom = chatRoom
       let lastIndex = chatRoom.listMessages.count - 1
       if lastIndex > -1 {
@@ -58,10 +58,6 @@ class ChatPresenter: ChatPresenterProtocol {
     } onError: { error in
       self.delegate.onLoading(isLoading: false)
     }
-  }
-  
-  func markAsRead(roomId: String, messageId: String) {
-    repository.markAsRead(roomId: roomId, messageId: messageId)
   }
   
   func loadThumbnailImage(url: URL?, completion: @escaping (Data?, ImageModel.State) -> Void) {
@@ -110,6 +106,10 @@ class ChatPresenter: ChatPresenterProtocol {
     } progress: { percent in
       self.delegate.onProgressUploadFile(messageId: comment.id, percent: percent)
     }
+  }
+  
+  func markAsRead(roomId: String, messageId: String) {
+    repository.markAsRead(roomId: roomId, messageId: messageId)
   }
   
   func logout() {

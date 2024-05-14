@@ -46,7 +46,6 @@ class ImagePreviewPresenter: ImagePreviewPresenterProtocol {
     } onError: { error in
       self.delegate.onError(error: ChatError.invalidDownloadFile)
     }
-
   }
   
   protocol ImagePreviewDelegate {

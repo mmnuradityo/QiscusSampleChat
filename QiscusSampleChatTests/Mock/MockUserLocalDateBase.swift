@@ -13,6 +13,7 @@ class MockUserLocalDateBase: UserLocalDateBaseProtocol {
   var isSaved = true
   var isClear = false
   var user: UserActive!
+  var token: String = ""
   
   func saveUser(user: UserActive) -> Bool {
     if isSaved {
@@ -36,7 +37,7 @@ class MockUserLocalDateBase: UserLocalDateBaseProtocol {
   
   func getToken() -> String {
     // TODO:
-    return ""
+    return token
   }
   
 }

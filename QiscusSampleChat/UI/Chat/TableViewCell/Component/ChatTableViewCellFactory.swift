@@ -131,8 +131,8 @@ extension ChatTableViewCellFactory: FileActionDelegate {
     cell.delegate = self
     
     if !cell.contentImageView.isLoadImage(
-      imageState: message.data.previewImage?.state,
-      dataImage: message.data.previewImage?.data
+      imageState: message.data.previewImage.state,
+      dataImage: message.data.previewImage.data
     ) { return }
     
     delegate?.loadThumbnailImage(message: message, index: index) { dataImage, imageState in
@@ -145,8 +145,8 @@ extension ChatTableViewCellFactory: FileActionDelegate {
     cell.delegate = self
     
     if !cell.contentImageView.isLoadImage(
-      imageState: message.data.previewImage?.state,
-      dataImage: message.data.previewImage?.data
+      imageState: message.data.previewImage.state,
+      dataImage: message.data.previewImage.data
     ) { return }
     
     delegate?.loadThumbnailVideo(message: message, index: index) { dataImage, imageState in

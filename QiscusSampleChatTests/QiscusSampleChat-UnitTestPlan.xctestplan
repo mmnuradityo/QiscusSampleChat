@@ -4,11 +4,16 @@
       "id" : "662AAE39-DDF9-4A9B-934C-6EF3DBEF1A99",
       "name" : "Configuration 1",
       "options" : {
+        "commandLineArgumentEntries" : [
 
+        ]
       }
     }
   ],
   "defaultOptions" : {
+    "commandLineArgumentEntries" : [
+
+    ],
     "testTimeoutsEnabled" : true
   },
   "testTargets" : [

@@ -30,7 +30,7 @@ class ThumbnailManager: ThumbnailManagerProtocol {
     }
     extras[MessageDataExtraParams.state.rawValue] = ImageModel.State.success
     
-    var imageCache = ImageCache(data: dataImage!, extras: extras)
+    let imageCache = ImageCache(data: dataImage!, extras: extras)
     thumbnailCache.setObject(imageCache, forKey: key as NSString)
   }
   

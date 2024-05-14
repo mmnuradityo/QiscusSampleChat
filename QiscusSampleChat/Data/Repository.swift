@@ -13,30 +13,31 @@ protocol RepositoryProtocol {
   func login(userRequest: UserRequest, onSuccess: @escaping (UserActive) -> Void, onError: @escaping (UserError) -> Void)
   func getUserActive() -> UserActive?
   func logout(completion: @escaping () -> Void)
+  func registerDeviceToken(onSuccess: @escaping (Bool) -> Void, onError: @escaping (QError) -> Void)
   
   // load messages
   func getQiscusDataBase() -> QiscusDatabaseManager?
-  func loadRoomWithMessgae(roomId: String, onSuccess: @escaping (ChatRoomModel) -> Void, onError: @escaping (ChatError) -> Void)
+  func loadRoomWithMessage(roomId: String, onSuccess: @escaping (ChatRoomModel) -> Void, onError: @escaping (ChatError) -> Void)
   func loadMoreMessages(roomId: String, lastMessageId: String, limit: Int, onSuccess: @escaping ([MessageModel]) -> Void, onError: @escaping (ChatError) -> Void)
   func loadThumbnailImage(url: URL?, completion: @escaping (Data?, ImageModel.State) -> Void)
   func loadThumbnailImage(message: MessageModel, completion: @escaping (MessageModel) -> Void)
   func loadThumbnailVideo(message: MessageModel, completion: @escaping (MessageModel) -> Void)
   func downloadFile(message: MessageModel, onSuccess: @escaping (MessageModel) -> Void, onProgress: @escaping (Float) -> Void, onError: @escaping (ChatError) -> Void)
   
+  // load rooms
+  func loadRooms(page: Int, limit: Int, onSuccess: @escaping (ChatRoomListModel) -> Void, onError: @escaping (ChatError) -> Void)
+  
   // sending
   func sendMessage(messageRequest: MessageRequest, onSuccess: @escaping (MessageModel) -> Void, onError: @escaping (ChatError) -> Void)
   func sendMessageFile(messageRequest : MessageRequest, onSuccess: @escaping (MessageModel) -> Void, onError: @escaping (ChatError) -> Void, progress: @escaping (Double) -> Void)
   
   // event
+  func markAsRead(roomId: String, messageId: String)
   func connectToQiscus(delegate: QiscusConnectionDelegate)
   func subscribeChatRooms(delegate: QiscusCoreDelegate)
   func unSubcribeChatRooms()
   func subscribeChatRoom(delegate: QiscusCoreRoomDelegate, roomId: String)
   func unSubcribeChatRoom(roomId: String)
-  
-  // load rooms
-  func loadRooms(page: Int, limit: Int, onSuccess: @escaping (ChatRoomListModel) -> Void, onError: @escaping (ChatError) -> Void)
-  func markAsRead(roomId: String, messageId: String)
 }
 
 class Repository: RepositoryProtocol {
@@ -45,17 +46,20 @@ class Repository: RepositoryProtocol {
   let imageManager: ThumbnailManagerProtocol
   let qiscusManager: QiscusManagerProtocol
   let globalDispatchQueue: DispatchQueue
+  let fileUtils: FileUtilsManagementProtocol.Type
   
   init(
     dataStore: DataStoreProtocol,
     imageManager: ThumbnailManagerProtocol,
     qiscusManager: QiscusManagerProtocol,
-    dispatchQueue: DispatchQueue = DispatchQueue.global(qos: .background)
+    dispatchQueue: DispatchQueue = DispatchQueue.global(qos: .background),
+    fileUtils: FileUtilsManagementProtocol.Type = FileUtils.self
   ) {
     self.dataStore = dataStore
     self.imageManager = imageManager
     self.qiscusManager = qiscusManager
     self.globalDispatchQueue = dispatchQueue
+    self.fileUtils = fileUtils
   }
   
   func login(
@@ -93,26 +97,20 @@ class Repository: RepositoryProtocol {
     }
   }
   
+  func registerDeviceToken(onSuccess: @escaping (Bool) -> Void, onError: @escaping (QError) -> Void) {
+    let deviceToken = dataStore.getUserLocalDateBase().getToken()
+    if !deviceToken.isEmpty {
+      qiscusManager.registerDeviceToken(
+        deviceToken: deviceToken, onSuccess: onSuccess, onError: onError
+      )
+    }
+  }
+  
   func getQiscusDataBase() -> QiscusDatabaseManager? {
     return qiscusManager.getDataBase()
   }
   
-  func registerDeviceToken() {
-    let deviceToken = dataStore.getUserLocalDateBase().getToken()
-    if !deviceToken.isEmpty {
-      qiscusManager.registerDeviceToken(deviceToken: deviceToken) { isSuccess in
-        if isSuccess {
-          print("success register device token =\(deviceToken)")
-        } else {
-          print("failed register device token ")
-        }
-      } onError: {
-        print("failed register device token = \($0.message)")
-      }
-    }
-  }
-  
-  func loadRoomWithMessgae(roomId: String, onSuccess: @escaping (ChatRoomModel) -> Void, onError: @escaping (ChatError) -> Void) {
+  func loadRoomWithMessage(roomId: String, onSuccess: @escaping (ChatRoomModel) -> Void, onError: @escaping (ChatError) -> Void) {
     globalDispatchQueue.async {
       let localRoomModel = self.qiscusManager.getDataBase()?.room.find(id: roomId)
       if localRoomModel != nil {
@@ -165,16 +163,12 @@ class Repository: RepositoryProtocol {
     }
   }
   
-  func markAsRead(roomId: String, messageId: String) {
-    qiscusManager.markAsRead(roomId: roomId, messageId: messageId)
-  }
-  
   func loadThumbnailImage(url: URL?, completion: @escaping (Data?, ImageModel.State) -> Void) {
     imageManager.loadThumbnailImage(url: url, completion: completion)
   }
   
   func loadThumbnailImage(message: MessageModel, completion: @escaping (MessageModel) -> Void) {
-    let url: URL? = message.data.isDownloaded ? message.data.url : message.data.previewImage?.url
+    let url: URL? = message.data.isDownloaded ? message.data.url : message.data.previewImage.url
     imageManager.loadThumbnailImage(url: url) { imageData, imageState in
       var message = message
       message.data.previewImage = ImageModel(
@@ -185,7 +179,7 @@ class Repository: RepositoryProtocol {
   }
   
   func loadThumbnailVideo(message: MessageModel, completion: @escaping (MessageModel) -> Void) {
-    let url: URL? = message.data.isDownloaded ? message.data.url : message.data.previewImage?.url
+    let url: URL? = message.data.isDownloaded ? message.data.url : message.data.previewImage.url
     imageManager.loadThumbnailVideo(url: url) { imageData, durtion, imageState in
       var message = message
       message.data.previewImage = ImageModel(
@@ -201,28 +195,20 @@ class Repository: RepositoryProtocol {
     let totalSeconds = CMTimeGetSeconds(time)
     let minutes = Int(totalSeconds.truncatingRemainder(dividingBy: 3600) / 60)
     let seconds = Int(totalSeconds.truncatingRemainder(dividingBy: 60))
-
+    
     return  String(format: "%02d:%02d", minutes, seconds)
-}
-
+  }
   
-  func downloadFile(
-    message: MessageModel,
-    onSuccess: @escaping (MessageModel) -> Void,
-    onProgress: @escaping (Float) -> Void,
-    onError: @escaping (ChatError) -> Void
-  ) {
-    guard let url = message.data.url else {
-      onError(ChatError.custom(message: "url is empty"))
-      return
+  func loadRooms(page: Int, limit: Int, onSuccess: @escaping (ChatRoomListModel) -> Void, onError: @escaping (ChatError) -> Void) {
+    qiscusManager.loadRooms(page: page, limit: limit) { rooms, meta in
+      var chatRoomModels: [ChatRoomModel] = []
+      rooms.forEach { room in
+        chatRoomModels.append(room.toChatRoom())
+      }
+      onSuccess(ChatRoomListModel(currentPage: meta?.currentPage, rooms: chatRoomModels))
+    } onError: { error in
+      onError(ChatError.custom(message: error.message))
     }
-    qiscusManager.downloadFile(url: url, onSuccess: { url in
-      self.saveFileIfNeeded(fileUrl: url, onError: onError)
-      var messageResult = message
-      messageResult.data.url = url
-      messageResult.data.isDownloaded = true
-      onSuccess(messageResult)
-    }, onProgress: onProgress)
   }
   
   func sendMessage(messageRequest: MessageRequest, onSuccess: @escaping (MessageModel) -> Void, onError: @escaping (ChatError) -> Void) {
@@ -242,7 +228,7 @@ class Repository: RepositoryProtocol {
     onError: @escaping (ChatError) -> Void,
     progress: @escaping (Double) -> Void
   ) {
-    guard let fileRequest = messageRequest.toFileUpload() else { 
+    guard let fileRequest = messageRequest.toFileUpload() else {
       onError(ChatError.invalidEmptyUploadFile)
       return
     }
@@ -263,26 +249,47 @@ class Repository: RepositoryProtocol {
     }
   }
   
+  func downloadFile(
+    message: MessageModel,
+    onSuccess: @escaping (MessageModel) -> Void,
+    onProgress: @escaping (Float) -> Void,
+    onError: @escaping (ChatError) -> Void
+  ) {
+    guard let url = message.data.url else {
+      onError(ChatError.custom(message: "url is empty"))
+      return
+    }
+    qiscusManager.downloadFile(url: url, onSuccess: { url in
+      self.saveFileIfNeeded(fileUrl: url, onError: onError)
+      var messageResult = message
+      messageResult.data.url = url
+      messageResult.data.isDownloaded = true
+      onSuccess(messageResult)
+    }, onProgress: onProgress)
+  }
+  
   private func saveFileIfNeeded(fileUrl: URL?, onError: @escaping (ChatError) -> Void) {
     guard let fileUrl = fileUrl,
-          FileUtils.fileExistsWithURL(fileNameWithExtension: fileUrl.lastPathComponent) == nil
+          fileUtils.fileExistsWithURL(fileNameWithExtension: fileUrl.lastPathComponent) == nil
     else { return }
     
-    FileUtils.save(tempLocalUrl: fileUrl) { url, error in
+    fileUtils.save(tempLocalUrl: fileUrl) { url, error in
       if let error = error {
         onError(ChatError.custom(message: error.localizedDescription))
         return
       }
       
-      switch FileUtils.generateType(from: url!.lastPathComponent) {
+      switch self.fileUtils.generateType(from: url!.lastPathComponent) {
       case .image:
-        FileUtils.saveImageToGallery(imageURL: url!) { error in
+        self.fileUtils.saveImageToGallery(imageURL: url!) { error in
           if let error = error {
             onError(ChatError.custom(message: error.localizedDescription))
           }
         }
       case .video:
-        FileUtils.saveVideoToGallery(videoURL: url!) { error in
+        self.fileUtils.saveVideoToGallery(
+          videoURL: url!, albumName: AppConfiguration.APP_IDENTIFIER
+        ) { error in
           if let error = error {
             onError(ChatError.custom(message: error.localizedDescription))
           }
@@ -294,50 +301,28 @@ class Repository: RepositoryProtocol {
     }
   }
   
+  func markAsRead(roomId: String, messageId: String) {
+    qiscusManager.markAsRead(roomId: roomId, messageId: messageId)
+  }
+  
   func connectToQiscus(delegate: QiscusConnectionDelegate) {
     qiscusManager.connectToQiscus(delegate: delegate)
   }
   
   func subscribeChatRooms(delegate: QiscusCoreDelegate) {
-    if QiscusCore.hasSetupUser() {
-      QiscusCore.delegate = delegate
-    }
+    qiscusManager.subscribeChatRooms(delegate: delegate)
   }
   
   func unSubcribeChatRooms() {
-    if QiscusCore.hasSetupUser() {
-      QiscusCore.delegate = nil
-    }
+    qiscusManager.unSubcribeChatRooms()
   }
   
   func subscribeChatRoom(delegate: QiscusCoreRoomDelegate, roomId: String) {
-    if QiscusCore.hasSetupUser() {
-      if let roomModel = self.getQiscusDataBase()?.room.find(id: roomId) {
-        roomModel.delegate = delegate
-        QiscusCore.shared.subscribeChatRoom(roomModel)
-      }
-    }
+    qiscusManager.subscribeChatRoom(delegate: delegate, roomId: roomId)
   }
   
   func unSubcribeChatRoom(roomId: String) {
-    if QiscusCore.hasSetupUser() {
-      if let roomModel = self.getQiscusDataBase()?.room.find(id: roomId) {
-        roomModel.delegate = nil
-        QiscusCore.shared.unSubcribeChatRoom(roomModel)
-      }
-    }
-  }
-  
-  func loadRooms(page: Int, limit: Int, onSuccess: @escaping (ChatRoomListModel) -> Void, onError: @escaping (ChatError) -> Void) {
-    qiscusManager.loadRooms(page: page, limit: limit) { rooms, meta in
-      var chatRoomModels: [ChatRoomModel] = []
-      rooms.forEach { room in
-        chatRoomModels.append(room.toChatRoom())
-      }
-      onSuccess(ChatRoomListModel(currentPage: meta?.currentPage, rooms: chatRoomModels))
-    } onError: { error in
-      onError(ChatError.custom(message: error.message))
-    }
+    qiscusManager.unSubcribeChatRoom(roomId: roomId)
   }
   
 }

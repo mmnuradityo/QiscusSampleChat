@@ -9,7 +9,7 @@ import UIKit
 
 struct Colors {
   
-  static let primaryColor = UIColor(named: "PrimaryColor")!
+  static let primaryColor = UIColor(named: "AppPrimaryColor")!
   static let strokeColor = UIColor(named: "StrokeColor")!
   static let chatFormBackgroundColor = UIColor(named: "ChatFormBackgroundColor")!
   static let textFormColor = UIColor(named: "TextFormColor")!

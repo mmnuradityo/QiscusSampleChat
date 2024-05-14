@@ -15,11 +15,14 @@ struct AppConfiguration {
 //  static let SAMPLE_ROOM_ID = "187190115"
 //  static let SAMPLE_ROOM_ID = "185063351"
   
-  private static var userEmail: String?
+  static var userEmail: String?
   
-  static func isMyMessage(senderEmail: String) -> Bool {
+  static func isMyMessage(
+    senderEmail: String,
+    userLocal: UserLocalDateBaseProtocol? = AppComponent.shared.getDataStore().getUserLocalDateBase()
+  ) -> Bool {
     if userEmail == nil {
-      userEmail = AppComponent.shared.getDataStore().getUserLocalDateBase().getUser()?.email
+      userEmail = userLocal?.getUser()?.email
     }
     if let userEmail = userEmail {
       return userEmail == senderEmail

@@ -63,7 +63,7 @@ extension ChatRoomModel {
     var currentMessage: MessageModel = message
     var nextMessage: MessageModel
     var index = listMessages.firstIndex(where: { $0.id == currentMessage.id }) ?? -1
-    var nexIndex: Int = index + 1
+    let nexIndex: Int = index + 1
     
     if listMessages.count > nexIndex {
       nextMessage = listMessages[nexIndex]
@@ -101,6 +101,9 @@ extension ChatRoomModel {
   }
   
   mutating func sortingListMessages(cellIndexs: [String]) -> [Int] {
+    let posibleMaxIndex = self.listMessages.count - 1
+    if posibleMaxIndex == -1 { return [] }
+    
     self.listMessages.sort { lhs, rhs in
       guard let timeStampLhs = lhs.timeStamp,
             let timeStampRhs = rhs.timeStamp
@@ -110,8 +113,6 @@ extension ChatRoomModel {
       
       return timeStampLhs > timeStampRhs
     }
-    
-    let posibleMaxIndex = self.listMessages.count - 1
     var currentMessage: MessageModel
     var nextIndex: Int
     var indexPaths: [Int] = []

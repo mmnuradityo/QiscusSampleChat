@@ -11,8 +11,8 @@ import Photos
 import AVFoundation
 import UniformTypeIdentifiers
 
-
-class FileUtils {
+// MARK: ~ handle root directory file
+class FileUtils: FileUtilsRootProtocol {
   
   static var fileManager: FileManager = FileManager.default
   static var imagesURL: URL = generateLocalURL(for: .documentDirectory, with: "Images")
@@ -50,8 +50,8 @@ class FileUtils {
   
 }
 
-// MARK: Extension
-extension FileUtils {
+// MARK: ~ handle base file properties
+extension FileUtils: FileUtilsManagementProtocol {
   
   static func generateType(from stringUrl: String) -> MessageType {
     switch fileExtension(from: stringUrl) {
@@ -102,11 +102,8 @@ extension FileUtils {
       return "0 byte"
     }
   }
-
-}
-
-// MARK: Files
-extension FileUtils {
+  
+  // MARK: ~ handle file management
   
   static func getDestinationURLByExtention(from fileNameWithExtension: String) -> URL {
     switch generateType(from: fileNameWithExtension) {
@@ -140,10 +137,7 @@ extension FileUtils {
     }
   }
   
-}
-
-// MARK: Videos
-extension FileUtils {
+  // MARK: ~ handle Images
   
   static func saveImageToGallery(imageURL: URL, completion: @escaping (FileError?) -> Void) {
     do {
@@ -167,14 +161,10 @@ extension FileUtils {
     }
   }
   
-}
-
-// MARK: Videos
-extension FileUtils {
+  // MARK: ~ handle Videos
   
   static func saveVideoToGallery(
-    videoURL: URL, albumName: String = AppConfiguration.APP_IDENTIFIER,
-    completion: @escaping (FileError?) -> Void
+    videoURL: URL, albumName: String, completion: @escaping (FileError?) -> Void
   ) {
     if albumExists(albumName: albumName) {
       let fetchOptions = PHFetchOptions()
@@ -208,7 +198,7 @@ extension FileUtils {
     }
   }
   
-  private static func albumExists(albumName: String) -> Bool {
+  internal static func albumExists(albumName: String) -> Bool {
     let fetchOptions = PHFetchOptions()
     fetchOptions.predicate = NSPredicate(format: "title = %@", albumName)
     let collection = PHAssetCollection.fetchAssetCollections(
@@ -217,7 +207,7 @@ extension FileUtils {
     return collection.firstObject != nil
   }
   
-  private static func saveVideo(
+  internal static func saveVideo(
     videoURL: URL, to album: PHAssetCollection, completion: @escaping (FileError?) -> Void
   ) {
     PHPhotoLibrary.shared().performChanges({
@@ -234,21 +224,4 @@ extension FileUtils {
     })
   }
   
-}
-
-enum FileError: LocalizedError, Equatable {
-  case emptyData
-  case failed
-  case custom(message: String)
-  
-  var description: String {
-    switch self {
-    case .emptyData:
-      return "Empty Data"
-    case .failed:
-      return "Failed"
-    case .custom(let message):
-      return message
-    }
-  }
 }

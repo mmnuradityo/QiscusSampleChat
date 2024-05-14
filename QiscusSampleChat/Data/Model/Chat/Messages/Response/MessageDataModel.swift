@@ -27,12 +27,12 @@ struct MessageDataModel {
     }
   }
   
-  var previewImage: ImageModel? {
+  var previewImage: ImageModel {
     get {
       if (self.dataType == .image
           && self._previewImage != nil)
           || self._previewImage != nil {
-        return self._previewImage
+        return self._previewImage!
       } else {
         var imageUrl = ImageModel(url: self.url)
         if self.dataType == .image {
@@ -42,8 +42,8 @@ struct MessageDataModel {
       }
     }
     set {
-      if self.previewImage == nil 
-          || self.previewImage?.state != .success
+      if self._previewImage == nil
+          || self._previewImage?.state != .success
           || self._isDownloaded
       {
         self._previewImage = newValue

@@ -15,9 +15,10 @@ class MockQiscusManager: QiscusManagerProtocol {
   var expectation: XCTestExpectation?
   var methodCalledCount = 0
   var error: QError? = nil
+  var isSuccessRegisterDeviceToken = false
   
-  func setupEngine(appID: String) {
-    // do nothing
+  func setupEngine(appID: String, enableLogDebug: Bool) {
+    // do nothings
   }
   
   // user login
@@ -42,14 +43,25 @@ class MockQiscusManager: QiscusManagerProtocol {
     expectation?.fulfill()
   }
   
+  func registerDeviceToken(deviceToken: String, onSuccess: @escaping (Bool) -> Void, onError: @escaping (QError) -> Void) {
+    if let error = error {
+      onError(error)
+    } else {
+      onSuccess(isSuccessRegisterDeviceToken)
+    }
+    
+    methodCalledCount += 1
+    expectation?.fulfill()
+  }
+  
   // load messgaes
   
   var room: RoomModel? = nil
   var comments: [CommentModel]? = nil
+  var databaseManager: QiscusDatabaseManager? = nil
   
   func getDataBase() -> QiscusDatabaseManager? {
-    //
-    return nil
+    return databaseManager
   }
   
   func loadMoreMessages(
@@ -97,7 +109,7 @@ class MockQiscusManager: QiscusManagerProtocol {
       expectation?.fulfill()
     }
   }
-  
+
   func uploadFileupload(file: FileUploadModel, onSuccess: @escaping (FileModel) -> Void, onError: @escaping (QError) -> Void, progress: @escaping (Double) -> Void) {
     isUploadFileupload = true
     
@@ -113,18 +125,11 @@ class MockQiscusManager: QiscusManagerProtocol {
     expectation?.fulfill()
   }
   
-  
-  func registerDeviceToken(deviceToken: String, onSuccess: @escaping (Bool) -> Void, onError: @escaping (QError) -> Void) {
-    // TODO:
-  }
-  
-  func connectToQiscus(delegate: any QiscusConnectionDelegate) {
-    // TODO:
-  }
-  
   // load rooms
   
   var roomWithMeta: ([RoomModel], Meta)?
+  var progress: Float?
+  var successURL: URL?
   
   func loadRooms(page: Int, limit: Int, onSuccess: @escaping ([RoomModel], Meta?) -> Void, onError: @escaping (QError) -> Void) {
     if let error = error {
@@ -138,7 +143,41 @@ class MockQiscusManager: QiscusManagerProtocol {
   }
   
   func downloadFile(url: URL, onSuccess: @escaping (URL) -> Void, onProgress: @escaping (Float) -> Void) {
-    //
+    if let successURL = successURL {
+      onSuccess(successURL)
+    }
+    if let progress = progress {
+      onProgress(progress)
+    }
+    
+    methodCalledCount += 1
+    expectation?.fulfill()
+  }
+  
+  // event
+  
+  func markAsRead(roomId: String, messageId: String) {
+    // do nothings
+  }
+  
+  func connectToQiscus(delegate: any QiscusConnectionDelegate) {
+    // TODO:
+  }
+  
+  func subscribeChatRooms(delegate: QiscusCoreDelegate) {
+    // do nothings
+  }
+  
+  func unSubcribeChatRooms() {
+    // do nothings
+  }
+  
+  func subscribeChatRoom(delegate: QiscusCoreRoomDelegate, roomId: String) {
+    // do nothings
+  }
+  
+  func unSubcribeChatRoom(roomId: String) {
+    // do nothings
   }
   
 }

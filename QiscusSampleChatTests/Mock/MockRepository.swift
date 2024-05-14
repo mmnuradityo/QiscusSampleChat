@@ -44,10 +44,16 @@ class MockRepository: RepositoryProtocol {
     
   }
   
+  func registerDeviceToken(onSuccess: @escaping (Bool) -> Void, onError: @escaping (QError) -> Void) {
+    // do nothings
+  }
+  
   // load chatroom
   var chatRoom: ChatRoomModel?
+  var imageData: Data?
+  var imageState: ImageModel.State = .new
   
-  func loadRoomWithMessgae(roomId: String, onSuccess: @escaping (QiscusSampleChat.ChatRoomModel) -> Void, onError: @escaping (QiscusSampleChat.ChatError) -> Void) {
+  func loadRoomWithMessage(roomId: String, onSuccess: @escaping (QiscusSampleChat.ChatRoomModel) -> Void, onError: @escaping (QiscusSampleChat.ChatError) -> Void) {
     if let error = error, error is ChatError {
       onError(error as! ChatError)
     } else if let chatRoom = chatRoom {
@@ -71,18 +77,35 @@ class MockRepository: RepositoryProtocol {
     expectation?.fulfill()
   }
   
-  func loadThumbnailImage(url: URL?, completion: @escaping (Data?, QiscusSampleChat.ImageModel.State) -> Void) {
-    // do nothings
+  func loadThumbnailImage(url: URL?, completion: @escaping (Data?, ImageModel.State) -> Void) {
+    completion(imageData, imageState)
+    methodCalledCount += 1
+    expectation?.fulfill()
   }
   
-  func loadThumbnailVideo(url: URL?, completion: @escaping (Data?, QiscusSampleChat.ImageModel.State) -> Void) {
-    // do nothings
+  func loadThumbnailImage(message: MessageModel, completion: @escaping (MessageModel) -> Void) {
+    var message = message
+    message.data.previewImage = ImageModel(url: URL(string: ""), data: imageData, state: imageState)
+    completion(message)
+    
+    methodCalledCount += 1
+    expectation?.fulfill()
+  }
+  
+  func loadThumbnailVideo(message: MessageModel, completion: @escaping (MessageModel) -> Void) {
+    var message = message
+    message.data.previewImage = ImageModel(url: URL(string: ""), data: imageData, state: imageState)
+    completion(message)
+    
+    methodCalledCount += 1
+    expectation?.fulfill()
   }
   
   // send message
   var message: MessageModel?
   var progresPercent: Double = 0.0
   var isUploadFileupload = false
+  var chatRoomList: ChatRoomListModel?
   
   func sendMessage(
     messageRequest: MessageRequest,
@@ -143,11 +166,43 @@ class MockRepository: RepositoryProtocol {
   }
   
   func loadRooms(page: Int, limit: Int, onSuccess: @escaping (ChatRoomListModel) -> Void, onError: @escaping (ChatError) -> Void) {
-    // TODO:
+    if let error = error {
+      onError(ChatError.custom(message: error.localizedDescription))
+    } else if let chatRoomList = chatRoomList {
+      onSuccess(chatRoomList)
+    }
+    
+    methodCalledCount += 1
+    expectation?.fulfill()
   }
   
-  func downloadFile(url: URL?, onSuccess: @escaping (URL) -> Void, onProgress: @escaping (Float) -> Void, onError: @escaping (QiscusSampleChat.ChatError) -> Void) {
-    //
+  func downloadFile(message: MessageModel, onSuccess: @escaping (MessageModel) -> Void, onProgress: @escaping (Float) -> Void, onError: @escaping (ChatError) -> Void) {
+    if let error = error {
+      onError(ChatError.custom(message: error.localizedDescription))
+    } else {
+      if progresPercent > 0.0 {
+        onProgress(Float(progresPercent))
+      }
+      var message = message
+      message.data.isDownloaded = true
+      onSuccess(message)
+    }
+    
+    methodCalledCount += 1
+    expectation?.fulfill()
   }
   
+  // event
+  
+  func subscribeChatRooms(delegate: QiscusCoreDelegate) {
+    // do nothings
+  }
+  
+  func unSubcribeChatRooms() {
+    // do nothings
+  }
+  
+  func markAsRead(roomId: String, messageId: String) {
+    // do nothings
+  }
 }

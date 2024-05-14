@@ -465,10 +465,9 @@ extension ChatViewController: ChatTableViewCellFactory.FactoryDelete, UIDocument
           && self.chatRoom!.listMessages.count > index.row
       {
         self.chatRoom?.listMessages[index.row] = messageResult
-        if let preview = messageResult.data.previewImage {
-          DispatchQueue.main.async {
-            completion(preview.data, preview.state)
-          }
+        let preview = messageResult.data.previewImage
+        DispatchQueue.main.async {
+          completion(preview.data, preview.state)
         }
       }
     }
@@ -482,10 +481,9 @@ extension ChatViewController: ChatTableViewCellFactory.FactoryDelete, UIDocument
           && self.chatRoom!.listMessages.count > index.row
       {
         self.chatRoom?.listMessages[index.row] = messageResult
-        if let preview = messageResult.data.previewImage {
-          DispatchQueue.main.async {
-            completion(preview.data, preview.state)
-          }
+        let preview = messageResult.data.previewImage
+        DispatchQueue.main.async {
+          completion(preview.data, preview.state)
         }
       }
     }

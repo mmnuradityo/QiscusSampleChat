@@ -58,7 +58,7 @@ class MessageRequestTests: XCTestCase {
         name: "fileName",
         caption: "caption"
       ))
-      var comment = messageRequest.toComment()
+      let comment = messageRequest.toComment()
       comment.payload = messageRequest.getPayload()
       let sut = comment.payload![MessageDataParams.url.rawValue] as! String
       

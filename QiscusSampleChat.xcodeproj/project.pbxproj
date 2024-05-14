@@ -59,8 +59,17 @@
 		84397F812BF0C2B300CD3A87 /* Document+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84397F802BF0C2B300CD3A87 /* Document+Utils.swift */; };
 		844746542BEA2E92008D3775 /* ImagePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844746532BEA2E92008D3775 /* ImagePreviewViewController.swift */; };
 		844746562BEA52A7008D3775 /* ImagePreviewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844746552BEA52A7008D3775 /* ImagePreviewPresenter.swift */; };
-		848BE51F2BD89B4100E07B82 /* AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848BE51E2BD89B4100E07B82 /* AppTests.swift */; };
+		845F49F52BF2396D00BB2C90 /* MockQiscusDatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845F49F42BF2396D00BB2C90 /* MockQiscusDatabaseManager.swift */; };
+		845F49F72BF23A7E00BB2C90 /* QiscusRoomDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845F49F62BF23A7E00BB2C90 /* QiscusRoomDB.swift */; };
+		848BE51F2BD89B4100E07B82 /* AppConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848BE51E2BD89B4100E07B82 /* AppConfigurationTests.swift */; };
 		848BE5212BD8A56C00E07B82 /* MockRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848BE5202BD8A56C00E07B82 /* MockRepository.swift */; };
+		849AED802BF350F700F00C70 /* FIleError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849AED7F2BF350F700F00C70 /* FIleError.swift */; };
+		849AED822BF3513500F00C70 /* File+UtilsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849AED812BF3513500F00C70 /* File+UtilsProtocol.swift */; };
+		849AED842BF3567E00F00C70 /* MockFile+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849AED832BF3567E00F00C70 /* MockFile+Utils.swift */; };
+		849AED872BF37A6D00F00C70 /* QiscusEventDelegete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849AED862BF37A6D00F00C70 /* QiscusEventDelegete.swift */; };
+		849AED892BF413F100F00C70 /* ImagePreviewPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849AED882BF413F100F00C70 /* ImagePreviewPresenterTests.swift */; };
+		849AED8B2BF4150000F00C70 /* MockThumbnailManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849AED8A2BF4150000F00C70 /* MockThumbnailManager.swift */; };
+		849AED8D2BF420AA00F00C70 /* RoomListPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849AED8C2BF420AA00F00C70 /* RoomListPresenterTests.swift */; };
 		84A30C822BEC9C8A00FEF4CF /* MessageModelMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A30C812BEC9C8A00FEF4CF /* MessageModelMapper.swift */; };
 		84A30C842BEC9CCC00FEF4CF /* DateTimes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A30C832BEC9CCC00FEF4CF /* DateTimes.swift */; };
 		84A30C862BEC9D8000FEF4CF /* ChatRoomModelMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A30C852BEC9D8000FEF4CF /* ChatRoomModelMapper.swift */; };
@@ -206,8 +215,17 @@
 		84397F802BF0C2B300CD3A87 /* Document+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Document+Utils.swift"; sourceTree = "<group>"; };
 		844746532BEA2E92008D3775 /* ImagePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewViewController.swift; sourceTree = "<group>"; };
 		844746552BEA52A7008D3775 /* ImagePreviewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewPresenter.swift; sourceTree = "<group>"; };
-		848BE51E2BD89B4100E07B82 /* AppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTests.swift; sourceTree = "<group>"; };
+		845F49F42BF2396D00BB2C90 /* MockQiscusDatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockQiscusDatabaseManager.swift; sourceTree = "<group>"; };
+		845F49F62BF23A7E00BB2C90 /* QiscusRoomDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QiscusRoomDB.swift; sourceTree = "<group>"; };
+		848BE51E2BD89B4100E07B82 /* AppConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigurationTests.swift; sourceTree = "<group>"; };
 		848BE5202BD8A56C00E07B82 /* MockRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRepository.swift; sourceTree = "<group>"; };
+		849AED7F2BF350F700F00C70 /* FIleError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIleError.swift; sourceTree = "<group>"; };
+		849AED812BF3513500F00C70 /* File+UtilsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "File+UtilsProtocol.swift"; sourceTree = "<group>"; };
+		849AED832BF3567E00F00C70 /* MockFile+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MockFile+Utils.swift"; sourceTree = "<group>"; };
+		849AED862BF37A6D00F00C70 /* QiscusEventDelegete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QiscusEventDelegete.swift; sourceTree = "<group>"; };
+		849AED882BF413F100F00C70 /* ImagePreviewPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewPresenterTests.swift; sourceTree = "<group>"; };
+		849AED8A2BF4150000F00C70 /* MockThumbnailManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockThumbnailManager.swift; sourceTree = "<group>"; };
+		849AED8C2BF420AA00F00C70 /* RoomListPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomListPresenterTests.swift; sourceTree = "<group>"; };
 		84A30C812BEC9C8A00FEF4CF /* MessageModelMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModelMapper.swift; sourceTree = "<group>"; };
 		84A30C832BEC9CCC00FEF4CF /* DateTimes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimes.swift; sourceTree = "<group>"; };
 		84A30C852BEC9D8000FEF4CF /* ChatRoomModelMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomModelMapper.swift; sourceTree = "<group>"; };
@@ -352,10 +370,10 @@
 		8423A1092BD540330082544D /* QiscusSampleChatTests */ = {
 			isa = PBXGroup;
 			children = (
+				849AED8E2BF4265300F00C70 /* Constants */,
 				8423A1542BD7247D0082544D /* Data */,
 				8423A1532BD724720082544D /* Mock */,
 				848BE51D2BD8815B00E07B82 /* UI */,
-				848BE51E2BD89B4100E07B82 /* AppTests.swift */,
 				84243FF82BE0929600E85774 /* QiscusSampleChat-UnitTestPlan.xctestplan */,
 			);
 			path = QiscusSampleChatTests;
@@ -399,11 +417,11 @@
 		8423A12A2BD5F26F0082544D /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				849AED7E2BF350E300F00C70 /* File */,
 				84243FFC2BE1395800E85774 /* UI */,
 				8423A12F2BD5FF130082544D /* Colors+Utils.swift */,
 				8423A1742BD7C5950082544D /* Json+Utils.swift */,
 				84243FF52BE07EDF00E85774 /* DebugRunner+Utils.swift */,
-				84DC23542BE7832D002FD0B6 /* File+Utils.swift */,
 				84397F802BF0C2B300CD3A87 /* Document+Utils.swift */,
 			);
 			path = Utils;
@@ -430,6 +448,10 @@
 				8423A17E2BD7E46F0082544D /* MockJson+Utils.swift */,
 				848BE5202BD8A56C00E07B82 /* MockRepository.swift */,
 				84243FED2BDF60ED00E85774 /* MockImageManager.swift */,
+				845F49F42BF2396D00BB2C90 /* MockQiscusDatabaseManager.swift */,
+				845F49F62BF23A7E00BB2C90 /* QiscusRoomDB.swift */,
+				849AED832BF3567E00F00C70 /* MockFile+Utils.swift */,
+				849AED8A2BF4150000F00C70 /* MockThumbnailManager.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -440,7 +462,7 @@
 				8424400B2BE1FBDF00E85774 /* Model */,
 				8423A1762BD7C9970082544D /* DataBase */,
 				8423A15E2BD74F330082544D /* Manager */,
-				8423A1552BD724D10082544D /* RepositoryTests.swift */,
+				849AED852BF37A5A00F00C70 /* Repository */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -591,6 +613,8 @@
 			children = (
 				84243FEB2BDF5C4000E85774 /* ChatPresenterTests.swift */,
 				8423A1372BD667C30082544D /* LoginPresenterTests.swift */,
+				849AED882BF413F100F00C70 /* ImagePreviewPresenterTests.swift */,
+				849AED8C2BF420AA00F00C70 /* RoomListPresenterTests.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -605,6 +629,33 @@
 				84A30C8F2BED0F8200FEF4CF /* BaseEvent.swift */,
 			);
 			path = Event;
+			sourceTree = "<group>";
+		};
+		849AED7E2BF350E300F00C70 /* File */ = {
+			isa = PBXGroup;
+			children = (
+				84DC23542BE7832D002FD0B6 /* File+Utils.swift */,
+				849AED7F2BF350F700F00C70 /* FIleError.swift */,
+				849AED812BF3513500F00C70 /* File+UtilsProtocol.swift */,
+			);
+			path = File;
+			sourceTree = "<group>";
+		};
+		849AED852BF37A5A00F00C70 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				8423A1552BD724D10082544D /* RepositoryTests.swift */,
+				849AED862BF37A6D00F00C70 /* QiscusEventDelegete.swift */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		849AED8E2BF4265300F00C70 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				848BE51E2BD89B4100E07B82 /* AppConfigurationTests.swift */,
+			);
+			path = Constants;
 			sourceTree = "<group>";
 		};
 		84A30C802BEC9C7300FEF4CF /* Mapper */ = {
@@ -1116,6 +1167,8 @@
 				84A30C822BEC9C8A00FEF4CF /* MessageModelMapper.swift in Sources */,
 				84E528112BD96F5A0051C8C7 /* Fonts.swift in Sources */,
 				8423A1752BD7C5950082544D /* Json+Utils.swift in Sources */,
+				849AED802BF350F700F00C70 /* FIleError.swift in Sources */,
+				849AED822BF3513500F00C70 /* File+UtilsProtocol.swift in Sources */,
 				8423A0F82BD540320082544D /* LoginViewController.swift in Sources */,
 				84DC23592BE874D9002FD0B6 /* CircularProgressView.swift in Sources */,
 				84E528132BD977CB0051C8C7 /* Images.swift in Sources */,
@@ -1150,10 +1203,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				849AED892BF413F100F00C70 /* ImagePreviewPresenterTests.swift in Sources */,
 				8423A1382BD667C30082544D /* LoginPresenterTests.swift in Sources */,
 				8423A1782BD7C9A90082544D /* UserLocalDataBaseTeste.swift in Sources */,
+				845F49F72BF23A7E00BB2C90 /* QiscusRoomDB.swift in Sources */,
 				8423A1602BD74F480082544D /* QiscusManagerTests.swift in Sources */,
-				848BE51F2BD89B4100E07B82 /* AppTests.swift in Sources */,
+				848BE51F2BD89B4100E07B82 /* AppConfigurationTests.swift in Sources */,
+				849AED842BF3567E00F00C70 /* MockFile+Utils.swift in Sources */,
+				849AED8D2BF420AA00F00C70 /* RoomListPresenterTests.swift in Sources */,
 				8423A1622BD756AB0082544D /* MockQiscusManager.swift in Sources */,
 				8423A16F2BD79B1D0082544D /* MockUserLocalDateBase.swift in Sources */,
 				84243FEE2BDF60ED00E85774 /* MockImageManager.swift in Sources */,
@@ -1162,6 +1219,9 @@
 				848BE5212BD8A56C00E07B82 /* MockRepository.swift in Sources */,
 				8423A17A2BD7CA250082544D /* MockUserPersistance.swift in Sources */,
 				8424400D2BE1FBEB00E85774 /* MessageRequestTests.swift in Sources */,
+				849AED872BF37A6D00F00C70 /* QiscusEventDelegete.swift in Sources */,
+				849AED8B2BF4150000F00C70 /* MockThumbnailManager.swift in Sources */,
+				845F49F52BF2396D00BB2C90 /* MockQiscusDatabaseManager.swift in Sources */,
 				84243FEC2BDF5C4000E85774 /* ChatPresenterTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1274,6 +1334,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1345,6 +1406,7 @@
 				MACH_O_TYPE = mh_execute;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = RELEASE;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -1372,7 +1434,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MACH_O_TYPE = mh_execute;
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aditya.QiscusSampleChat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1404,7 +1468,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MACH_O_TYPE = mh_execute;
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aditya.QiscusSampleChat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1421,14 +1487,27 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C0BF945B6B4C1CED95214C82 /* Pods-QiscusSampleChatTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				ENABLE_ON_DEMAND_RESOURCES = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_PKGINFO_FILE = NO;
+				INFOPLIST_KEY_UILaunchStoryboardName = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "";
+				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
+				INSTALL_PATH = "$(INSTALL_PATH_XCTRUNNER_$(USES_XCTRUNNER:default=NO))";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LD_RUNPATH_SEARCH_PATHS_SHALLOW_BUNDLE_$(SHALLOW_BUNDLE))",
+				);
+				MACH_O_TYPE = mh_bundle;
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aditya.QiscusSampleChatTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1447,14 +1526,27 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7D2FE18F1C3C9FEA6CCFDB4B /* Pods-QiscusSampleChatTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				ENABLE_ON_DEMAND_RESOURCES = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_PKGINFO_FILE = NO;
+				INFOPLIST_KEY_UILaunchStoryboardName = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "";
+				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
+				INSTALL_PATH = "$(INSTALL_PATH_XCTRUNNER_$(USES_XCTRUNNER:default=NO))";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LD_RUNPATH_SEARCH_PATHS_SHALLOW_BUNDLE_$(SHALLOW_BUNDLE))",
+				);
+				MACH_O_TYPE = mh_bundle;
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aditya.QiscusSampleChatTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1472,11 +1564,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 159377D9700906CDA13D5020 /* Pods-QiscusSampleChat-QiscusSampleChatUITests.debug.xcconfig */;
 			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_ON_DEMAND_RESOURCES = NO;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				MACH_O_TYPE = mh_bundle;
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aditya.QiscusSampleChatUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1494,11 +1590,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = EBAE7203B0CD20AAB84461D8 /* Pods-QiscusSampleChat-QiscusSampleChatUITests.release.xcconfig */;
 			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_ON_DEMAND_RESOURCES = NO;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				MACH_O_TYPE = mh_bundle;
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aditya.QiscusSampleChatUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

@@ -46,7 +46,7 @@
 		2FBDC935DF039236E38CE9D5B878AD32 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4475CE5F8B8B89965F77255A1DBE031 /* CFNetwork.framework */; };
 		320BA57669BC58B6B6557AFADAC739EE /* MqttDecodePubRec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF0015A5B1A885CF5D20B4162FD9BA7 /* MqttDecodePubRec.swift */; };
 		3222C07B7DFC81BA09E49737C846400A /* EndpointUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5BD7BDC521DD7B6C62016859EBA7A7F /* EndpointUser.swift */; };
-		3224CBD08791C57AF15B6597E39675E4 /* SwiftyJSON-SwiftyJSON in Resources */ = {isa = PBXBuildFile; fileRef = 7CA3B05F07B063827B34AD2B0DB23706 /* SwiftyJSON-SwiftyJSON */; };
+		3224CBD08791C57AF15B6597E39675E4 /* SwiftyJSON.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7CA3B05F07B063827B34AD2B0DB23706 /* SwiftyJSON.bundle */; };
 		36357DC3DDE5F3BC21705C79B28914BA /* MqttClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4246F1717D3728EBB71FFC2FF945AEF8 /* MqttClient.swift */; };
 		39BE86E8C70346C255C443AF56E56B21 /* MqttDecodePubRel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B59EFB291869F51F1DF7823630FDBA /* MqttDecodePubRel.swift */; };
 		3A04C81E6FB8BA6563D71CEE177FDD91 /* FramePublish.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06AFADB5137A82329F2CDE3F4349BBFA /* FramePublish.swift */; };
@@ -71,7 +71,7 @@
 		6E4FFBA8259001DFE516D1E51FD3AB24 /* FrameSubscribe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A3BD86F7C21EB3F63741266358B92A4 /* FrameSubscribe.swift */; };
 		6FBA586BFBEDC937AD367ABE22CB3A21 /* MqttSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664DE46F8347A5EE163AD8EA3B0E4A75 /* MqttSubscription.swift */; };
 		6FEB9C893C39CC54B6CE7FC8A969BEFF /* MqttAuthProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D901A9BED0DD06104BA77B51AC6EB753 /* MqttAuthProperties.swift */; };
-		703C2197882C18852069072211DDE704 /* QiscusCore-QiscusCore in Resources */ = {isa = PBXBuildFile; fileRef = 973F7F230E1A14D2EE7D1EA4EA017D59 /* QiscusCore-QiscusCore */; };
+		703C2197882C18852069072211DDE704 /* QiscusCore.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 973F7F230E1A14D2EE7D1EA4EA017D59 /* QiscusCore.bundle */; };
 		717A978C3951C583523215EE9C3BFBA3 /* SwiftyJSON-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4980C69EBE3B549991A2969FE5F1FFBA /* SwiftyJSON-dummy.m */; };
 		738238D087FEA1BAADF36CFCC28E6328 /* QiscusSyncEventInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = D37D0386C19D53FB8CA388D144E812B9 /* QiscusSyncEventInterval.swift */; };
 		7A78BAC30EF051D4AC613B4A504A88E9 /* QiscusDatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780EC68AED65865E782F423C92FFDFCD /* QiscusDatabaseManager.swift */; };
@@ -381,7 +381,7 @@
 		780EC68AED65865E782F423C92FFDFCD /* QiscusDatabaseManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = QiscusDatabaseManager.swift; path = Source/QiscusCore/Database/QiscusDatabaseManager.swift; sourceTree = "<group>"; };
 		79CA2188494BEF8179D0A9FE154A789C /* FramePubRec.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FramePubRec.swift; path = Source/FramePubRec.swift; sourceTree = "<group>"; };
 		7A3BD86F7C21EB3F63741266358B92A4 /* FrameSubscribe.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FrameSubscribe.swift; path = Source/FrameSubscribe.swift; sourceTree = "<group>"; };
-		7CA3B05F07B063827B34AD2B0DB23706 /* SwiftyJSON-SwiftyJSON */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "SwiftyJSON-SwiftyJSON"; path = SwiftyJSON.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		7CA3B05F07B063827B34AD2B0DB23706 /* SwiftyJSON.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftyJSON.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D3E2130FF217F014975EC7A4113126A /* CocoaMQTT.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CocoaMQTT.swift; path = Source/CocoaMQTT.swift; sourceTree = "<group>"; };
 		7EA9D4401AC484F90998269525FF028F /* FramePubComp.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FramePubComp.swift; path = Source/FramePubComp.swift; sourceTree = "<group>"; };
 		7EDDDE92E2D0048D02CFE4C5240108C1 /* Pods-QiscusSampleChat-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-QiscusSampleChat-dummy.m"; sourceTree = "<group>"; };
@@ -400,7 +400,7 @@
 		939F770B190E2327851351748062944B /* Pods-QiscusSampleChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-QiscusSampleChat.debug.xcconfig"; sourceTree = "<group>"; };
 		94282A2B023F434C4AD62DEC8B11AF04 /* SwiftyJSON.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftyJSON.debug.xcconfig; sourceTree = "<group>"; };
 		969A0350AD7ED43CEFAFAF66D6590C2D /* MqttCocoaAsyncSocket.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MqttCocoaAsyncSocket.release.xcconfig; sourceTree = "<group>"; };
-		973F7F230E1A14D2EE7D1EA4EA017D59 /* QiscusCore-QiscusCore */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "QiscusCore-QiscusCore"; path = QiscusCore.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		973F7F230E1A14D2EE7D1EA4EA017D59 /* QiscusCore.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QiscusCore.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		98603A06E17192CB1C3DD0F04D0EA018 /* RoomEvent.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RoomEvent.swift; path = Source/QiscusCore/Model/RoomEvent.swift; sourceTree = "<group>"; };
 		98B71F47ED27191B36E128C0275962F1 /* UserModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UserModel.swift; path = Source/QiscusCore/Model/UserModel.swift; sourceTree = "<group>"; };
 		9B171900D7620C79EB6120AD03721EC5 /* BundleExtention.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BundleExtention.swift; path = Source/QiscusCore/Extension/BundleExtention.swift; sourceTree = "<group>"; };
@@ -635,10 +635,10 @@
 				BC3824EDD9D46E2EE487F187FEC0C0C2 /* Pods-QiscusSampleChat-QiscusSampleChatUITests */,
 				51BBFFD9185DC849A4D490AFE7DEB407 /* Pods-QiscusSampleChatTests */,
 				BDE8968F519E9554299A0C1A28D52428 /* QiscusCore */,
-				973F7F230E1A14D2EE7D1EA4EA017D59 /* QiscusCore-QiscusCore */,
+				973F7F230E1A14D2EE7D1EA4EA017D59 /* QiscusCore.bundle */,
 				286DDFFCB3DE0934A785237BC5C59D08 /* QiscusRealtime */,
 				E23C076BA70925415F490FEDB215DA92 /* SwiftyJSON.framework */,
-				7CA3B05F07B063827B34AD2B0DB23706 /* SwiftyJSON-SwiftyJSON */,
+				7CA3B05F07B063827B34AD2B0DB23706 /* SwiftyJSON.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1092,7 +1092,7 @@
 			);
 			name = "SwiftyJSON-SwiftyJSON";
 			productName = SwiftyJSON;
-			productReference = 7CA3B05F07B063827B34AD2B0DB23706 /* SwiftyJSON-SwiftyJSON */;
+			productReference = 7CA3B05F07B063827B34AD2B0DB23706 /* SwiftyJSON.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 		83B7231CE2D94C92D372449B2D49C2E7 /* QiscusCore */ = {
@@ -1190,7 +1190,7 @@
 			);
 			name = "QiscusCore-QiscusCore";
 			productName = QiscusCore;
-			productReference = 973F7F230E1A14D2EE7D1EA4EA017D59 /* QiscusCore-QiscusCore */;
+			productReference = 973F7F230E1A14D2EE7D1EA4EA017D59 /* QiscusCore.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 		BBC6F3BFD24A258E7DC1256C31730ACB /* QiscusRealtime */ = {
@@ -1279,7 +1279,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3224CBD08791C57AF15B6597E39675E4 /* SwiftyJSON-SwiftyJSON in Resources */,
+				3224CBD08791C57AF15B6597E39675E4 /* SwiftyJSON.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1324,7 +1324,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				703C2197882C18852069072211DDE704 /* QiscusCore-QiscusCore in Resources */,
+				703C2197882C18852069072211DDE704 /* QiscusCore.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1689,7 +1689,8 @@
 				PRODUCT_NAME = SwiftyJSON;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Release;
@@ -1847,8 +1848,9 @@
 				PRODUCT_NAME = QiscusCore;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Debug;
@@ -2117,7 +2119,8 @@
 				PRODUCT_NAME = SwiftyJSON;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Debug;
@@ -2411,8 +2414,9 @@
 				PRODUCT_NAME = QiscusCore;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Release;

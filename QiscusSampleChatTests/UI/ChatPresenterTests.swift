@@ -8,7 +8,7 @@
 import XCTest
 @testable import QiscusSampleChat
 
-class ChatPresenterTests: XCTestCase {
+class ChatPresenterTests_loadData: XCTestCase {
   
   var delegate: ChatPresenterTestsDelegate!
   var repository: MockRepository!
@@ -37,17 +37,22 @@ class ChatPresenterTests: XCTestCase {
     repository.error = error
     
     sut.loadRoomWithMessage(roomId: "1")
-    self.wait(for: [expectation], timeout: 1)
     
+    self.wait(for: [expectation], timeout: 1)
     XCTAssertEqual(repository.methodCalledCount, 1)
   }
   
   func testChatPresenter_WhenLoadRoomWithMessage_ShouldBeSuccess() {
     let expectation = self.expectation(description: "Expectation is successFull() method to be called")
     repository.expectation = expectation
-    let chatRoom = ChatRoomModel(
+    
+    var chatRoom = ChatRoomModel(
       id: "1", name: "name", avatarUrl: nil, participants: "member", lastMessage: nil
     )
+    chatRoom.listMessages = [
+      getMessage("1"), getMessage("2")
+    ]
+    
     repository.chatRoom = chatRoom
     delegate.chatRoom = chatRoom
     
@@ -74,23 +79,12 @@ class ChatPresenterTests: XCTestCase {
     let expectation = self.expectation(description: "Expectation is successFull() method to be called")
     repository.expectation = expectation
     
-    let message = MessageModel(
-      id: "1",
-      roomId: "1",
-      time: "time",
-      dateTime: "dateTime",
-      status: .read,
-      chatFrom: .me,
-      data: MessageDataModel(dataType: .text, fileName: "fileName", url: "url", caption: ""),
-      sender: MessageSenderModel(
-        id: "1", name: "senderName", email: "email@mail.com", avatarImage: ImageModel(url: nil)
-      )
-    )
-    var messages: [MessageModel] = []
-    messages.append(message)
-    let chatRoom = ChatRoomModel(
+    var chatRoom = ChatRoomModel(
       id: "1", name: "name", avatarUrl: nil, participants: "member", lastMessage: nil
     )
+    chatRoom.listMessages = [
+      getMessage("1"), getMessage("2")
+    ]
     
     repository.chatRoom = chatRoom
     delegate.chatRoom = chatRoom
@@ -99,6 +93,138 @@ class ChatPresenterTests: XCTestCase {
     self.wait(for: [expectation], timeout: 1)
     
     XCTAssertEqual(repository.methodCalledCount, 1)
+  }
+  
+  private func getMessage(
+    _ id: String, dataType: MessageType = .text
+  ) -> MessageModel {
+    var messageData = MessageDataModel(dataType: dataType, fileName: "", url: "", caption: "")
+    
+    return MessageModel(
+      id: id, roomId: "", timeString: "", dateTime: "", timeStamp: Date(), status: .read, chatFrom: .me,
+      data: messageData,
+      sender: MessageSenderModel(
+        id: "", name: "", email: "", avatarImage: ImageModel(url: nil)
+      )
+    )
+  }
+  
+  func testChatPresenter_WhenLoadThumbnailImageURL_ShouldBeSuccess() {
+    let expectation = self.expectation(description: "Expectation is successFull() method to be called")
+    repository.expectation = expectation
+    
+    repository.imageData = Data()
+    repository.imageState = .success
+    
+    sut.loadThumbnailImage(url: nil) { data, state in
+      XCTAssertNotNil(data)
+      XCTAssertEqual(state, .success)
+    }
+    
+    self.wait(for: [expectation], timeout: 1)
+    XCTAssertEqual(repository.methodCalledCount, 1)
+  }
+  
+  func testChatPresenter_WhenLoadThumbnailImageMessage_ShouldBeSuccess() {
+    let expectation = self.expectation(description: "Expectation is successFull() method to be called")
+    repository.expectation = expectation
+    
+    repository.imageData = Data()
+    repository.imageState = .success
+    
+    let message = getMessage("1")
+    
+    sut.loadThumbnailImage(message: message) { messageResult in
+      XCTAssertNotNil(messageResult)
+      XCTAssertEqual(messageResult.data.previewImage.state, .success)
+    }
+    
+    self.wait(for: [expectation], timeout: 1)
+    XCTAssertEqual(repository.methodCalledCount, 1)
+  }
+  
+  func testChatPresenter_WhenLoadThumbnailVideoMessage_ShouldBeSuccess() {
+    let expectation = self.expectation(description: "Expectation is successFull() method to be called")
+    repository.expectation = expectation
+    
+    repository.imageData = Data()
+    repository.imageState = .success
+    
+    let message = getMessage("1")
+    
+    sut.loadThumbnailVideo(message: message) { messageResult in
+      XCTAssertNotNil(messageResult)
+      XCTAssertEqual(messageResult.data.previewImage.state, .success)
+    }
+    
+    self.wait(for: [expectation], timeout: 1)
+    XCTAssertEqual(repository.methodCalledCount, 1)
+  }
+  
+  func testChatPresenter_WhenDownloadFile_ShouldBeError() {
+    let expectation = self.expectation(description: "Expectation is error() method to be called")
+    repository.expectation = expectation
+    
+    let errorToResult = ChatError.custom(message: "Error when download file")
+    repository.error = errorToResult
+    
+    let message = getMessage("1")
+    
+    sut.downloadFile(message: message) { messageResult in
+      XCTFail("Success should be not called")
+    } onProgress: { percent in
+      XCTFail("Progress should be not called")
+    } onError: { error in
+      XCTAssertNotNil(error)
+      XCTAssertEqual(error.localizedDescription, errorToResult.localizedDescription)
+    }
+
+    self.wait(for: [expectation], timeout: 1)
+    XCTAssertEqual(repository.methodCalledCount, 1)
+  }
+  
+  func testChatPresenter_WhenDownloadFile_ShouldBeSuccess() {
+    let expectation = self.expectation(description: "Expectation is successFull() method to be called")
+    repository.expectation = expectation
+    
+    repository.progresPercent = 1.0
+    
+    let message = getMessage("1")
+    
+    sut.downloadFile(message: message) { messageResult in
+      XCTAssertNotNil(messageResult)
+      XCTAssertEqual(messageResult.data.isDownloaded, true)
+    } onProgress: { percent in
+      XCTAssertEqual(percent, 1.0)
+    } onError: { error in
+      XCTFail("Error should be not called")
+    }
+
+    self.wait(for: [expectation], timeout: 1)
+    XCTAssertEqual(repository.methodCalledCount, 1)
+  }
+  
+}
+
+class ChatPresenterTests_SendMessage: XCTestCase {
+  
+  var delegate: ChatPresenterTestsDelegate!
+  var repository: MockRepository!
+  var sut: ChatPresenter!
+  
+  override func setUp() {
+    super.setUp()
+    delegate = ChatPresenterTestsDelegate()
+    repository = MockRepository()
+    
+    sut = ChatPresenter(repository: repository, delegate: delegate)
+  }
+  
+  override func tearDown() {
+    super.tearDown()
+    delegate = nil
+    repository = nil
+    sut = nil
   }
   
   func testChatPresenter_WhenSendMessage_ShouldBeError() {
@@ -188,13 +314,59 @@ class ChatPresenterTests: XCTestCase {
       data: Data(), url: URL(string: urlStringer)!, name: "fileName", caption: "caption"
     )
     
-    var message = messageRequest.toComment().toMessage(withPayload: messageRequest.getPayload())
+    let message = messageRequest.toComment().toMessage(withPayload: messageRequest.getPayload())
     delegate.message = message
     
     sut.sendMessageFile(messageRequest: messageRequest)
     
     wait(for: [expectation], timeout: 1)
     XCTAssertEqual(repository.methodCalledCount, 1)
+  }
+  
+}
+
+class ChatPresenterTests_Event: XCTestCase {
+  
+  var delegate: ChatPresenterTestsDelegate!
+  var repository: MockRepository!
+  var sut: ChatPresenter!
+  
+  override func setUp() {
+    super.setUp()
+    delegate = ChatPresenterTestsDelegate()
+    repository = MockRepository()
+    
+    sut = ChatPresenter(repository: repository, delegate: delegate)
+  }
+  
+  override func tearDown() {
+    super.tearDown()
+    delegate = nil
+    repository = nil
+    sut = nil
+  }
+  
+  func testChatPresenter_CallMarkAsRead() {
+    sut.markAsRead(roomId: "", messageId: "")
+  }
+  
+  func testChatPresenter_CallEventRoom() {
+    let chatRoom = ChatRoomModel(
+      id: "1", name: "", avatarUrl: nil, participants: "", lastMessage: nil
+    )
+    sut.onEventRoom(room: chatRoom)
+  }
+  
+  func testChatPresenter_CallEventMessage() {
+    var messageData = MessageDataModel(dataType: .text, fileName: "", url: "", caption: "caption")
+    let message =  MessageModel(
+      id: "1", roomId: "", timeString: "", dateTime: "", timeStamp: Date(), status: .read, chatFrom: .me,
+      data: messageData,
+      sender: MessageSenderModel(
+        id: "", name: "", email: "", avatarImage: ImageModel(url: nil)
+      )
+    )
+    sut.onEventMessage(message: message)
   }
   
   func testChatPresenter_WhenLogout_OnLogoutNotBeCalled() {
@@ -234,6 +406,10 @@ class ChatPresenterTestsDelegate: ChatPresenter.ChatDelete {
     self.error = error
   }
   
+  func onLoadMore(loadMoreId: String) {
+    print("ChatPresenter: onLoadMore called with value = \(loadMoreId)")
+  }
+  
   func onLoading(isLoading: Bool) {
     print("ChatPresenter: onLoading called with value = \(isLoading)")
   }
@@ -261,16 +437,16 @@ class ChatPresenterTestsDelegate: ChatPresenter.ChatDelete {
     print("ChatPresenter: onError called with value \(error.localizedDescription)")
   }
   
-  func onProgressUploadFIle(percent: Double) {
+  func onProgressUploadFile(messageId: String, percent: Double) {
     XCTAssertEqual(percent, 1.0)
   }
   
   func onRoomEvent(chatRoomModel: ChatRoomModel) {
-    // TODO:
+    XCTAssertNotNil(chatRoomModel)
   }
   
   func onMessageEvent(messageModel: MessageModel) {
-    // TODO:
+    XCTAssertNotNil(messageModel)
   }
   
   func onLogout() {

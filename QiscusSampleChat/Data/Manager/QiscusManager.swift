@@ -11,16 +11,23 @@ protocol QiscusManagerProtocol {
   func setupEngine(appID: String, enableLogDebug: Bool)
   func login(userRequest: UserRequest, onSuccess: @escaping (UserModel) -> Void, onError: @escaping (QError) -> Void)
   func logout(completion: @escaping () -> Void)
-  func getDataBase() -> QiscusDatabaseManager?
   func registerDeviceToken(deviceToken: String, onSuccess: @escaping (Bool) -> Void, onError: @escaping (QError) -> Void)
+  // load
+  func getDataBase() -> QiscusDatabaseManager?
+  func loadRooms(page: Int, limit: Int, onSuccess: @escaping ([RoomModel], Meta?) -> Void, onError: @escaping (QError) -> Void)
   func loadRoomWithMessage(roomId: String, onSuccess: @escaping (RoomModel, [CommentModel]) -> Void, onError: @escaping (QError) -> Void)
   func loadMoreMessages(roomId: String, lastMessageId: String, limit: Int, onSuccess: @escaping ([CommentModel]) -> Void, onError: @escaping (QError) -> Void)
   func downloadFile(url: URL, onSuccess: @escaping (URL) -> Void, onProgress: @escaping (Float) -> Void)
+  // send
   func sendMessage(messageRequest: CommentModel, onSuccess: @escaping (CommentModel) -> Void, onError: @escaping (QError) -> Void)
   func uploadFileupload(file: FileUploadModel, onSuccess: @escaping (FileModel) -> Void, onError: @escaping (QError) -> Void, progress: @escaping (Double) -> Void)
-  func connectToQiscus(delegate: QiscusConnectionDelegate)
-  func loadRooms(page: Int, limit: Int, onSuccess: @escaping ([RoomModel], Meta?) -> Void, onError: @escaping (QError) -> Void)
+  // event
   func markAsRead(roomId: String, messageId: String)
+  func connectToQiscus(delegate: QiscusConnectionDelegate)
+  func subscribeChatRooms(delegate: QiscusCoreDelegate)
+  func unSubcribeChatRooms()
+  func subscribeChatRoom(delegate: QiscusCoreRoomDelegate, roomId: String)
+  func unSubcribeChatRoom(roomId: String)
 }
 
 class QiscusManager: QiscusManagerProtocol {
@@ -49,14 +56,23 @@ class QiscusManager: QiscusManagerProtocol {
     }
   }
   
-  func getDataBase() -> QiscusDatabaseManager? {
-    return QiscusCore.database
-  }
-  
   func registerDeviceToken(deviceToken: String, onSuccess: @escaping (Bool) -> Void, onError: @escaping (QError) -> Void) {
     if QiscusCore.hasSetupUser() {
       QiscusCore.shared.registerDeviceToken(token: deviceToken, onSuccess: onSuccess, onError: onError)
     }
+  }
+  
+  // load
+  func getDataBase() -> QiscusDatabaseManager? {
+    return QiscusCore.database
+  }
+  
+  func loadRooms(
+    page: Int, limit: Int,
+    onSuccess: @escaping ([RoomModel],Meta?) -> Void,
+    onError: @escaping (QError) -> Void
+  ) {
+    QiscusCore.shared.getAllChatRooms(page: page, limit: limit, onSuccess: onSuccess, onError: onError)
   }
   
   func loadRoomWithMessage(
@@ -90,6 +106,8 @@ class QiscusManager: QiscusManagerProtocol {
     QiscusCore.shared.download(url: url, onSuccess: onSuccess, onProgress: onProgress)
   }
   
+  // send
+  
   func sendMessage(messageRequest: CommentModel, onSuccess: @escaping (CommentModel) -> Void, onError: @escaping (QError) -> Void) {
     QiscusCore.shared.sendMessage(message: messageRequest, onSuccess: onSuccess, onError: onError)
   }
@@ -103,22 +121,45 @@ class QiscusManager: QiscusManagerProtocol {
     QiscusCore.shared.upload(file: file, onSuccess: onSuccess, onError: onError, progressListener: progress)
   }
   
+  // event
+  
+  func markAsRead(roomId: String, messageId: String) {
+    QiscusCore.shared.markAsRead(roomId: roomId, commentId: messageId)
+  }
+  
   func connectToQiscus(delegate: QiscusConnectionDelegate) {
     if QiscusCore.hasSetupUser() {
       _ = QiscusCore.connect(delegate: delegate)
     }
   }
-  
-  func loadRooms(
-    page: Int, limit: Int,
-    onSuccess: @escaping ([RoomModel],Meta?) -> Void,
-    onError: @escaping (QError) -> Void
-  ) {
-    QiscusCore.shared.getAllChatRooms(page: page, limit: limit, onSuccess: onSuccess, onError: onError)
+  func subscribeChatRooms(delegate: QiscusCoreDelegate) {
+    if QiscusCore.hasSetupUser() {
+      QiscusCore.delegate = delegate
+    }
   }
   
-  func markAsRead(roomId: String, messageId: String) {
-    QiscusCore.shared.markAsRead(roomId: roomId, commentId: messageId)
+  func unSubcribeChatRooms() {
+    if QiscusCore.hasSetupUser() {
+      QiscusCore.delegate = nil
+    }
+  }
+  
+  func subscribeChatRoom(delegate: QiscusCoreRoomDelegate, roomId: String) {
+    if QiscusCore.hasSetupUser() {
+      if let roomModel = self.getDataBase()?.room.find(id: roomId) {
+        roomModel.delegate = delegate
+        QiscusCore.shared.subscribeChatRoom(roomModel)
+      }
+    }
+  }
+  
+  func unSubcribeChatRoom(roomId: String) {
+    if QiscusCore.hasSetupUser() {
+      if let roomModel = self.getDataBase()?.room.find(id: roomId) {
+        roomModel.delegate = nil
+        QiscusCore.shared.unSubcribeChatRoom(roomModel)
+      }
+    }
   }
   
 }
