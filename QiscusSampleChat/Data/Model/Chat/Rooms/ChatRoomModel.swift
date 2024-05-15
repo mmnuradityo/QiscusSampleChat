@@ -49,12 +49,17 @@ struct ChatRoomModel {
 // MARK: ~ handle Action
 extension ChatRoomModel {
   
-  mutating func appendBefore(_ messages: [MessageModel]?) -> [Int]?  {
+  mutating func appendBefore(_ messages: [MessageModel]?) -> [CellUpdater]?  {
     guard let messages = messages else { return nil }
-    var cellIndexs: [String] = []
+    var cellIndexs: [String: Int] = [:]
     messages.forEach { message in
-      _ = insertOrUpdate(message)
-      cellIndexs.append(message.id)
+      if let index = self.listMessages.firstIndex(where: { $0.id == message.id }) {
+        self.listMessages[index] = message
+        cellIndexs[message.id] = CellUpdater.UPDATE
+      } else {
+        self.listMessages.insert(message, at: 0)
+        cellIndexs[message.id] = CellUpdater.INSERT
+      }
     }
     return sortingListMessages(cellIndexs: cellIndexs)
   }
@@ -100,7 +105,7 @@ extension ChatRoomModel {
     return currentMessage
   }
   
-  mutating func sortingListMessages(cellIndexs: [String]) -> [Int] {
+  mutating func sortingListMessages(cellIndexs: [String: Int]) -> [CellUpdater] {
     let posibleMaxIndex = self.listMessages.count - 1
     if posibleMaxIndex == -1 { return [] }
     
@@ -115,13 +120,17 @@ extension ChatRoomModel {
     }
     var currentMessage: MessageModel
     var nextIndex: Int
-    var indexPaths: [Int] = []
+    var indexPaths: [CellUpdater] = []
+    
+    var cellIndexValue: Int?
     
     for index in 0...posibleMaxIndex {
       currentMessage = self.listMessages[index]
       nextIndex = index + 1
       
-      if cellIndexs.contains(currentMessage.id) {
+      cellIndexValue = cellIndexs[currentMessage.id]
+      if cellIndexValue != nil {
+        
         if index == posibleMaxIndex {
           currentMessage.isFirst = true
           currentMessage.isShowDate = true
@@ -133,62 +142,13 @@ extension ChatRoomModel {
           )
         }
         
-        indexPaths.append(index)
+        indexPaths.append(
+          CellUpdater(cellIndexValue!, index: index)
+        )
       }
     }
     
     return indexPaths
   }
-  
-//  mutating func appendBeforeX(_ messages: [MessageModel]?) -> [Int]?  {
-//    guard let messages = messages else { return nil }
-//    var cellIndexs: [String] = []
-//    messages.forEach { message in
-//      if let index = self.listMessages.firstIndex(where: { $0.id == message.id }) {
-//        self.listMessages[index] = message
-//        cellIndexs.append(message.id)
-//      } else {
-//        self.listMessages.insert(message, at: 0)
-//        cellIndexs.append(message.id)
-//      }
-//    }
-//    
-//    self.listMessages.sort { lhs, rhs in
-//      guard let timeStampLhs = lhs.timeStamp,
-//            let timeStampRhs = rhs.timeStamp
-//      else {
-//        return false
-//      }
-//      
-//      return timeStampLhs > timeStampRhs
-//    }
-//    
-//    let posibleMaxIndex = self.listMessages.count - 1
-//    var currentMessage: MessageModel
-//    var nextIndex: Int
-//    var indexPaths: [Int] = []
-//    
-//    for index in 0...posibleMaxIndex {
-//      currentMessage = self.listMessages[index]
-//      nextIndex = index + 1
-//      
-//      if cellIndexs.contains(currentMessage.id) {
-//        if index == posibleMaxIndex {
-//          currentMessage.isFirst = true
-//          currentMessage.isShowDate = true
-//          self.listMessages[index] = currentMessage
-//          
-//        } else if nextIndex < posibleMaxIndex {
-//          self.listMessages[index] = updateDate(
-//            currentMessage: currentMessage, nextMessage: self.listMessages[nextIndex]
-//          )
-//        }
-//        
-//        indexPaths.append(index)
-//      }
-//    }
-//    
-//    return indexPaths
-//  }
   
 }

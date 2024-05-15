@@ -377,16 +377,16 @@ extension ChatViewController: ChatPresenter.ChatDelete {
     
     if self.chatRoom == nil {
       self.chatRoom = chatRoomModel
-    } else if let indexs = self.chatRoom?.appendBefore(chatRoomModel.listMessages) {
-      self.tableViewCellFactory.insertOrUpdateTableViewCell(index: indexs)
+    } else if let cellUpdaters = self.chatRoom?.appendBefore(chatRoomModel.listMessages) {
+      self.tableViewCellFactory.insertOrUpdateTableViewCell(cellUpdaters: cellUpdaters)
       return
     }
     self.chatTableView.reloadData()
   }
   
   func onMessages(messageModels: [MessageModel]) {
-    if let indexs = self.chatRoom?.appendBefore(messageModels) {
-      self.tableViewCellFactory.insertOrUpdateTableViewCell(index: indexs)
+    if let cellUpdaters = self.chatRoom?.appendBefore(messageModels) {
+      self.tableViewCellFactory.insertOrUpdateTableViewCell(cellUpdaters: cellUpdaters)
     }
   }
   

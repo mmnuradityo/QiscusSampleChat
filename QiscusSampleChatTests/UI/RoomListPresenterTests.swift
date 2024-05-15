@@ -79,7 +79,7 @@ class RoomListPresenterTests: XCTestCase {
   }
   
   func testRoomListPresenter_CallEventMessage() {
-    var messageData = MessageDataModel(dataType: .text, fileName: "", url: "", caption: "caption")
+    let messageData = MessageDataModel(dataType: .text, fileName: "", url: "", caption: "caption")
     let message =  MessageModel(
       id: "1", roomId: "", timeString: "", dateTime: "", timeStamp: Date(), status: .read, chatFrom: .me,
       data: messageData,

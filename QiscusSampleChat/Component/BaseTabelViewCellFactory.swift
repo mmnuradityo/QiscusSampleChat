@@ -23,32 +23,58 @@ open class BaseTabelViewCellFactory<Model> {
     return String(describing: type(of: objectType))
   }
   
+  func insertOrUpdateTableViewCell(cellUpdaters: [CellUpdater]) {
+    insertOrUpdateRows { posibleCellNumbers in
+      var indexPath: IndexPath!
+      var insertPath: [IndexPath] = []
+      var updatePath: [IndexPath] = []
+      
+      cellUpdaters.forEach { index in
+        indexPath = IndexPath(row: index.index, section: 0)
+        if index.status == CellUpdater.UPDATE
+            && index.index <= posibleCellNumbers {
+          updatePath.append(indexPath)
+        } else {
+          insertPath.append(indexPath)
+        }
+      }
+      return (insertPath, updatePath)
+    }
+  }
+  
   func insertOrUpdateTableViewCell(index: [Int]) {
+    insertOrUpdateRows { posibleCellNumbers in
+      var indexPath: IndexPath!
+      var insertPath: [IndexPath] = []
+      var updatePath: [IndexPath] = []
+      
+      index.forEach { index in
+        indexPath = IndexPath(row: index, section: 0)
+        if index <= posibleCellNumbers {
+          updatePath.append(indexPath)
+        } else {
+          insertPath.append(indexPath)
+        }
+      }
+      return (insertPath, updatePath)
+    }
+  }
+  
+  private func insertOrUpdateRows(completion: @escaping (Int) -> ([IndexPath], [IndexPath])) {
     let posibleCellNumbers = (self.tableView?.numberOfRows(inSection: 0) ?? 0) - 1
     if posibleCellNumbers == -1 {
       self.tableView?.reloadData()
       return
     }
     
-    var indexPath: IndexPath!
-    var insertPath: [IndexPath] = []
-    var updatePath: [IndexPath] = []
-    
-    index.forEach { index in
-      indexPath = IndexPath(row: index, section: 0)
-      if index <= posibleCellNumbers {
-        updatePath.append(indexPath)
-      } else {
-        insertPath.append(indexPath)
-      }
-    }
+    let resultPath = completion(posibleCellNumbers)
     
     self.tableView?.beginUpdates()
-    if !insertPath.isEmpty {
-      self.tableView?.insertRows(at: insertPath, with: .none)
+    if !resultPath.0.isEmpty {
+      self.tableView?.insertRows(at: resultPath.0, with: .none)
     }
-    if !updatePath.isEmpty {
-      self.tableView?.reloadRows(at: updatePath, with: .none)
+    if !resultPath.1.isEmpty {
+      self.tableView?.reloadRows(at: resultPath.1, with: .none)
     }
     self.tableView?.endUpdates()
   }
@@ -61,10 +87,10 @@ struct CellUpdater {
   static let DELETE = 1
   
   let status: Int
-  let id: String
+  let index: Int
   
-  init(_ status: Int, id: String) {
+  init(_ status: Int, index: Int) {
     self.status = status
-    self.id = id
+    self.index = index
   }
 }
