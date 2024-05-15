@@ -31,8 +31,7 @@ open class BaseTabelViewCellFactory<Model> {
       
       cellUpdaters.forEach { index in
         indexPath = IndexPath(row: index.index, section: 0)
-        if index.status == CellUpdater.UPDATE
-            && index.index <= posibleCellNumbers {
+        if index.status == CellUpdater.UPDATE {
           updatePath.append(indexPath)
         } else {
           insertPath.append(indexPath)
