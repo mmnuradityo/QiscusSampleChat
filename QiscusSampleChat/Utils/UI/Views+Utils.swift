@@ -49,7 +49,7 @@ extension UITextView {
     self.font = UIFont(
       name: Fonts.interRegular, size: Fonts.formSize
     )
-    self.setPlaceHolder(placeholder: "Send a message...")
+    self.setPlaceHolder(placeholder: placeholder)
   }
   
   func setPlaceHolder(placeholder: String) {

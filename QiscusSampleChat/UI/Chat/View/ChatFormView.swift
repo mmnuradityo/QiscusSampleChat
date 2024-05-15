@@ -141,6 +141,7 @@ extension ChatFormView {
   }
   
   @objc func sendButtonDidTapped() {
+    sendButton.isEnabled = false
     delegate?.sendButtonDidTapped()
   }
 }
